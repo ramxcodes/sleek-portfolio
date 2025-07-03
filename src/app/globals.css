@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("/fonts/HankenGrotesk-Variable.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Hanken Grotesk Italic";
+  src: url("/fonts/HankenGrotesk-Italic-Variable.ttf") format("truetype");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -79,8 +89,8 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: #0a0a0b;
+  --foreground: #f7f7f8;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -119,4 +129,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.font-hanken-grotesk {
+  font-family: "Hanken Grotesk", sans-serif;
+}
+
+.font-hanken-grotesk-italic {
+  font-family: "Hanken Grotesk Italic", sans-serif;
 }
