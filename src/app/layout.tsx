@@ -1,4 +1,5 @@
 import Navbar from '@/components/common/Navbar';
+import { Quote } from '@/components/common/Quote';
 import ReactLenis from 'lenis/react';
 import type { Metadata } from 'next';
 import { ViewTransitions } from 'next-view-transitions';
@@ -22,6 +23,7 @@ export default function RootLayout({
           <ReactLenis root>
             <Navbar />
             {children}
+            <Quote />
           </ReactLenis>
         </body>
       </html>
