@@ -1,8 +1,9 @@
 import NextJs from '@/components/technologies/NextJs';
 import ReactIcon from '@/components/technologies/ReactIcon';
 import TypeScript from '@/components/technologies/TypeScript';
+import { Project } from '@/types/project';
 
-export const projects = [
+export const projects: Project[] = [
   {
     title: 'NotesBuddy',
     description: 'A simple note-taking app built with React and TypeScript',
@@ -17,7 +18,8 @@ export const projects = [
     github: 'https://github.com/ramxcodes/notesbuddy',
     live: 'https://notesbuddy.in',
     details: true,
-    detailsLink: '/projects/notesbuddy',
+    projectDetailsPageSlug: '/projects/notesbuddy',
+    isWorking: true,
   },
   {
     title: 'NotesMuddy',
@@ -33,6 +35,7 @@ export const projects = [
     github: 'https://github.com/ramxcodes/notesbuddy',
     live: 'https://notesbuddy.in',
     details: true,
-    detailsLink: '/projects/notesmuddy',
+    projectDetailsPageSlug: '/projects/notesmuddy',
+    isWorking: false,
   },
 ];

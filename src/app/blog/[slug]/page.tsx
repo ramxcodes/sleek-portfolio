@@ -14,9 +14,9 @@ import { Link } from 'next-view-transitions';
 import { notFound } from 'next/navigation';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Generate static paths for all blog posts
@@ -32,7 +32,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const post = getBlogPostBySlug(params.slug);
+  //  await params
+  const { slug } = await params;
+  const post = await getBlogPostBySlug(slug);
 
   if (!post || !post.frontmatter.isPublished) {
     return {
@@ -61,13 +63,13 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = getBlogPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getBlogPostBySlug(slug);
 
   if (!post || !post.frontmatter.isPublished) {
     notFound();
   }
-
-  const relatedPosts = getRelatedPosts(params.slug, 3);
+  const relatedPosts = await getRelatedPosts(slug, 3);
 
   return (
     <Container className="py-16">

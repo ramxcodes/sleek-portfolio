@@ -6,7 +6,12 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogTrigger, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { type Project } from '@/types/project';
 import { Link } from 'next-view-transitions';
 import Image from 'next/image';
@@ -122,12 +127,27 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {project.details && (
         <CardFooter className="p-6 pt-0 flex justify-between">
-          <div className="flex items-center gap-1 rounded-md border-green-300 bg-green-500/10 px-2 py-1 text-xs">
-            <div className="size-2 rounded-full bg-green-500 animate-pulse"></div>
-            Working
+          <div
+            className={`flex items-center gap-1 rounded-md px-2 py-1 text-xs ${
+              project.isWorking
+                ? 'border-green-300 bg-green-500/10'
+                : 'border-red-300 bg-red-500/10'
+            }`}
+          >
+            {project.isWorking ? (
+              <>
+                <div className="size-2 rounded-full bg-green-500 animate-pulse" />
+                All Systems Operational
+              </>
+            ) : (
+              <>
+                <div className="size-2 rounded-full bg-red-500 animate-pulse" />
+                Not Functional
+              </>
+            )}
           </div>
           <Link
-            href={project.detailsLink}
+            href={project.projectDetailsPageSlug}
             className="text-secondary flex items-center gap-2 text-sm hover:underline underline-offset-4 hover:text-primary transition-colors"
           >
             View Details <ArrowRight className="size-4" />

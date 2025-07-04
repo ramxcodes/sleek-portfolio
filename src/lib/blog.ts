@@ -117,11 +117,11 @@ export function getAllTags(): string[] {
 /**
  * Get related posts based on tags (excluding the current post)
  */
-export function getRelatedPosts(
+export async function getRelatedPosts(
   currentSlug: string,
   maxPosts = 3,
-): BlogPostPreview[] {
-  const currentPost = getBlogPostBySlug(currentSlug);
+): Promise<BlogPostPreview[]> {
+  const currentPost = await getBlogPostBySlug(currentSlug);
   if (!currentPost || !currentPost.frontmatter.isPublished) {
     return [];
   }

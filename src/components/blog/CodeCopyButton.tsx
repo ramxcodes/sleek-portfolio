@@ -26,20 +26,20 @@ export function CodeCopyButton({ code }: CodeCopyButtonProps) {
   return (
     <form
       action={copyToClipboard}
-      className="absolute top-3 right-3 rounded-md bg-muted/80 p-2 opacity-0 transition-all duration-200 hover:bg-muted group-hover:opacity-100 hover:cursor-pointer"
+      className="absolute top-3 right-3 rounded-md opacity-0 transition-all duration-200 group-hover:opacity-100 hover:cursor-pointer"
       title={isCopied ? 'Copied!' : 'Copy code'}
     >
       {isCopied ? (
         <Tooltip>
           <TooltipTrigger className="cursor-pointer">
-            <Copied className="h-4 w-4" />
+            <Copied className="h-4 w-4 text-green-500" />
           </TooltipTrigger>
-          <TooltipContent>Copied!</TooltipContent>
+          <TooltipContent>Copied to clipboard!</TooltipContent>
         </Tooltip>
       ) : (
         <Tooltip>
           <TooltipTrigger className="cursor-pointer">
-            <Copy className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+            <Copy className="h-4 w-4 text-secondary" />
           </TooltipTrigger>
           <TooltipContent>Copy to clipboard</TooltipContent>
         </Tooltip>
