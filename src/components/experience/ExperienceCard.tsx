@@ -80,7 +80,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
 
       {/* Technologies */}
       <div>
-        <h4 className="text-md mb-2 font-semibold">Technologies</h4>
+        <h4 className="text-md mt-4 mb-2 font-semibold">Technologies</h4>
         <div className="flex flex-wrap gap-2">
           {experience.technologies.map((technology, techIndex: number) => (
             <Skill

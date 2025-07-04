@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     'My projects and work across different technologies and domains.',
 };
 
-export default function WorkPage() {
+export default function ProjectsPage() {
   return (
     <Container className="py-16">
       <div className="space-y-8">

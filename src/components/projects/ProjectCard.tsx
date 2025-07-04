@@ -1,5 +1,12 @@
 'use client';
 
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from '@/components/ui/dialog';
 import { type Project } from '@/types/project';
 import { Link } from 'next-view-transitions';
 import Image from 'next/image';
@@ -9,90 +16,124 @@ import ArrowRight from '../svgs/ArrowRight';
 import Github from '../svgs/Github';
 import PlayCircle from '../svgs/PlayCircle';
 import Website from '../svgs/Website';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 interface ProjectCardProps {
   project: Project;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const [playingVideo, setPlayingVideo] = useState<boolean>(false);
-
-  const toggleVideo = () => {
-    setPlayingVideo(!playingVideo);
-  };
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-col gap-8 rounded-lg border border-muted p-4">
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <h3 className="text-2xl font-bold">{project.title}</h3>
-          <p className="text-secondary text-sm">{project.description}</p>
+    <Card className="group h-full w-full overflow-hidden transition-all p-0 border-gray-100 dark:border-gray-800 shadow-none">
+      <CardHeader className="p-0">
+        <div className="group relative aspect-video overflow-hidden">
+          <Image
+            className="h-full w-full object-cover"
+            src={project.image}
+            alt={project.title}
+            width={1920}
+            height={1080}
+          />
+          {project.video && (
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:backdrop-blur-xs">
+                  <button className="flex size-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors duration-200 group-hover:cursor-pointer hover:bg-white/30">
+                    <PlayCircle />
+                  </button>
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl w-full p-0 border-0">
+                <div className="aspect-video w-full">
+                  <video
+                    className="h-full w-full object-cover rounded-lg"
+                    src={project.video}
+                    autoPlay
+                    loop
+                    controls
+                  />
+                </div>
+                <DialogTitle className="sr-only">{project.title}</DialogTitle>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <Link
-            className="text-secondary flex size-6 items-center justify-center"
-            href={project.link}
-            target="_blank"
-          >
-            <Website />
-          </Link>
-          <Link
-            className="text-secondary flex size-6 items-center justify-center"
-            href={project.github}
-            target="_blank"
-          >
-            <Github />
-          </Link>
+      </CardHeader>
+
+      <CardContent className="px-6">
+        <div className="space-y-4">
+          {/* Project Header */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold leading-tight group-hover:text-primary">
+                {project.title}
+              </h3>
+              <p className="text-secondary mt-2">{project.description}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Tooltip>
+                <TooltipTrigger>
+                  <Link
+                    className="text-secondary flex size-6 items-center justify-center hover:text-primary transition-colors"
+                    href={project.link}
+                    target="_blank"
+                  >
+                    <Website />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View Website</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Link
+                    className="text-secondary flex size-6 items-center justify-center hover:text-primary transition-colors"
+                    href={project.github}
+                    target="_blank"
+                  >
+                    <Github />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View GitHub</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+
+          {/* Technologies */}
+          <div>
+            <h4 className="text-sm font-medium mb-2 text-secondary">
+              Technologies
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {project.technologies.map((technology, index) => (
+                <div key={index} className="size-6">
+                  {technology}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <p className="text-secondary text-sm">Technologies:</p>
-          {project.technologies.map((technology, index) => (
-            <span key={index} className="text-secondary size-6 text-sm">
-              {technology}
-            </span>
-          ))}
-        </div>
-        {project.details && (
+      </CardContent>
+
+      {project.details && (
+        <CardFooter className="p-6 pt-0 flex justify-between">
+          <div className="flex items-center gap-1 rounded-md border-green-300 bg-green-500/10 px-2 py-1 text-xs">
+            <div className="size-2 rounded-full bg-green-500 animate-pulse"></div>
+            Working
+          </div>
           <Link
             href={project.detailsLink}
-            className="text-secondary flex items-center gap-1 text-sm underline underline-offset-4"
+            className="text-secondary flex items-center gap-2 text-sm hover:underline underline-offset-4 hover:text-primary transition-colors"
           >
             View Details <ArrowRight className="size-4" />
           </Link>
-        )}
-      </div>
-      <div className="group relative aspect-video overflow-hidden rounded-md">
-        {playingVideo ? (
-          <video
-            className="h-full w-full object-cover"
-            src={project.video}
-            autoPlay
-            muted
-            loop
-            controls
-          />
-        ) : (
-          <>
-            <Image
-              className="h-full w-full object-cover"
-              src={project.image}
-              alt={project.title}
-              width={1920}
-              height={1080}
-            />
-            <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:backdrop-blur-xs">
-              <button
-                onClick={toggleVideo}
-                className="flex size-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors duration-200 group-hover:cursor-pointer hover:bg-white/30"
-              >
-                <PlayCircle />
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+        </CardFooter>
+      )}
+    </Card>
   );
 }
