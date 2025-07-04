@@ -13,7 +13,6 @@ import {
   parseTemplate,
 } from "@/config/Hero";
 
-// Icon mapping for buttons
 const buttonIcons = {
   CV: CV,
   Chat: Chat,
@@ -22,7 +21,6 @@ const buttonIcons = {
 export default function Hero() {
   const { name, title, avatar, skills, description, buttons } = heroConfig;
 
-  // Render description from template with skills and bold text
   const renderDescription = () => {
     const parts = parseTemplate(description.template, skills);
 
