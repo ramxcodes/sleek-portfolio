@@ -6,7 +6,7 @@ import { ViewTransitions } from 'next-view-transitions';
 
 import './globals.css';
 import Footer from '@/components/common/Footer';
-import BackToTop from '@/components/common/BackToTop';
+import ChatBubble from '@/components/common/ChatBubble';
 
 export const metadata: Metadata = {
   title: 'Sleek Portfolio',
@@ -27,7 +27,7 @@ export default function RootLayout({
             {children}
             <Quote />
             <Footer />
-            <BackToTop />
+            <ChatBubble />
           </ReactLenis>
         </body>
       </html>

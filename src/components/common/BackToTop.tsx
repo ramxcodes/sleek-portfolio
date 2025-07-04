@@ -13,7 +13,7 @@ export default function BackToTop() {
         <Button
           variant="outline"
           size="icon"
-          className="hover:cursor-pointer fixed bottom-4 right-4 md:right-10 z-50 bg-white dark:bg-black"
+          className="hover:cursor-pointer fixed bottom-4 right-10 md:right-20 z-50 bg-white dark:bg-black"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
