@@ -8,7 +8,7 @@ import React from 'react';
 
 export default function page() {
   return (
-    <Container className="min-h-screen py-10">
+    <Container className="min-h-screen py-16">
       <Hero />
       <Experience />
       <Work />

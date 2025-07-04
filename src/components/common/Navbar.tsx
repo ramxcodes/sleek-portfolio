@@ -8,7 +8,7 @@ import ThemeSwitch from './ThemeSwitch';
 const navItems = [
   {
     label: 'Work',
-    href: '/',
+    href: '/work-experience',
   },
   {
     label: 'Blog',

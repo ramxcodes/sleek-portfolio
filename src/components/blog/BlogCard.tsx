@@ -35,7 +35,7 @@ export function BlogCard({ post }: BlogCardProps) {
           </Link>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent>
         <div className="space-y-3">
           <Link href={`/blog/${slug}`}>
             <h3 className="line-clamp-2 text-xl font-semibold leading-tight group-hover:text-primary">

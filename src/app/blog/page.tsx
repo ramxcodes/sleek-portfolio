@@ -1,13 +1,14 @@
 import { BlogList } from '@/components/blog/BlogList';
 import Container from '@/components/common/Container';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { getAllTags, getPublishedBlogPosts } from '@/lib/blog';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Blog',
   description:
-    'Thoughts, tutorials, and insights on web development, technology, and programming.',
+    'Thoughts, tutorials, and insights on engineering, and programming.',
 };
 
 export default function BlogPage() {
@@ -23,10 +24,11 @@ export default function BlogPage() {
             Blog
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Thoughts, tutorials, and insights on web development, technology,
-            and programming.
+            Thoughts, tutorials, and insights on engineering, and programming.
           </p>
         </div>
+
+        <Separator />
 
         {/* Tags */}
         {tags.length > 0 && (
