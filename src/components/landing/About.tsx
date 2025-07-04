@@ -3,12 +3,13 @@ import Image from 'next/image';
 import React from 'react';
 
 import Container from '../common/Container';
+import SectionHeading from '../common/SectionHeading';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export default function About() {
   return (
     <Container className="mt-20">
-      <p>About</p>
+      <SectionHeading subHeading="About" heading="Me" />
       {/* About me */}
       <div className="mt-8 flex flex-col gap-4 md:flex-row">
         <Image

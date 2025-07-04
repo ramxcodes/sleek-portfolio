@@ -4,6 +4,7 @@ import React from 'react';
 
 import { BlogCard } from '../blog/BlogCard';
 import Container from '../common/Container';
+import SectionHeading from '../common/SectionHeading';
 import { Button } from '../ui/button';
 
 export default function Blog() {
@@ -11,8 +12,7 @@ export default function Blog() {
 
   return (
     <Container className="mt-20">
-      <p>Featured</p>
-      <h2 className="text-secondary text-2xl font-light">Latest Blogs</h2>
+      <SectionHeading subHeading="Featured" heading="Blogs" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
         {posts.slice(0, 2).map((post) => (
           <BlogCard key={post.slug} post={post} />
