@@ -11,7 +11,7 @@ const navItems = [
     href: '/work-experience',
   },
   {
-    label: 'Blog',
+    label: 'Blogs',
     href: '/blog',
   },
   {

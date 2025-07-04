@@ -102,7 +102,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="text-center">
           <Separator className="mb-8" />
           <Button asChild size="lg">
-            <Link href="/blog">View All Posts</Link>
+            <Link href="/blog">View All Blogs</Link>
           </Button>
         </div>
       </div>
