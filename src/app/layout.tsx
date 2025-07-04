@@ -5,6 +5,8 @@ import type { Metadata } from 'next';
 import { ViewTransitions } from 'next-view-transitions';
 
 import './globals.css';
+import Footer from '@/components/common/Footer';
+import BackToTop from '@/components/common/BackToTop';
 
 export const metadata: Metadata = {
   title: 'Sleek Portfolio',
@@ -24,6 +26,8 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Quote />
+            <Footer />
+            <BackToTop />
           </ReactLenis>
         </body>
       </html>

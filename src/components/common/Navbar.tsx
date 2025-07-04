@@ -18,6 +18,14 @@ const navItems = [
     label: 'Projects',
     href: '/projects',
   },
+  {
+    label: 'Contact',
+    href: '/contact',
+  },
+  {
+    label: 'Talk to me',
+    href: '/ai-chat',
+  },
 ];
 
 export default function Navbar() {
