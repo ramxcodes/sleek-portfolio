@@ -1,17 +1,14 @@
+import ChatBubble from '@/components/common/ChatBubble';
+import Footer from '@/components/common/Footer';
 import Navbar from '@/components/common/Navbar';
 import { Quote } from '@/components/common/Quote';
+import { generateMetadata as getMetadata } from '@/config/Meta';
 import ReactLenis from 'lenis/react';
-import type { Metadata } from 'next';
 import { ViewTransitions } from 'next-view-transitions';
 
 import './globals.css';
-import Footer from '@/components/common/Footer';
-import ChatBubble from '@/components/common/ChatBubble';
 
-export const metadata: Metadata = {
-  title: 'Sleek Portfolio',
-  description: 'Sleek Portfolio Template by @Ramxcodes',
-};
+export const metadata = getMetadata('/');
 
 export default function RootLayout({
   children,

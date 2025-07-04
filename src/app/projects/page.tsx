@@ -2,12 +2,22 @@ import Container from '@/components/common/Container';
 import { ProjectList } from '@/components/projects/ProjectList';
 import { Separator } from '@/components/ui/separator';
 import { projects } from '@/config/Projects';
+import { generateMetadata as getMetadata } from '@/config/Meta';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Projects',
-  description:
-    'My projects and work across different technologies and domains.',
+  ...getMetadata('/projects'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
+  }
 };
 
 export default function ProjectsPage() {

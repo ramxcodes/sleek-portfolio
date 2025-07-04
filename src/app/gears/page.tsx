@@ -2,9 +2,26 @@ import Container from '@/components/common/Container';
 import Monitor from '@/components/svgs/devices/Monitor';
 import { Separator } from '@/components/ui/separator';
 import { devices, software, webExtensions } from '@/config/Gears';
+import { generateMetadata as getMetadata } from '@/config/Meta';
 import { ArrowUpRight, Puzzle } from 'lucide-react';
 import { Link } from 'next-view-transitions';
+import { Metadata } from 'next';
 import React from 'react';
+
+export const metadata: Metadata = {
+  ...getMetadata('/gears'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
+  }
+};
 
 export default function GearsPage() {
   return (

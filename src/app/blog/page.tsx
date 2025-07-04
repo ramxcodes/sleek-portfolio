@@ -3,12 +3,26 @@ import Container from '@/components/common/Container';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { getAllTags, getPublishedBlogPosts } from '@/lib/blog';
+import { generateMetadata as getMetadata } from '@/config/Meta';
 import { Metadata } from 'next';
+import { Robots } from 'next/dist/lib/metadata/types/metadata-types';
 
-export const metadata: Metadata = {
-  title: 'Blog',
-  description:
-    'Thoughts, tutorials, and insights on engineering, and programming.',
+export const generateMetadata = (): Metadata => {
+  const metadata = getMetadata('/blog');
+  return {
+    ...metadata,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      } as Robots['googleBot']
+    }
+  };
 };
 
 export default function BlogPage() {

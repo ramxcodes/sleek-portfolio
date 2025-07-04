@@ -2,9 +2,26 @@ import Container from '@/components/common/Container';
 import CheckCircle from '@/components/svgs/CheckCircle';
 import { Separator } from '@/components/ui/separator';
 import { settingsJson, steps } from '@/config/Setup';
+import { generateMetadata as getMetadata } from '@/config/Meta';
 import { Download, ExternalLink, FileText } from 'lucide-react';
 import Link from 'next/link';
+import { Metadata } from 'next';
 import React from 'react';
+
+export const metadata: Metadata = {
+  ...getMetadata('/setup'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
+  }
+};
 
 export default function SetupPage() {
   return (
