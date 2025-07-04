@@ -1,5 +1,7 @@
 import Navbar from '@/components/common/Navbar';
+import ReactLenis from 'lenis/react';
 import type { Metadata } from 'next';
+import { ViewTransitions } from 'next-view-transitions';
 
 import './globals.css';
 
@@ -14,11 +16,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-hanken-grotesk antialiased`}>
-        <Navbar />
-        {children}
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <body className={`font-hanken-grotesk antialiased`}>
+          <ReactLenis root>
+            <Navbar />
+            {children}
+          </ReactLenis>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

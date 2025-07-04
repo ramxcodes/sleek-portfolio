@@ -1,5 +1,5 @@
+import { Link } from 'next-view-transitions';
 import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
 
 import Container from './Container';
@@ -12,7 +12,7 @@ const navItems = [
   },
   {
     label: 'Blog',
-    href: '/',
+    href: '/blog',
   },
   {
     label: 'About',

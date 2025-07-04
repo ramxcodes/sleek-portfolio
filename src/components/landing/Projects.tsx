@@ -1,8 +1,8 @@
 'use client';
 
 import { projects } from '@/config/Projects';
+import { Link } from 'next-view-transitions';
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
 import Container from '../common/Container';

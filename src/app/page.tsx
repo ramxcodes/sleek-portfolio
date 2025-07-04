@@ -1,5 +1,6 @@
 import Container from '@/components/common/Container';
 import About from '@/components/landing/About';
+import Blog from '@/components/landing/Blog';
 import Experience from '@/components/landing/Experience';
 import Hero from '@/components/landing/Hero';
 import Work from '@/components/landing/Projects';
@@ -12,6 +13,7 @@ export default function page() {
       <Experience />
       <Work />
       <About />
+      <Blog />
     </Container>
   );
 }
