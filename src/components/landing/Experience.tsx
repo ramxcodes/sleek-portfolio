@@ -1,25 +1,26 @@
-import React from "react";
-import Container from "../common/Container";
-import Image from "next/image";
-import Skill from "../common/Skill";
-import Link from "next/link";
-import X from "../svgs/X";
-import Website from "../svgs/Website";
-import LinkedIn from "../svgs/LinkedIn";
-import Github from "../svgs/Github";
-import { type Experience, experiences } from "@/config/Experience";
-import { Button } from "../ui/button";
+import { type Experience, experiences } from '@/config/Experience';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+
+import Container from '../common/Container';
+import Skill from '../common/Skill';
+import Github from '../svgs/Github';
+import LinkedIn from '../svgs/LinkedIn';
+import Website from '../svgs/Website';
+import X from '../svgs/X';
+import { Button } from '../ui/button';
 
 export default function Experience() {
   return (
     <Container className="mt-20">
       <p>Featured</p>
-      <h2 className="text-2xl font-light text-secondary">Experience</h2>
-      <div className="flex flex-col gap-8 mt-4">
+      <h2 className="text-secondary text-2xl font-light">Experience</h2>
+      <div className="mt-4 flex flex-col gap-8">
         {experiences.slice(0, 2).map((experience: Experience) => (
           <div className="flex flex-col gap-4" key={experience.company}>
             {/* Company Header */}
-            <div className="flex flex-col md:flex-row md:justify-between gap-2">
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between">
               {/* Left Side */}
               <div className="flex items-center gap-4">
                 <Image
@@ -33,36 +34,36 @@ export default function Experience() {
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg font-bold">{experience.company}</h3>
                     <Link
-                      href={experience.website ?? ""}
+                      href={experience.website ?? ''}
                       target="_blank"
-                      className="text-neutral-500 size-4"
+                      className="size-4 text-neutral-500"
                     >
                       <Website />
                     </Link>
                     <Link
-                      href={experience.x ?? ""}
+                      href={experience.x ?? ''}
                       target="_blank"
-                      className="text-neutral-500 size-4"
+                      className="size-4 text-neutral-500"
                     >
                       <X />
                     </Link>
                     <Link
-                      href={experience.linkedin ?? ""}
+                      href={experience.linkedin ?? ''}
                       target="_blank"
-                      className="text-neutral-500 size-4"
+                      className="size-4 text-neutral-500"
                     >
                       <LinkedIn />
                     </Link>
                     <Link
-                      href={experience.github ?? ""}
+                      href={experience.github ?? ''}
                       target="_blank"
-                      className="text-neutral-500 size-4"
+                      className="size-4 text-neutral-500"
                     >
                       <Github />
                     </Link>
                     {experience.isCurrent && (
-                      <div className="text-xs border-green-300 bg-green-500/10 rounded-md px-2 py-1 flex items-center gap-1">
-                        <div className="size-2 bg-green-500 rounded-full"></div>
+                      <div className="flex items-center gap-1 rounded-md border-green-300 bg-green-500/10 px-2 py-1 text-xs">
+                        <div className="size-2 rounded-full bg-green-500"></div>
                         Working
                       </div>
                     )}
@@ -71,10 +72,10 @@ export default function Experience() {
                 </div>
               </div>
               {/* Right Side */}
-              <div className="flex flex-col text-secondary md:text-right">
+              <div className="text-secondary flex flex-col md:text-right">
                 <p>
-                  {experience.startDate} -{" "}
-                  {experience.isCurrent ? "Present" : experience.endDate}
+                  {experience.startDate} -{' '}
+                  {experience.isCurrent ? 'Present' : experience.endDate}
                 </p>
                 <p>{experience.location}</p>
               </div>
@@ -82,7 +83,7 @@ export default function Experience() {
 
             {/* Technologies */}
             <div>
-              <h4 className="text-md font-semibold mb-2">Technologies</h4>
+              <h4 className="text-md mb-2 font-semibold">Technologies</h4>
               <div className="flex flex-wrap gap-2">
                 {experience.technologies.map(
                   (technology, techIndex: number) => (
@@ -93,23 +94,23 @@ export default function Experience() {
                     >
                       {technology.icon}
                     </Skill>
-                  )
+                  ),
                 )}
               </div>
             </div>
 
             {/* Description */}
-            <div className="flex flex-col text-secondary">
+            <div className="text-secondary flex flex-col">
               {experience.description.map(
                 (description: string, descIndex: number) => (
                   <p key={descIndex}>• {description}</p>
-                )
+                ),
               )}
             </div>
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-8">
+      <div className="mt-8 flex justify-center">
         <Button variant="outline">
           <Link href="/experience">Show all experiences </Link>
         </Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function Sun({ className }: { className?: string }) {
   return (

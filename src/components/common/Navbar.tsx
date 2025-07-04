@@ -1,32 +1,33 @@
-import React from "react";
-import Container from "./Container";
-import Image from "next/image";
-import Link from "next/link";
-import ThemeSwitch from "./ThemeSwitch";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+
+import Container from './Container';
+import ThemeSwitch from './ThemeSwitch';
 
 const navItems = [
   {
-    label: "Work",
-    href: "/",
+    label: 'Work',
+    href: '/',
   },
   {
-    label: "Blog",
-    href: "/",
+    label: 'Blog',
+    href: '/',
   },
   {
-    label: "About",
-    href: "/",
+    label: 'About',
+    href: '/',
   },
 ];
 
 export default function Navbar() {
   return (
-    <Container className="py-4 sticky top-0 z-50 rounded-md  backdrop-blur-sm">
+    <Container className="sticky top-0 z-50 rounded-md py-4 backdrop-blur-sm">
       <div className="flex items-center justify-between px-6">
         <div className="flex items-baseline gap-4">
           <Link href="/">
             <Image
-              className="w-12 h-12 rounded-md border border-gray-200 bg-blue-300 dark:bg-yellow-300 hover:scale-90 transition-all duration-300 ease-in-out"
+              className="h-12 w-12 rounded-md border border-gray-200 bg-blue-300 transition-all duration-300 ease-in-out hover:scale-90 dark:bg-yellow-300"
               src="/assets/logo.png"
               alt="logo"
               width={100}
@@ -36,7 +37,7 @@ export default function Navbar() {
           <div className="flex items-center justify-center gap-4">
             {navItems.map((item) => (
               <Link
-                className="hover:underline hover:underline-offset-4 hover:decoration-2 transition-all duration-300 ease-in-out"
+                className="transition-all duration-300 ease-in-out hover:underline hover:decoration-2 hover:underline-offset-4"
                 key={item.label}
                 href={item.href}
               >

@@ -23,22 +23,20 @@
  *
  * That's it! Your portfolio will automatically update with your information.
  */
-
-import Github from "@/components/svgs/Github";
-import LinkedIn from "@/components/svgs/LinkedIn";
-import Mail from "@/components/svgs/Mail";
-import X from "@/components/svgs/X";
-
+import Github from '@/components/svgs/Github';
+import LinkedIn from '@/components/svgs/LinkedIn';
+import Mail from '@/components/svgs/Mail';
+import X from '@/components/svgs/X';
+import Bun from '@/components/technologies/Bun';
+import JavaScript from '@/components/technologies/JavaScript';
+import MongoDB from '@/components/technologies/MongoDB';
+import NextJs from '@/components/technologies/NextJs';
+import NodeJs from '@/components/technologies/NodeJs';
+import PostgreSQL from '@/components/technologies/PostgreSQL';
+import Prisma from '@/components/technologies/Prisma';
+import ReactIcon from '@/components/technologies/ReactIcon';
 // Technology Components
-import TypeScript from "@/components/technologies/TypeScript";
-import ReactIcon from "@/components/technologies/ReactIcon";
-import NextJs from "@/components/technologies/NextJs";
-import Bun from "@/components/technologies/Bun";
-import PostgreSQL from "@/components/technologies/PostgreSQL";
-import NodeJs from "@/components/technologies/NodeJs";
-import MongoDB from "@/components/technologies/MongoDB";
-import Prisma from "@/components/technologies/Prisma";
-import JavaScript from "@/components/technologies/JavaScript";
+import TypeScript from '@/components/technologies/TypeScript';
 
 // Component mapping for skills
 export const skillComponents = {
@@ -55,58 +53,58 @@ export const skillComponents = {
 
 export const heroConfig = {
   // Personal Information
-  name: "Ram",
-  title: "A Full Stack web developer.",
-  avatar: "/assets/logo.png",
+  name: 'Ram',
+  title: 'A Full Stack web developer.',
+  avatar: '/assets/logo.png',
 
   // Skills Configuration
   skills: [
     {
-      name: "Typescript",
-      href: "https://www.typescriptlang.org/",
-      component: "TypeScript",
+      name: 'Typescript',
+      href: 'https://www.typescriptlang.org/',
+      component: 'TypeScript',
     },
     {
-      name: "React",
-      href: "https://react.dev/",
-      component: "ReactIcon",
+      name: 'React',
+      href: 'https://react.dev/',
+      component: 'ReactIcon',
     },
     {
-      name: "Next.js",
-      href: "https://nextjs.org/",
-      component: "NextJs",
+      name: 'Next.js',
+      href: 'https://nextjs.org/',
+      component: 'NextJs',
     },
     {
-      name: "Bun",
-      href: "https://bun.sh/",
-      component: "Bun",
+      name: 'Bun',
+      href: 'https://bun.sh/',
+      component: 'Bun',
     },
     {
-      name: "PostgreSQL",
-      href: "https://www.postgresql.org/",
-      component: "PostgreSQL",
+      name: 'PostgreSQL',
+      href: 'https://www.postgresql.org/',
+      component: 'PostgreSQL',
     },
   ],
 
   // Description Configuration
   description: {
     template:
-      "I use {skills:0} to build interactive web apps using {skills:1}, {skills:2}, {skills:3} and {skills:4} With a focus on **UI/UX** design. Enthusiastic about **Three.js**, driven by a keen eye for design.",
+      'I use {skills:0} to build interactive web apps using {skills:1}, {skills:2}, {skills:3} and {skills:4} With a focus on **UI/UX** design. Enthusiastic about **Three.js**, driven by a keen eye for design.',
   },
 
   // Buttons Configuration
   buttons: [
     {
-      variant: "outline",
-      text: "Resume / CV",
-      href: "/resume",
-      icon: "CV",
+      variant: 'outline',
+      text: 'Resume / CV',
+      href: '/resume',
+      icon: 'CV',
     },
     {
-      variant: "default",
-      text: "Get in touch",
-      href: "/contact",
-      icon: "Chat",
+      variant: 'default',
+      text: 'Get in touch',
+      href: '/contact',
+      icon: 'Chat',
     },
   ],
 };
@@ -114,23 +112,23 @@ export const heroConfig = {
 // Social Links Configuration
 export const socialLinks = [
   {
-    name: "X",
-    href: "https://x.com/ramxcodes",
+    name: 'X',
+    href: 'https://x.com/ramxcodes',
     icon: <X />,
   },
   {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/ramxcodes/",
+    name: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/ramxcodes/',
     icon: <LinkedIn />,
   },
   {
-    name: "Github",
-    href: "https://github.com/ramxcodes",
+    name: 'Github',
+    href: 'https://github.com/ramxcodes',
     icon: <Github />,
   },
   {
-    name: "Email",
-    href: "mailto:ramxcodes@gmail.com",
+    name: 'Email',
+    href: 'mailto:ramxcodes@gmail.com',
     icon: <Mail />,
   },
 ];
@@ -138,7 +136,7 @@ export const socialLinks = [
 // Utility function to parse template string with skills and bold text
 export const parseTemplate = (
   template: string,
-  skills: typeof heroConfig.skills
+  skills: typeof heroConfig.skills,
 ) => {
   // First, split by skill references {skills:X}
   const parts = template.split(/(\{skills:\d+\})/);
@@ -152,7 +150,7 @@ export const parseTemplate = (
         const skill = skills[skillIndex];
         if (skill) {
           return {
-            type: "skill",
+            type: 'skill',
             skill: skill,
             key: index,
           };
@@ -162,15 +160,15 @@ export const parseTemplate = (
       // Parse bold text in this part
       const boldParts = part.split(/(\*\*.*?\*\*)/);
       return boldParts.map((boldPart, boldIndex) => {
-        if (boldPart.startsWith("**") && boldPart.endsWith("**")) {
+        if (boldPart.startsWith('**') && boldPart.endsWith('**')) {
           return {
-            type: "bold",
+            type: 'bold',
             text: boldPart.slice(2, -2),
             key: `${index}-${boldIndex}`,
           };
         }
         return {
-          type: "text",
+          type: 'text',
           text: boldPart,
           key: `${index}-${boldIndex}`,
         };
@@ -183,7 +181,7 @@ export const parseTemplate = (
 export const parseBoldText = (text: string) => {
   const parts = text.split(/(\*\*.*?\*\*)/);
   return parts.map((part, index) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
+    if (part.startsWith('**') && part.endsWith('**')) {
       return {
         text: part.slice(2, -2),
         bold: true,

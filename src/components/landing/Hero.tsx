@@ -1,17 +1,18 @@
-import React from "react";
-import Container from "../common/Container";
-import Image from "next/image";
-import Skill from "../common/Skill";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import CV from "../svgs/CV";
-import Chat from "../svgs/Chat";
 import {
   heroConfig,
-  socialLinks,
-  skillComponents,
   parseTemplate,
-} from "@/config/Hero";
+  skillComponents,
+  socialLinks,
+} from '@/config/Hero';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+
+import Container from '../common/Container';
+import Skill from '../common/Skill';
+import CV from '../svgs/CV';
+import Chat from '../svgs/Chat';
+import { Button } from '../ui/button';
 
 const buttonIcons = {
   CV: CV,
@@ -25,7 +26,7 @@ export default function Hero() {
     const parts = parseTemplate(description.template, skills);
 
     return parts.map((part) => {
-      if (part.type === "skill" && "skill" in part && part.skill) {
+      if (part.type === 'skill' && 'skill' in part && part.skill) {
         const SkillComponent =
           skillComponents[part.skill.component as keyof typeof skillComponents];
         return (
@@ -33,13 +34,13 @@ export default function Hero() {
             <SkillComponent />
           </Skill>
         );
-      } else if (part.type === "bold" && "text" in part) {
+      } else if (part.type === 'bold' && 'text' in part) {
         return (
           <b key={part.key} className="text-secondary">
             {part.text}
           </b>
         );
-      } else if (part.type === "text" && "text" in part) {
+      } else if (part.type === 'text' && 'text' in part) {
         return <span key={part.key}>{part.text}</span>;
       }
       return null;
@@ -58,25 +59,25 @@ export default function Hero() {
       />
 
       {/* Text Area */}
-      <div className="flex flex-col gap-2 mt-8">
+      <div className="mt-8 flex flex-col gap-2">
         <h1 className="text-4xl font-bold">
           Hi, I&apos;m {name} — <span className="text-secondary">{title}</span>
         </h1>
 
-        <div className="flex flex-wrap gap-2 text-lg text-neutral-500 mt-4">
+        <div className="mt-4 flex flex-wrap gap-2 text-lg text-neutral-500">
           {renderDescription()}
         </div>
       </div>
 
       {/* Buttons */}
-      <div className="flex gap-4 mt-8">
+      <div className="mt-8 flex gap-4">
         {buttons.map((button, index) => {
           const IconComponent =
             buttonIcons[button.icon as keyof typeof buttonIcons];
           return (
             <Button
               key={index}
-              variant={button.variant as "outline" | "default"}
+              variant={button.variant as 'outline' | 'default'}
             >
               {IconComponent && <IconComponent />}
               <Link href={button.href}>{button.text}</Link>
@@ -86,12 +87,12 @@ export default function Hero() {
       </div>
 
       {/* Social Links */}
-      <div className="flex gap-2 mt-8">
+      <div className="mt-8 flex gap-2">
         {socialLinks.map((link) => (
           <Link
             href={link.href}
             key={link.name}
-            className="flex items-center gap-2 text-secondary"
+            className="text-secondary flex items-center gap-2"
           >
             <span className="size-6">{link.icon}</span>
           </Link>
