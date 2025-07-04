@@ -8,13 +8,15 @@ import Website from "../svgs/Website";
 import LinkedIn from "../svgs/LinkedIn";
 import Github from "../svgs/Github";
 import { type Experience, experiences } from "@/config/Experience";
+import { Button } from "../ui/button";
 
 export default function Experience() {
   return (
     <Container className="mt-20">
+      <p>Featured</p>
       <h2 className="text-2xl font-light text-secondary">Experience</h2>
       <div className="flex flex-col gap-8 mt-4">
-        {experiences.map((experience: Experience) => (
+        {experiences.slice(0, 2).map((experience: Experience) => (
           <div className="flex flex-col gap-4" key={experience.company}>
             {/* Company Header */}
             <div className="flex flex-col md:flex-row md:justify-between gap-2">
@@ -106,6 +108,11 @@ export default function Experience() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex justify-center mt-8">
+        <Button variant="outline">
+          <Link href="/experience">Show all experiences </Link>
+        </Button>
       </div>
     </Container>
   );
