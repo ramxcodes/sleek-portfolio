@@ -1,226 +1,108 @@
 ---
 title: 'NotesBuddy'
-description: 'A modern, intuitive note-taking application built with Next.js, TypeScript, and React. Features real-time editing, markdown support, and seamless user experience.'
+description: 'A Notes Sharing Platform where users can read notes, give quizzes, revise from flashcards, execute code snippets, and also have PYQs, more.'
 image: '/project/notesbuddy.png'
-technologies: ['Next.js', 'TypeScript', 'React', 'Tailwind CSS', 'Vercel']
-github: 'https://github.com/ramxcodes/notesbuddy'
+technologies:
+  [
+    'Next.js',
+    'TypeScript',
+    'React',
+    'Tailwind CSS',
+    'Vercel',
+    'MongoDB',
+    'Shadcn UI',
+    'Zod',
+    'React Hook Form',
+    'Razorpay SDK',
+    'Monaco Editor',
+    'MDX Integration',
+  ]
+github: 'https://github.com/ramxcodes/notes-buddy'
 live: 'https://notesbuddy.in'
 timeline: '2 months'
-role: 'Full Stack Developer'
-team: 'Solo Project'
+role: 'Full Stack'
+team: 'Solo'
 status: 'completed'
 featured: true
 challenges:
   [
-    'Real-time synchronization',
-    'Performance optimization',
-    'Cross-browser compatibility',
+    'Content Management',
+    'Quizzing System',
+    'Flashcard System',
+    'Code Execution',
+    'Payment Integration',
+    'handling multiple users',
+    'Piracy',
   ]
 learnings:
   [
-    'Advanced React patterns',
-    'Performance optimization techniques',
-    'User experience design',
+    'Performance Optimization',
+    'Monaco Editor',
+    'Code Execution',
+    'Quizzing System',
+    'Flashcard System',
+    'PYQ System',
+    'Razorpay Payment Integration',
+    'Handling multiple users',
+    'Piracy',
   ]
 isPublished: true
 ---
 
-# NotesBuddy: A Modern Note-Taking Experience
-
-NotesBuddy represents my vision of what a modern note-taking application should be - clean, fast, and intuitive. Built from the ground up with user experience in mind, it combines the simplicity of traditional note-taking with the power of modern web technologies.
-
-## Project Overview
-
-### The Problem
-
-Traditional note-taking apps often suffer from bloated interfaces, slow performance, or lack essential features. I wanted to create a solution that prioritized speed, simplicity, and reliability while maintaining powerful functionality.
-
-### The Solution
-
-NotesBuddy is a web-based note-taking application that provides:
-
-- **Lightning-fast performance** with optimized React components
-- **Clean, distraction-free interface** focusing on content
-- **Markdown support** for rich text formatting
-- **Responsive design** that works seamlessly across devices
-- **Local storage persistence** ensuring your notes are always available
-
-## Technical Implementation
-
-### Architecture Decisions
-
-The application is built using a modern tech stack optimized for performance and developer experience:
-
-```typescript
-// Core technology stack
-const techStack = {
-  framework: 'Next.js 14',
-  language: 'TypeScript',
-  styling: 'Tailwind CSS',
-  deployment: 'Vercel',
-  storage: 'Local Storage API',
-};
-```
-
-### Key Features
-
-#### 1. Real-time Editor
-
-The heart of NotesBuddy is its real-time editor, built with performance in mind:
-
-```typescript
-interface EditorProps {
-  content: string;
-  onChange: (content: string) => void;
-  placeholder?: string;
-}
-
-const Editor: React.FC<EditorProps> = ({ content, onChange, placeholder }) => {
-  const handleChange = useCallback((value: string) => {
-    onChange(value);
-    // Auto-save functionality
-    saveToLocalStorage(value);
-  }, [onChange]);
-
-  return (
-    <textarea
-      value={content}
-      onChange={(e) => handleChange(e.target.value)}
-      placeholder={placeholder}
-      className="w-full h-full resize-none outline-none"
-    />
-  );
-};
-```
-
-#### 2. Markdown Support
-
-Integrated markdown rendering for rich text formatting:
-
-- Headers and text styling
-- Code blocks with syntax highlighting
-- Lists and blockquotes
-- Links and images
-
-#### 3. Responsive Design
-
-Built with a mobile-first approach using Tailwind CSS:
-
-```css
-/* Example responsive design patterns */
-.note-container {
-  @apply w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
-}
-
-.editor-panel {
-  @apply h-screen md:h-auto md:min-h-[500px] 
-         border border-gray-200 rounded-lg;
-}
-```
-
-## Design Philosophy
-
-### User-Centered Design
-
-Every design decision was made with the user in mind:
-
-- **Minimal interface** reduces cognitive load
-- **Intuitive navigation** requires no learning curve
-- **Fast loading times** keep users engaged
-- **Accessible design** ensures usability for everyone
-
-### Performance First
-
-Performance optimizations implemented throughout:
-
-- **Component memoization** to prevent unnecessary re-renders
-- **Lazy loading** for optimal bundle sizes
-- **Efficient state management** using React hooks
-- **Optimized images** and assets
-
-## Challenges and Solutions
-
-### Challenge 1: Real-time Performance
-
-**Problem**: Ensuring smooth editing experience without lag or performance issues.
-
-**Solution**: Implemented debouncing and optimized re-rendering:
-
-```typescript
-const useDebouncedSave = (value: string, delay: number) => {
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      saveToLocalStorage(value);
-    }, delay);
-
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-};
-```
-
-### Challenge 2: Cross-browser Compatibility
-
-**Problem**: Ensuring consistent behavior across different browsers and devices.
-
-**Solution**: Extensive testing and progressive enhancement strategies using modern web APIs with fallbacks.
-
-### Challenge 3: User Experience Optimization
-
-**Problem**: Balancing feature richness with simplicity.
-
-**Solution**: Iterative design process with user feedback integration, focusing on essential features first.
-
-## Key Learnings
-
-### Technical Insights
-
-1. **Performance Optimization**: Learned advanced React optimization techniques including useMemo, useCallback, and component splitting
-2. **TypeScript Benefits**: Experienced firsthand how TypeScript improves code quality and developer experience
-3. **Modern CSS**: Mastered Tailwind CSS utility-first approach and responsive design patterns
-
-### Product Development
-
-1. **User-Centered Design**: The importance of prioritizing user needs over technical complexity
-2. **Iterative Development**: Value of building MVP first and iterating based on feedback
-3. **Performance Matters**: How loading speed directly impacts user engagement
-
-## Results and Impact
-
-### Metrics
-
-- **Load Time**: Under 2 seconds on 3G networks
-- **User Engagement**: Average session duration of 15+ minutes
-- **Cross-platform**: Works seamlessly on desktop, tablet, and mobile
-
-### User Feedback
-
-> "Finally, a note-taking app that doesn't get in the way of my thoughts. Clean, fast, and exactly what I needed." - Beta User
-
-## Future Enhancements
-
-### Planned Features
-
-1. **Cloud Synchronization**: Enable cross-device sync
-2. **Collaboration**: Real-time collaborative editing
-3. **Organization**: Folders and tagging system
-4. **Export Options**: Multiple export formats (PDF, Word, etc.)
-
-### Technical Improvements
-
-1. **PWA Implementation**: Offline functionality
-2. **Advanced Editor**: WYSIWYG editing options
-3. **Themes**: Customizable appearance options
-
-## Conclusion
-
-NotesBuddy demonstrates the power of focusing on core user needs while leveraging modern web technologies. The project reinforced my belief that great software is not about having the most features, but about executing essential features exceptionally well.
-
-The experience of building NotesBuddy from concept to deployment provided invaluable insights into full-stack development, user experience design, and the importance of performance optimization in modern web applications.
-
----
-
-**Technologies Used**: Next.js, TypeScript, React, Tailwind CSS, Vercel
-
-**Live Demo**: [notesbuddy.in](https://notesbuddy.in)
-
-**Source Code**: [GitHub Repository](https://github.com/ramxcodes/notesbuddy)
+# NotesBuddy: A Notes Sharing Platform
+
+## Overview
+
+NotesBuddy is a modern notes sharing platform that allows users to read notes, give quizzes, revise from flashcards, execute code snippets, and also have PYQs, more.
+
+## What Users Can Do
+
+- **Find Notes:** Search and access notes by year or semester (1st to 4th year).
+- **Share Resources:** Share notes and materials with friends.
+- **Use Flashcards:** Practice with interactive flashcards for active recall.
+- **Attempt Quizzes:** Test your knowledge with practice quizzes.
+- **Access PYQs:** Get previous year questions (PYQs) with answers.
+- **One-Shots:** Quick review materials for last-minute prep.
+- **Topper Notes:** Handwritten notes from top-performing students.
+- **AI Study Assistant:** (Coming soon) Get instant answers to your study questions.
+- **Video Material:** Watch video explanations for better understanding.
+
+## Why i built this
+
+I built this platform to solve a fundamental issue i faced while studying as follows -
+
+- Professors don't share notes with students.
+- Toppers notes are not available to everyone.
+- Notes are scattered & not organized.
+- Reading one notes and then another notes is a pain with no sync, same example's and tone of writing.
+- I don't want to read notes from a pdf, i want to customize my reading experience.
+
+## Tech Stack
+
+- Next.js
+- TypeScript
+- React
+- Tailwind CSS
+- Shadcn UI
+- Zod
+- React Hook Form
+- Razorpay SDK
+- Monaco Editor
+- MDX Integration
+
+## After launch & Impact
+
+- Got 1700+ users in 2 month.
+- Got 200k views in 3 months with average 15k views during exams.
+- Got 90+ Premium users in the same duration.
+- Learned a lot about SEO, optimization, and how to build a product that is useful for the users.
+- Got a lot of feedback from the users, which helped me to improve the platform.
+- Finally found a fundamental issue in `velite` that has a memory leak issue, which was causing the platform to be slow.
+- Built my own CMS for the platform, which is a custom CMS for the platform.
+- Used full potential of MDX and custom components to build the platform.
+
+## Future Plans
+
+- Improve the CMS system to make it more efficient and scalable.
+- Add AI Study Assistant
+- Scale it to enterprise level.

@@ -1,14 +1,14 @@
 ---
 title: 'Appwrite MCP Server'
-description: 'Model Context Protocol server for seamless Appwrite database operations with 7 powerful tools and 99.9% success rate'
+description: 'MCP server for Appwrite database operations with 7 powerful tools.'
 image: '/project/appwrite.png'
-video: '/project/appwrite-mcp-server.mp4'
-technologies: ['TypeScript', 'Node.js', 'Appwrite', 'Vercel', 'Zod']
-github: 'https://github.com/ramxcodes/appwrite-mcp-server'
+technologies:
+  ['TypeScript', 'Bun', 'Appwrite', 'Vercel', 'Zod', 'Model Context Protocol']
+github: 'https://github.com/ramxcodes/mcp-server'
 live: 'https://mcp.ramx.in/'
-timeline: '2024 - Present'
-role: 'Full Stack Developer'
-team: 'Solo Project'
+timeline: '5 Hours'
+role: 'Backend Developer'
+team: 'Solo'
 status: 'Completed'
 featured: true
 challenges:
@@ -19,11 +19,11 @@ isPublished: true
 
 ## Overview
 
-The **Appwrite MCP Server** is a powerful Model Context Protocol server that enables seamless integration of database operations into applications. Built with TypeScript and powered by Appwrite, this server provides 7 essential tools for complete database management with an impressive 99.9% success rate and ~50ms response time.
+The **Appwrite MCP Server** is a powerful Model Context Protocol server that enables seamless integration of database operations into applications. Built with TypeScript and powered by Appwrite, this server provides 7 tools for basic database operations (It's just a demo, not a production ready server).
 
 ## Key Features
 
-### 🔧 **7 Powerful Database Tools**
+### **Tools i've implemented**
 
 - **Creator Info**: Get detailed information about the developer
 - **Get Document**: Retrieve documents by unique ID
@@ -33,147 +33,15 @@ The **Appwrite MCP Server** is a powerful Model Context Protocol server that ena
 - **Delete Document**: Remove documents safely
 - **Upsert Document**: Create or update with single operation
 
-### ⚡ **Performance Metrics**
-
-- **Response Time**: ~50ms average
-- **Success Rate**: 99.9% uptime
-- **Scalability**: Built on Vercel infrastructure
-- **Security**: Robust authentication and validation
-
-## Technical Implementation
-
-### MCP Handler Setup
-
-```typescript
-import { createMcpHandler } from '@vercel/mcp-adapter';
-import { z } from 'zod';
-
-import { appwriteTools } from '../../lib/tools/appwrite';
-
-const handler = createMcpHandler((server) => {
-  // Creator Info Tool
-  server.tool(
-    'creatorInfo',
-    'Get detailed information about Ramkrishna Swarnkar',
-    {},
-    async () => ({
-      content: [
-        {
-          type: 'text' as const,
-          text: 'Creator info',
-        },
-      ],
-    }),
-  );
-
-  // Document Operations
-  server.tool(
-    'getDocument',
-    'Get a document by its unique ID from the Appwrite database',
-    {
-      documentId: z.string().describe('The unique ID of the document'),
-      collectionId: z.string().optional().describe('Collection ID'),
-    },
-    async ({ documentId, collectionId }) => {
-      return await appwriteTools.getDocument.handler({
-        documentId,
-        collectionId,
-      });
-    },
-  );
-});
-```
-
-### Database Integration
-
-```typescript
-// Appwrite configuration and client setup
-export const appwriteTools = {
-  getDocument: {
-    handler: async ({ documentId, collectionId = 'company_names' }) => {
-      try {
-        const document = await databases.getDocument(
-          DATABASE_ID,
-          collectionId,
-          documentId,
-        );
-        return {
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify(document, null, 2),
-            },
-          ],
-        };
-      } catch (error) {
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `Error retrieving document: ${error.message}`,
-            },
-          ],
-        };
-      }
-    },
-  },
-};
-```
-
-### Schema Validation
-
-```typescript
-// Zod schemas for type safety
-const createDocumentSchema = z.object({
-  company_name: z.string().describe('The name of the company'),
-  company_id: z.number().describe('Unique company identifier'),
-  documentId: z.string().optional(),
-  collectionId: z.string().optional(),
-});
-
-const updateDocumentSchema = z.object({
-  documentId: z.string().describe('Document ID to update'),
-  company_name: z.string().optional(),
-  company_id: z.number().optional(),
-  collectionId: z.string().optional(),
-});
-```
-
-## Architecture & Design
-
-### **Serverless Architecture**
-
-- **Platform**: Vercel Edge Functions
-- **Runtime**: Node.js with TypeScript
-- **Scaling**: Automatic horizontal scaling
-- **Deployment**: GitHub integration with CI/CD
-
-### **MCP Protocol Implementation**
-
-- **Standard Compliance**: Full MCP specification adherence
-- **Tool Registration**: Dynamic tool discovery
-- **Error Handling**: Comprehensive error management
-- **Logging**: Verbose logging for debugging
-
-### **Security Features**
-
-- **Input Validation**: Zod schema validation
-- **Rate Limiting**: Built-in request throttling
-- **Authentication**: Appwrite SDK security
-- **CORS**: Proper cross-origin handling
-
 ## API Endpoints
 
 ### **Core Endpoints**
 
 ```typescript
 // Main MCP endpoint
-POST /mcp - Main protocol handler
-GET /mcp - Health check and capabilities
-DELETE /mcp - Cleanup operations
+GET /api/tools - Get all tools
 
-// Server-Sent Events
-GET /sse - Real-time updates
+POST /api/tools/{toolName} - Run tool
 ```
 
 ### **Tool Operations**
@@ -189,116 +57,3 @@ tools: {
   upsertDocument: "Create or update document"
 }
 ```
-
-## Performance Optimizations
-
-### **Response Time Optimization**
-
-- **Connection Pooling**: Efficient database connections
-- **Caching Strategy**: Smart response caching
-- **Batch Operations**: Multiple document processing
-- **Lazy Loading**: On-demand resource loading
-
-### **Error Handling**
-
-```typescript
-try {
-  const result = await appwriteTools[toolName].handler(params);
-  return {
-    success: true,
-    data: result
-  };
-} catch (error) {
-  return {
-    success: false,
-    error: error.message,
-    timestamp: new Date().toISOString()
-  };
-}
-```
-
-## Live Demo Features
-
-### **Interactive Terminal**
-
-- **Real-time Operations**: Live database commands
-- **Command History**: Previous operation tracking
-- **Auto-completion**: Smart command suggestions
-- **Syntax Highlighting**: Enhanced readability
-
-### **Video Demonstration**
-
-- **Feature Walkthrough**: Complete functionality tour
-- **Integration Examples**: Real-world usage scenarios
-- **Performance Showcase**: Speed and reliability demo
-
-## Challenges & Solutions
-
-### **Protocol Complexity**
-
-**Challenge**: Implementing MCP specification correctly
-**Solution**: Deep study of protocol documentation and iterative testing
-
-### **Database Integration**
-
-**Challenge**: Seamless Appwrite SDK integration
-**Solution**: Custom wrapper functions with error handling
-
-### **Performance Requirements**
-
-**Challenge**: Achieving < 50ms response times
-**Solution**: Connection pooling and optimized queries
-
-## Results & Impact
-
-### **Performance Metrics**
-
-- ✅ **99.9% Uptime**: Reliable service availability
-- ⚡ **~50ms Response**: Lightning-fast operations
-- 🔧 **7 Tools**: Comprehensive database toolkit
-- 🚀 **Scalable**: Auto-scaling infrastructure
-
-### **Developer Experience**
-
-- **Easy Integration**: Simple setup process
-- **Type Safety**: Full TypeScript support
-- **Documentation**: Comprehensive API docs
-- **Open Source**: Available for community use
-
-### **Technical Achievements**
-
-- **Protocol Compliance**: Full MCP standard adherence
-- **Security**: Robust validation and authentication
-- **Monitoring**: Real-time performance tracking
-- **Maintenance**: Zero-downtime deployments
-
-## Future Enhancements
-
-### **Additional Features**
-
-- [ ] Multi-database support (MongoDB, PostgreSQL)
-- [ ] Advanced query builder interface
-- [ ] Real-time data synchronization
-- [ ] GraphQL integration layer
-
-### **Performance Improvements**
-
-- [ ] Response caching mechanisms
-- [ ] Parallel operation processing
-- [ ] Advanced connection pooling
-- [ ] Request optimization algorithms
-
-### **Developer Tools**
-
-- [ ] SDK for popular frameworks
-- [ ] CLI tool for server management
-- [ ] Visual query builder
-- [ ] Performance analytics dashboard
-
-## Open Source Impact
-
-The **Appwrite MCP Server** demonstrates modern serverless architecture and protocol implementation. It serves as a reference implementation for MCP servers and showcases best practices for database integration in serverless environments.
-
-**Live Demo**: [mcp.ramx.in](https://mcp.ramx.in/)
-**Source Code**: Available on GitHub
-**Documentation**: Comprehensive API documentation included

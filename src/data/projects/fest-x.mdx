@@ -1,234 +1,116 @@
 ---
-title: "FestX - Event Management Platform"
+title: 'FestX - Event Management Platform'
 description: "A comprehensive event management platform for college festivals and hackathons, built for NMIMS'24 Hackathon"
-image: "/project/festx.png"
-video: "/project/fest-x.mp4"
-technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "Auth.js"]
-github: "https://github.com/ramxcodes/fest-x"
-live: "https://fest-x.ramx.in/"
-timeline: "2024"
-role: "Full Stack Developer"
-team: "Hackathon Team"
-status: "Completed"
+image: '/project/festx.png'
+technologies:
+  ['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB', 'Vercel', 'Shadcn UI']
+github: 'https://github.com/ramxcodes/fest-x'
+live: 'https://fest-x.ramx.in/'
+timeline: '2024'
+role: 'Full Stack'
+team: 'Hackathon Team'
+status: 'Completed'
 featured: true
-challenges: ["Real-time Events", "User Management", "Scalable Architecture"]
-learnings: ["Event Management", "Team Collaboration", "Rapid Development"]
+challenges: ['Real-time Events', 'User Management', 'Scalable Architecture']
+learnings: ['Event Management', 'Team Collaboration', 'Rapid Development']
 isPublished: true
 ---
 
+# FestX: Comprehensive Event Management Platform
+
 ## Overview
 
-**FestX** is a comprehensive event management platform designed for college festivals and hackathons. Built during the NMIMS'24 Hackathon, this platform enables seamless event creation, registration, and management with real-time updates and interactive features.
+FestX is a full-stack event management platform built during the NMIMS'24 Hackathon. The platform serves as a comprehensive solution for college festivals and hackathons, enabling seamless event organization, user registration, and real-time notifications. Built with modern web technologies, FestX provides both user and admin interfaces for complete event lifecycle management.
 
-## Key Features
+## What Users Can Do
 
-### 🎯 **Event Management**
-- **Event Creation**: Easy-to-use event setup interface
-- **Registration System**: Streamlined participant registration
-- **Real-time Updates**: Live event status and announcements
-- **Category Filtering**: Events organized by type and interest
+- **Browse Events**: Discover upcoming college festivals, hackathons, and events
+- **Event Registration**: Register for events with real-time availability tracking
+- **Profile Management**: Create and manage user profiles with event history
+- **Real-time Notifications**: Receive instant updates about event changes and announcements
+- **Event Details**: Access comprehensive event information including schedules, venues, and requirements
+- **Registration Status**: Track registration status and receive confirmation updates
+- **Event Timeline**: View chronological timeline of upcoming and past events
+- **Search & Filter**: Find events by categories, dates, and popularity
 
-### 🏆 **Current Events**
-- **Technex'25**: Live hackathon event
-- **AI & ML Summit**: Upcoming technology conference
-- **Moonhack 2025**: Completed hackathon with prizes
+## Admin Features
 
-## Technical Implementation
+- **Event Creation**: Create and publish new events with detailed information
+- **User Management**: Monitor user registrations and manage participant lists
+- **Notification System**: Send targeted notifications to users and event participants
+- **Analytics Dashboard**: View registration statistics and event performance metrics
+- **Event Moderation**: Edit, update, or cancel events as needed
+- **Bulk Operations**: Manage multiple events and users efficiently
+- **Registration Tracking**: Real-time monitoring of event sign-ups and capacity management
 
-### Event Management System
+## Why we Built This
 
-```typescript
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  category: 'hackathon' | 'conference' | 'workshop' | 'competition';
-  status: 'live' | 'upcoming' | 'completed';
-  registrationOpen: boolean;
-  maxParticipants: number;
-  currentRegistrations: number;
-  startDate: Date;
-  endDate: Date;
-  prizes: string[];
-}
+We built FestX to solve the common problems faced during college event management:
 
-const EventManagement: React.FC = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [filter, setFilter] = useState<string>('all');
+- **Scattered Information**: Event details are often spread across multiple platforms
+- **Manual Registration**: Traditional paper-based or email registration systems are inefficient
+- **Communication Gaps**: Lack of real-time communication between organizers and participants
+- **Registration Tracking**: Difficulty in tracking and managing event capacities
+- **User Experience**: Poor user experience in discovering and registering for events
+- **Admin Overhead**: Manual processes for event creation and participant management
 
-  const registerForEvent = async (eventId: string) => {
-    try {
-      const response = await fetch(`/api/events/${eventId}/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: session?.user?.id })
-      });
-      
-      if (response.ok) {
-        toast.success('Registration successful!');
-        refreshEvents();
-      }
-    } catch (error) {
-      toast.error('Registration failed');
-    }
-  };
+## Tech Stack
 
-  return (
-    <div className="event-management">
-      <EventFilters filter={filter} onFilterChange={setFilter} />
-      <EventGrid events={filteredEvents} onRegister={registerForEvent} />
-    </div>
-  );
-};
-```
+### Frontend
 
-### Real-time Announcements
+- **Next.js**: Full-stack React framework for server-side rendering and API routes
+- **TypeScript**: Type-safe development for better code quality
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
+- **Shadcn UI**: Modern component library for consistent design system
 
-```typescript
-// WebSocket integration for live updates
-const useRealTimeUpdates = () => {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+### Backend
 
-  useEffect(() => {
-    const ws = new WebSocket(process.env.NEXT_PUBLIC_WS_URL!);
-    
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === 'announcement') {
-        setAnnouncements(prev => [data.announcement, ...prev]);
-      }
-    };
+- **MongoDB**: NoSQL database for flexible data storage
+- **Next.js API Routes**: Server-side functionality and REST API endpoints
+- **Vercel**: Deployment platform with global CDN and serverless functions
 
-    setSocket(ws);
-    return () => ws.close();
-  }, []);
 
-  return { announcements, socket };
-};
-```
+## Hackathon Experience
 
-### User Authentication & Roles
+### Team Collaboration
 
-```typescript
-// Auth.js configuration with role-based access
-export const authOptions: NextAuthOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-  ],
-  callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-        role: token.role as 'admin' | 'organizer' | 'participant',
-      },
-    }),
-    jwt: ({ token, user }) => {
-      if (user) {
-        token.role = user.role;
-      }
-      return token;
-    },
-  },
-};
-```
+- Worked effectively in a hackathon team environment
+- Implemented agile development practices under time constraints
+- Coordinated frontend and backend development simultaneously
 
-## Features & Functionality
+### Rapid Development
 
-### **Event Categories**
-- **Cultural**: Art exhibitions, performances
-- **Academic**: Competitions, conferences
-- **Technical**: Hackathons, coding contests
-- **Creative**: Design challenges, workshops
-- **Sports**: Athletic competitions
-- **Management**: Business case studies
+- Built complete platform within hackathon timeframe
+- Prioritized core features for MVP delivery
+- Implemented quick iterations based on user feedback
 
-### **Registration System**
-```typescript
-const EventRegistration: React.FC<{ event: Event }> = ({ event }) => {
-  const [formData, setFormData] = useState({
-    teamName: '',
-    teamSize: 1,
-    contactEmail: '',
-    requirements: ''
-  });
+### Problem-Solving
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const registration = {
-      eventId: event.id,
-      ...formData,
-      registeredAt: new Date()
-    };
+- Solved real-world event management challenges
+- Created user-centric solutions for common pain points
+- Balanced feature completeness with development time constraints
 
-    await registerForEvent(registration);
-  };
+## Impact & Results
 
-  return (
-    <form onSubmit={handleSubmit} className="registration-form">
-      <input
-        type="text"
-        placeholder="Team Name"
-        value={formData.teamName}
-        onChange={(e) => setFormData(prev => ({ ...prev, teamName: e.target.value }))}
-        required
-      />
-      {/* Additional form fields */}
-      <button type="submit" disabled={!event.registrationOpen}>
-        {event.registrationOpen ? 'Register Now' : 'Registration Closed'}
-      </button>
-    </form>
-  );
-};
-```
-
-## Challenges & Solutions
-
-### **Real-time Updates**
-**Challenge**: Keeping all users updated with live event changes
-**Solution**: WebSocket integration for instant notifications
-
-### **Scalable Registration**
-**Challenge**: Handling concurrent registrations
-**Solution**: Database transactions and queue management
-
-### **User Experience**
-**Challenge**: Intuitive interface for diverse user types
-**Solution**: Role-based dashboards and clear navigation
-
-## Results & Impact
-
-### **Hackathon Success**
-- ✅ **Completed in 24 hours**: Functional platform delivered
-- 🏆 **Team Achievement**: Successful hackathon submission
-- 📈 **User Engagement**: Active event registrations
-- 🚀 **Scalable**: Production-ready architecture
-
-### **Technical Achievements**
-- **Real-time Features**: WebSocket implementation
-- **Authentication**: Secure user management
-- **Database Design**: Efficient event storage
-- **Responsive UI**: Mobile-optimized interface
+- **Successful Deployment**: Launched fully functional platform during hackathon
+- **User Adoption**: Demonstrated successful user registration and event creation flows
+- **Admin Efficiency**: Streamlined event management process for organizers
+- **Real-time Functionality**: Achieved seamless real-time updates and notifications
+- **Scalable Architecture**: Built foundation for future feature expansions
 
 ## Future Enhancements
 
-### **Advanced Features**
-- [ ] Payment integration for paid events
-- [ ] Video streaming for virtual events
-- [ ] Advanced analytics dashboard
-- [ ] Mobile app development
+- **Advanced Analytics**: Detailed event performance and user engagement metrics
+- **Integration APIs**: Connect with external calendar and communication tools
+- **Mobile App**: Native mobile application for enhanced user experience
+- **AI Recommendations**: Personalized event suggestions based on user preferences
+- **Payment Integration**: Handle paid events and ticketing systems
+- **Multi-tenant Support**: Support for multiple organizations and institutions
 
-### **User Experience**
-- [ ] Personalized event recommendations
-- [ ] Social features and networking
-- [ ] Calendar integration
-- [ ] Push notifications
+## Key Learnings
 
-**Live Platform**: [fest-x.ramx.in](https://fest-x.ramx.in/)
-**Current Event**: Technex'25 registration open! 
+- **Rapid Prototyping**: Learned to quickly validate ideas and build functional prototypes
+- **Event Management**: Gained insights into event organization workflows and user needs
+- **Team Dynamics**: Improved collaboration skills in high-pressure, time-sensitive environments
+- **Full-stack Development**: Strengthened ability to handle both frontend and backend responsibilities
+- **User-Centric Design**: Focused on solving real user problems rather than just technical implementation

@@ -2,20 +2,32 @@
 title: 'Syncify'
 description: 'A Music streaming web app with Realtime chat functionality with see what others are listening.'
 image: '/project/syncify.png'
-technologies: ['Next.js', 'TypeScript', 'React', 'WebSocket', 'Node.js', 'Spotify API']
-github: 'https://github.com/ramxcodes/syncify'
+technologies:
+  [
+    'React',
+    'Tailwind CSS',
+    'Vercel',
+    'MongoDB',
+    'Shadcn UI',
+    'Zod',
+    'Clerk',
+    'Socket.io',
+    'Node.js',
+    'Cloudinary',
+  ]
+github: 'https://github.com/ramxcodes/syncify-frontend'
 live: 'https://syncify.rocks'
-timeline: '3 months'
-role: 'Full Stack Developer'
-team: 'Solo Project'
+timeline: '1 month'
+role: 'Full Stack'
+team: 'Solo'
 status: 'completed'
 featured: true
 challenges:
   [
-    'Real-time synchronization',
-    'Spotify API integration',
     'WebSocket connection management',
+    'Real-time synchronization',
     'Audio streaming optimization',
+    'Handling multiple users',
   ]
 learnings:
   [
@@ -29,411 +41,103 @@ isPublished: true
 
 # Syncify: Social Music Streaming Experience
 
-Syncify transforms the solitary experience of music listening into a social, shared journey. Built with real-time technology at its core, it allows users to discover what others are listening to and engage in conversations about music in real-time.
-
-## Project Overview
-
-### The Vision
-
-Music has always been a social experience, yet most streaming platforms focus on individual listening. Syncify bridges this gap by creating a platform where music discovery happens through social interaction and real-time sharing.
-
-### Key Features
-
-- **Real-time Music Streaming** with high-quality audio
-- **Live Chat Integration** while listening to music
-- **Social Discovery** - see what friends and community are playing
-- **Collaborative Playlists** with real-time updates
-- **Music Rooms** for shared listening experiences
-- **Cross-platform Synchronization** across devices
-
-## Technical Architecture
-
-### Backend Infrastructure
-
-```typescript
-// WebSocket server setup for real-time features
-import { Server } from 'socket.io';
-import { createServer } from 'http';
-
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  },
-});
-
-// Real-time music synchronization
-io.on('connection', (socket) => {
-  socket.on('join-room', (roomId) => {
-    socket.join(roomId);
-    socket.to(roomId).emit('user-joined', socket.userId);
-  });
-
-  socket.on('music-play', (data) => {
-    socket.to(data.roomId).emit('sync-play', {
-      track: data.track,
-      timestamp: Date.now(),
-      position: data.position,
-    });
-  });
-
-  socket.on('chat-message', (message) => {
-    io.to(message.roomId).emit('new-message', {
-      ...message,
-      timestamp: Date.now(),
-    });
-  });
-});
-```
-
-### Frontend Real-time Features
-
-```typescript
-// React hook for managing WebSocket connections
-import { useEffect, useRef, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
-
-interface UseSyncifySocket {
-  socket: Socket | null;
-  isConnected: boolean;
-  joinRoom: (roomId: string) => void;
-  sendMessage: (message: string, roomId: string) => void;
-  syncMusic: (track: Track, position: number, roomId: string) => void;
-}
-
-const useSyncifySocket = (): UseSyncifySocket => {
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
-
-  useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_SERVER_URL);
-    
-    newSocket.on('connect', () => setIsConnected(true));
-    newSocket.on('disconnect', () => setIsConnected(false));
-    
-    setSocket(newSocket);
-
-    return () => newSocket.close();
-  }, []);
-
-  const joinRoom = (roomId: string) => {
-    socket?.emit('join-room', roomId);
-  };
-
-  const sendMessage = (message: string, roomId: string) => {
-    socket?.emit('chat-message', { message, roomId });
-  };
-
-  const syncMusic = (track: Track, position: number, roomId: string) => {
-    socket?.emit('music-play', { track, position, roomId });
-  };
-
-  return { socket, isConnected, joinRoom, sendMessage, syncMusic };
-};
-```
-
-## Music Integration
-
-### Spotify API Integration
-
-```typescript
-// Spotify Web API integration
-import SpotifyWebApi from 'spotify-web-api-js';
-
-class SpotifyService {
-  private spotify: SpotifyWebApi.SpotifyApi;
-
-  constructor() {
-    this.spotify = new SpotifyWebApi();
-  }
-
-  async getCurrentTrack(): Promise<Track | null> {
-    try {
-      const response = await this.spotify.getMyCurrentPlayingTrack();
-      if (!response.item) return null;
-
-      return {
-        id: response.item.id,
-        name: response.item.name,
-        artist: response.item.artists[0].name,
-        album: response.item.album.name,
-        duration: response.item.duration_ms,
-        position: response.progress_ms,
-        image: response.item.album.images[0]?.url,
-      };
-    } catch (error) {
-      console.error('Failed to get current track:', error);
-      return null;
-    }
-  }
-
-  async searchTracks(query: string): Promise<Track[]> {
-    const response = await this.spotify.searchTracks(query);
-    return response.tracks.items.map(this.mapSpotifyTrack);
-  }
-
-  private mapSpotifyTrack = (spotifyTrack: any): Track => ({
-    id: spotifyTrack.id,
-    name: spotifyTrack.name,
-    artist: spotifyTrack.artists[0].name,
-    album: spotifyTrack.album.name,
-    duration: spotifyTrack.duration_ms,
-    image: spotifyTrack.album.images[0]?.url,
-    preview_url: spotifyTrack.preview_url,
-  });
-}
-```
-
-## Real-time Chat System
-
-### Chat Component Implementation
-
-```typescript
-import React, { useState, useEffect, useRef } from 'react';
-import { Message } from '@/types/chat';
-
-interface ChatProps {
-  roomId: string;
-  currentUser: User;
-  socket: Socket;
-}
-
-const Chat: React.FC<ChatProps> = ({ roomId, currentUser, socket }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessage, setNewMessage] = useState('');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    socket.on('new-message', (message: Message) => {
-      setMessages(prev => [...prev, message]);
-    });
-
-    return () => {
-      socket.off('new-message');
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const sendMessage = () => {
-    if (!newMessage.trim()) return;
-
-    const message: Message = {
-      id: Date.now().toString(),
-      text: newMessage,
-      userId: currentUser.id,
-      username: currentUser.username,
-      timestamp: Date.now(),
-      roomId,
-    };
-
-    socket.emit('chat-message', message);
-    setNewMessage('');
-  };
-
-  return (
-    <div className="chat-container">
-      <div className="messages-list">
-        {messages.map(message => (
-          <div key={message.id} className="message">
-            <span className="username">{message.username}</span>
-            <span className="text">{message.text}</span>
-            <span className="timestamp">
-              {new Date(message.timestamp).toLocaleTimeString()}
-            </span>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-      
-      <div className="message-input">
-        <input
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Type a message..."
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
-    </div>
-  );
-};
-```
-
-## Challenges and Solutions
-
-### Challenge 1: Audio Synchronization
-
-**Problem**: Keeping multiple users synchronized while listening to the same track.
-
-**Solution**: Implemented timestamp-based synchronization with periodic sync checks:
-
-```typescript
-const syncAudio = (masterTimestamp: number, trackPosition: number) => {
-  const currentTime = Date.now();
-  const timeDiff = currentTime - masterTimestamp;
-  const expectedPosition = trackPosition + timeDiff;
-  
-  if (Math.abs(audioElement.currentTime * 1000 - expectedPosition) > 500) {
-    audioElement.currentTime = expectedPosition / 1000;
-  }
-};
-```
-
-### Challenge 2: WebSocket Connection Management
-
-**Problem**: Handling disconnections and reconnections gracefully.
-
-**Solution**: Implemented automatic reconnection with exponential backoff and state recovery.
-
-### Challenge 3: Real-time Performance
-
-**Problem**: Maintaining smooth audio playback while handling real-time chat.
-
-**Solution**: Optimized WebSocket events and implemented efficient state management with minimal re-renders.
-
-## Key Features Deep Dive
-
-### Music Rooms
-
-```typescript
-interface MusicRoom {
-  id: string;
-  name: string;
-  host: User;
-  participants: User[];
-  currentTrack: Track | null;
-  playlist: Track[];
-  isPlaying: boolean;
-  position: number;
-  lastUpdate: number;
-}
-
-const createMusicRoom = async (name: string): Promise<MusicRoom> => {
-  const room: MusicRoom = {
-    id: generateUniqueId(),
-    name,
-    host: currentUser,
-    participants: [currentUser],
-    currentTrack: null,
-    playlist: [],
-    isPlaying: false,
-    position: 0,
-    lastUpdate: Date.now(),
-  };
-
-  await saveRoom(room);
-  return room;
-};
-```
-
-### Social Discovery
-
-```typescript
-const FriendsActivity: React.FC = () => {
-  const [friendsActivity, setFriendsActivity] = useState<Activity[]>([]);
-
-  useEffect(() => {
-    socket.on('friend-activity', (activity: Activity) => {
-      setFriendsActivity(prev => 
-        [activity, ...prev.filter(a => a.userId !== activity.userId)]
-          .slice(0, 10)
-      );
-    });
-  }, [socket]);
-
-  return (
-    <div className="friends-activity">
-      <h3>Friends Activity</h3>
-      {friendsActivity.map(activity => (
-        <div key={activity.id} className="activity-item">
-          <img src={activity.user.avatar} alt={activity.user.name} />
-          <div>
-            <span className="user-name">{activity.user.name}</span>
-            <span className="activity-text">
-              is listening to {activity.track.name} by {activity.track.artist}
-            </span>
-          </div>
-          <button onClick={() => joinListening(activity.roomId)}>
-            Join
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-};
-```
-
-## Results and Impact
-
-### Technical Achievements
-
-- **Real-time synchronization** with < 100ms latency
-- **Scalable WebSocket architecture** supporting 1000+ concurrent users
-- **Cross-platform compatibility** with responsive design
-- **Optimized audio streaming** with adaptive quality
-
-### User Engagement
-
-- Average session duration: **45+ minutes**
-- Real-time chat messages: **500+ per hour**
-- Music discovery rate: **40% higher** than traditional platforms
-- User retention: **75%** after first week
-
-### Community Feedback
-
-> "Syncify brought back the joy of discovering music with friends. It's like having a virtual listening party every day!" - Beta User
-
-> "The real-time chat while listening to music creates such a unique social experience. Love it!" - Community Member
-
-## Future Enhancements
-
-### Planned Features
-
-1. **Voice Chat Integration** for even more immersive experience
-2. **AI Music Recommendations** based on room preferences
-3. **Virtual Concerts** with live streaming capabilities
-4. **Mobile App** for iOS and Android
-5. **Integration with more music platforms** (Apple Music, YouTube Music)
-
-### Technical Roadmap
-
-```typescript
-// Upcoming technical improvements
-const roadmap = {
-  performance: [
-    'WebRTC for peer-to-peer audio streaming',
-    'CDN implementation for global reach',
-    'Advanced caching strategies',
-  ],
-  features: [
-    'Spatial audio for virtual rooms',
-    'Music visualization sync',
-    'Advanced playlist algorithms',
-  ],
-  platform: [
-    'Native mobile applications',
-    'Desktop app with Electron',
-    'Smart TV integration',
-  ],
-};
-```
-
-## Open Source Contribution
-
-Syncify is open source and welcomes contributions from the community. The project aims to democratize social music streaming and create a platform owned by its users.
-
-### Contributing Areas
-
-- Real-time optimization
-- UI/UX improvements
-- Music platform integrations
-- Mobile development
-- Community features
-
----
-
-*Syncify represents the future of social music streaming, where technology brings people together through the universal language of music.* 
+## Overview
+
+Syncify is a social music streaming platform that allows users to listen to music together in real-time. It's built with `MERN` stack.
+
+## Features
+
+- Real-time music streaming
+- Social features
+- Chat functionality
+- Playlist
+- Song recommendations
+- Song search
+- Song playback & controls
+
+## Why i built this
+
+I built this project to solve listen music with friends.
+
+## Technical Stuff
+
+### Frontend
+
+The frontend is built with a modern tech stack focused on performance and developer experience:
+
+- **React + Vite**: For fast development and optimized production builds
+- **TypeScript**: Ensuring type safety and better developer experience
+- **Zustand**: Lightweight state management with minimal boilerplate
+- **Tailwind CSS + Shadcn UI**: For rapid UI development with consistent design
+- **Hot Toast**: For elegant notifications and feedback
+
+### Backend
+
+The backend is engineered for real-time capabilities and scalability:
+
+- **Node.js**: Powers the core server infrastructure
+- **MongoDB**: Handles data persistence with flexible schema
+- **Socket.io**: Manages real-time bidirectional communication
+- **Cloudinary**: For efficient media asset management
+- **Clerk**: Handles authentication and user management
+
+### Real-time Features Implementation
+
+#### WebSocket Integration
+
+- Implemented Socket.io for real-time user status tracking
+- Built a robust connection management system
+- Handled reconnection scenarios gracefully
+
+#### Music Streaming Architecture
+
+- Optimized audio streaming with proper buffering
+- Implemented seek functionality with minimal latency
+- Built a queue management system for continuous playback
+
+#### Real-time Chat System
+
+- Designed a scalable chat architecture
+- Implemented message persistence
+- Added typing indicators and online status
+
+### Admin Dashboard Features
+
+Built a comprehensive admin panel with:
+
+- Analytics dashboard with key metrics
+- Content management system for songs and albums
+- User management interface
+- Performance monitoring tools
+
+## Technical Challenges & Solutions
+
+### Challenge 1: WebSocket Connection Management
+
+- **Problem**: Handling multiple concurrent WebSocket connections efficiently
+- **Solution**: Implemented connection pooling and heartbeat mechanism
+
+### Challenge 2: Audio Streaming Optimization
+
+- **Problem**: Reducing latency in music playback
+- **Solution**: Implemented progressive loading and caching strategies
+
+### Challenge 3: Real-time Synchronization
+
+- **Problem**: Keeping user statuses and activities in sync
+- **Solution**: Built a pub/sub system with Socket.io for efficient updates
+
+## Performance Optimizations
+
+- Implemented lazy loading for better initial load times
+- Used proper caching strategies for static assets
+- Optimized database queries for faster response times
+- Added rate limiting to prevent API abuse
+
+## Future Technical Improvements
+
+- Implement service workers for offline functionality
+- Add WebRTC for peer-to-peer streaming
+- Enhance caching with Redis
+- Implement server-side rendering for better SEO
+- Add end-to-end encryption for chat

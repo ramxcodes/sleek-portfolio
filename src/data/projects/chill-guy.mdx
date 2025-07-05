@@ -3,13 +3,21 @@ title: "I'm a chill guy"
 description: 'AI based Github profile roaster.'
 image: '/project/chillguy.png'
 technologies:
-  ['Next.js', 'TypeScript', 'OpenAI API', 'GitHub API', 'Tailwind CSS']
+  [
+    'React',
+    'Express',
+    'Gemini API',
+    'GitHub API',
+    'Tailwind CSS',
+    'Vercel',
+    'Netlify',
+  ]
 github: 'https://github.com/ramxcodes/chill-guy'
 live: 'https://chillguy.ramx.in'
-timeline: '2 weeks'
-role: 'Full Stack Developer'
-team: 'Solo Project'
-status: 'completed'
+timeline: '2 Days'
+role: 'Full Stack'
+team: 'Solo'
+status: 'Completed'
 featured: false
 challenges:
   [
@@ -20,7 +28,7 @@ challenges:
   ]
 learnings:
   [
-    'OpenAI API integration',
+    'Gemini API integration',
     'GitHub API data processing',
     'AI prompt optimization',
     'Content moderation techniques',
@@ -28,548 +36,100 @@ learnings:
 isPublished: true
 ---
 
-# I'm a chill guy: AI-Powered GitHub Profile Roaster
+# I'm a Chill Guy: AI-Powered GitHub Profile Roaster
 
-A fun, AI-powered web application that analyzes GitHub profiles and delivers witty, personalized roasts based on coding patterns, repository choices, and contribution history. Built with humor and respect in mind.
+## Overview
 
-## Project Overview
+"I'm a chill guy" is a fun AI-powered web application that analyzes GitHub profiles and delivers witty, humorous roasts based on users' coding habits, project choices, contribution patterns, and profile information. Built with React and powered by Google's Gemini AI, this project combines humor with technical analysis to create an entertaining developer experience.
 
-### The Concept
+## How It Works
 
-GitHub profiles tell stories about developers - their coding habits, project preferences, and contribution patterns. "I'm a chill guy" transforms this data into entertaining, light-hearted roasts using AI, creating a fun way for developers to see their coding journey from a humorous perspective.
+- **Simple Input**: Users enter their GitHub username
+- **Profile Analysis**: App fetches comprehensive GitHub data via GitHub API
+- **AI Processing**: Gemini AI analyzes the data and generates personalized roasts
+- **Instant Results**: Users receive humorous commentary about their coding journey
+- **Shareable Content**: Roasts can be easily shared with friends and colleagues
 
-### Key Features
+## What Gets Analyzed
 
-- **AI-Powered Analysis** using OpenAI's GPT models
-- **GitHub Profile Parsing** with comprehensive data extraction
-- **Personalized Roasts** based on actual coding patterns
-- **Shareable Results** with social media integration
-- **Content Filtering** to ensure appropriate humor
-- **Rate Limiting** to prevent abuse
+### **Profile Information**
 
-## Technical Architecture
+- **Bio & Description**: Personal information and self-descriptions
+- **Profile Picture**: Avatar choices and profile aesthetics
+- **Location & Links**: Geographic info and social links
+- **Account Age**: How long they've been on GitHub
 
-### GitHub API Integration
+### **Contribution Patterns**
 
-```typescript
-// GitHub API service for profile data extraction
-import { Octokit } from '@octokit/rest';
+- **Commit Frequency**: Daily, weekly, and monthly contribution patterns
+- **Contribution Graph**: The famous green squares analysis
+- **Streak Analysis**: Longest streaks and gaps in activity
+- **Weekend vs Weekday**: Work-life balance in coding
 
-interface GitHubProfile {
-  user: {
-    login: string;
-    name: string;
-    bio: string;
-    public_repos: number;
-    followers: number;
-    following: number;
-    created_at: string;
-    location: string;
-    company: string;
-  };
-  repositories: Repository[];
-  languages: LanguageStats;
-  contributionStats: ContributionStats;
-}
+### **Repository Analysis**
 
-class GitHubAnalyzer {
-  private octokit: Octokit;
+- **Project Types**: Languages, frameworks, and project categories
+- **Repository Names**: Creative (or not so creative) naming conventions
+- **README Quality**: Documentation standards and project descriptions
+- **Star Counts**: Popularity of projects and social proof
 
-  constructor(token?: string) {
-    this.octokit = new Octokit({ auth: token });
-  }
+### **Coding Habits**
 
-  async analyzeProfile(username: string): Promise<GitHubProfile> {
-    try {
-      // Get user profile
-      const { data: user } = await this.octokit.users.getByUsername({
-        username,
-      });
+- **Language Preferences**: Most used programming languages
+- **Framework Choices**: Technology stack preferences
+- **Project Completion**: Finished vs abandoned projects
+- **Code Quality Indicators**: Repository maintenance and updates
 
-      // Get repositories
-      const { data: repos } = await this.octokit.repos.listForUser({
-        username,
-        sort: 'updated',
-        per_page: 100,
-      });
+## Why I Built This
 
-      // Analyze languages and patterns
-      const languages = await this.analyzeLanguages(repos);
-      const contributionStats = await this.getContributionStats(username);
+I created this project for several reasons:
 
-      return {
-        user,
-        repositories: repos,
-        languages,
-        contributionStats,
-      };
-    } catch (error) {
-      throw new Error(`Failed to analyze GitHub profile: ${error.message}`);
-    }
-  }
+- **Developer Humor**: The tech community loves self-deprecating humor about coding habits
+- **GitHub API Practice**: Wanted to explore comprehensive GitHub data analysis
+- **AI Integration**: Experiment with Google's Gemini AI for creative content generation
+- **Community Fun**: Create something that developers could share and enjoy together
+- **Quick Project**: Build something entertaining in a short timeframe
 
-  private async analyzeLanguages(repos: Repository[]): Promise<LanguageStats> {
-    const languageCount: Record<string, number> = {};
-    const totalRepos = repos.length;
+## Tech Stack
 
-    for (const repo of repos) {
-      if (repo.language) {
-        languageCount[repo.language] = (languageCount[repo.language] || 0) + 1;
-      }
-    }
+### Frontend
 
-    return Object.entries(languageCount)
-      .map(([language, count]) => ({
-        language,
-        count,
-        percentage: (count / totalRepos) * 100,
-      }))
-      .sort((a, b) => b.count - a.count);
-  }
+- **React**: Modern UI library for interactive user interface
+- **Tailwind CSS**: Utility-first CSS for rapid styling and responsive design
+- **Vercel**: Frontend deployment with global CDN and instant deployments
 
-  private async getContributionStats(
-    username: string,
-  ): Promise<ContributionStats> {
-    // Note: GitHub's GraphQL API is used for contribution data
-    const query = `
-      query($username: String!) {
-        user(login: $username) {
-          contributionsCollection {
-            totalCommitContributions
-            totalIssueContributions
-            totalPullRequestContributions
-            totalRepositoryContributions
-          }
-        }
-      }
-    `;
+### Backend
 
-    const response = await this.octokit.graphql(query, { username });
-    return response.user.contributionsCollection;
-  }
-}
-```
+- **Express.js**: Lightweight Node.js server for API endpoints
+- **Netlify**: Backend deployment for serverless function handling
+- **GitHub API**: Comprehensive profile and repository data fetching
+- **Gemini AI API**: Google's AI model for generating roast content
+
+## Technical Implementation
+
+### GitHub Data Collection
+
+- **Profile Fetching**: Basic user information, bio, and account details
+- **Repository Analysis**: Public repositories with languages, stars, and update patterns
+- **Contribution Data**: Commit history and contribution graph information
+- **Rate Limit Handling**: Efficient API usage within GitHub's rate limits
 
 ### AI Roast Generation
 
-```typescript
-// OpenAI integration for generating roasts
-import OpenAI from 'openai';
+- **Prompt Engineering**: Crafted prompts to generate humorous, not offensive content
+- **Context Building**: Structured data formatting for AI consumption
+- **Response Processing**: Content filtering and formatting for display
+- **Safety Measures**: Content moderation to ensure appropriate humor
 
-interface RoastStyle {
-  tone: 'friendly' | 'savage' | 'professional' | 'meme';
-  intensity: 1 | 2 | 3 | 4 | 5;
-  topics: string[];
-}
+### User Experience
 
-class RoastGenerator {
-  private openai: OpenAI;
+- **Simple Interface**: Clean, minimal design focused on the core functionality
+- **Loading States**: Engaging loading animations while processing data
+- **Error Handling**: Graceful handling of invalid usernames or API errors
+- **Responsive Design**: Works seamlessly across desktop and mobile devices
 
-  constructor() {
-    this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-  }
+## Behind the Scenes
 
-  async generateRoast(
-    profile: GitHubProfile,
-    style: RoastStyle = { tone: 'friendly', intensity: 3, topics: ['all'] },
-  ): Promise<string> {
-    const prompt = this.buildPrompt(profile, style);
+This project taught me that sometimes the best projects are the simplest ones that solve a fun problem. The combination of real data analysis with AI creativity resulted in something that developers genuinely enjoyed using and sharing. It also demonstrated the power of combining multiple APIs to create unique user experiences.
 
-    try {
-      const response = await this.openai.chat.completions.create({
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: this.getSystemPrompt(),
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        max_tokens: 300,
-        temperature: 0.8,
-      });
-
-      const roast = response.choices[0].message.content;
-      return this.filterContent(roast);
-    } catch (error) {
-      throw new Error(`Failed to generate roast: ${error.message}`);
-    }
-  }
-
-  private buildPrompt(profile: GitHubProfile, style: RoastStyle): string {
-    const { user, repositories, languages, contributionStats } = profile;
-
-    const topLanguages = languages
-      .slice(0, 3)
-      .map((l) => l.language)
-      .join(', ');
-    const repoCount = repositories.length;
-    const starCount = repositories.reduce(
-      (sum, repo) => sum + repo.stargazers_count,
-      0,
-    );
-
-    return `
-      Roast this GitHub profile with a ${style.tone} tone (intensity ${style.intensity}/5):
-      
-      User: ${user.name || user.login}
-      Bio: ${user.bio || 'No bio provided'}
-      Location: ${user.location || 'Unknown'}
-      Company: ${user.company || 'Unemployed'}
-      
-      Stats:
-      - ${repoCount} repositories
-      - ${starCount} total stars
-      - ${user.followers} followers
-      - ${user.following} following
-      - Account created: ${new Date(user.created_at).getFullYear()}
-      
-      Top languages: ${topLanguages}
-      
-      Notable repositories:
-      ${repositories
-        .slice(0, 5)
-        .map(
-          (repo) =>
-            `- ${repo.name}: ${repo.description || 'No description'} (${repo.stargazers_count} stars)`,
-        )
-        .join('\n')}
-      
-      Contribution stats:
-      - ${contributionStats.totalCommitContributions} commits
-      - ${contributionStats.totalPullRequestContributions} pull requests
-      - ${contributionStats.totalIssueContributions} issues
-      
-      Make it funny but respectful. Focus on coding patterns, repository names, or bio quirks.
-    `;
-  }
-
-  private getSystemPrompt(): string {
-    return `
-      You are a witty developer who creates humorous roasts of GitHub profiles. 
-      Your roasts should be:
-      - Funny and clever, not mean or personal
-      - Based on actual code/repo patterns
-      - Respectful of the person behind the profile
-      - Creative and original
-      - Tech-focused humor
-      
-      Avoid:
-      - Personal attacks or appearance comments
-      - Offensive language or discriminatory content
-      - Excessive negativity
-      - Generic insults
-      
-      Be the chill guy who can joke around while keeping it friendly.
-    `;
-  }
-
-  private filterContent(content: string): string {
-    // Basic content filtering for inappropriate content
-    const bannedWords = ['offensive', 'inappropriate']; // Add actual moderation
-
-    let filtered = content;
-    bannedWords.forEach((word) => {
-      filtered = filtered.replace(new RegExp(word, 'gi'), '***');
-    });
-
-    return filtered;
-  }
-}
-```
-
-### Main Application Component
-
-```typescript
-import React, { useState } from 'react';
-import { GitHubAnalyzer } from '@/lib/github-analyzer';
-import { RoastGenerator } from '@/lib/roast-generator';
-
-const ChillGuyApp: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [roast, setRoast] = useState('');
-  const [error, setError] = useState('');
-
-  const handleRoast = async () => {
-    if (!username.trim()) return;
-
-    setLoading(true);
-    setError('');
-    setRoast('');
-
-    try {
-      const analyzer = new GitHubAnalyzer();
-      const generator = new RoastGenerator();
-
-      // Analyze GitHub profile
-      const profile = await analyzer.analyzeProfile(username);
-
-      // Generate roast
-      const generatedRoast = await generator.generateRoast(profile);
-
-      setRoast(generatedRoast);
-    } catch (err) {
-      setError(err.message || 'Failed to generate roast');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const shareRoast = () => {
-    const text = `I got roasted by the Chill Guy! 😎\n\n"${roast}"\n\nGet yours at chillguy.ramx.in`;
-
-    if (navigator.share) {
-      navigator.share({
-        title: "I'm a chill guy - GitHub Roast",
-        text,
-        url: window.location.href,
-      });
-    } else {
-      navigator.clipboard.writeText(text);
-      alert('Roast copied to clipboard!');
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            I'm a chill guy 😎
-          </h1>
-          <p className="text-lg text-gray-600">
-            Get your GitHub profile roasted by AI. It's all fun and games!
-          </p>
-        </div>
-
-        <div className="max-w-md mx-auto mb-8">
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter GitHub username"
-              className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onKeyPress={(e) => e.key === 'Enter' && handleRoast()}
-            />
-            <button
-              onClick={handleRoast}
-              disabled={loading || !username.trim()}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
-            >
-              {loading ? 'Roasting...' : 'Roast Me'}
-            </button>
-          </div>
-        </div>
-
-        {error && (
-          <div className="max-w-2xl mx-auto mb-8 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-            {error}
-          </div>
-        )}
-
-        {roast && (
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">Your Roast 🔥</h2>
-              <p className="text-gray-700 mb-4 whitespace-pre-wrap">{roast}</p>
-              <button
-                onClick={shareRoast}
-                className="w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-              >
-                Share This Roast 📱
-              </button>
-            </div>
-          </div>
-        )}
-
-        <div className="max-w-2xl mx-auto mt-8 text-center text-sm text-gray-500">
-          <p>
-            All roasts are AI-generated and meant for entertainment.
-            No developers were harmed in the making of these roasts. 😄
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ChillGuyApp;
-```
-
-## Challenges and Solutions
-
-### Challenge 1: GitHub API Rate Limiting
-
-**Problem**: GitHub API has strict rate limits that could affect user experience.
-
-**Solution**: Implemented smart caching and request optimization:
-
-```typescript
-class RateLimitManager {
-  private cache = new Map<string, { data: any; timestamp: number }>();
-  private readonly CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
-
-  async getWithCache<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
-    const cached = this.cache.get(key);
-
-    if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
-      return cached.data;
-    }
-
-    const data = await fetcher();
-    this.cache.set(key, { data, timestamp: Date.now() });
-
-    return data;
-  }
-}
-```
-
-### Challenge 2: AI Content Moderation
-
-**Problem**: Ensuring AI-generated roasts remain appropriate and fun.
-
-**Solution**: Multi-layer content filtering and prompt engineering with clear guidelines.
-
-### Challenge 3: Performance Optimization
-
-**Problem**: API calls and AI generation can be slow.
-
-**Solution**: Implemented loading states, caching, and optimistic UI updates.
-
-## Key Features Deep Dive
-
-### Roast Customization
-
-```typescript
-interface RoastOptions {
-  style: {
-    tone: 'friendly' | 'savage' | 'professional' | 'meme';
-    focus: 'languages' | 'repos' | 'activity' | 'all';
-    length: 'short' | 'medium' | 'long';
-  };
-  filters: {
-    includeBio: boolean;
-    includeActivity: boolean;
-    includeLanguages: boolean;
-  };
-}
-
-const CustomRoastModal: React.FC = ({ onGenerate }) => {
-  const [options, setOptions] = useState<RoastOptions>({
-    style: { tone: 'friendly', focus: 'all', length: 'medium' },
-    filters: { includeBio: true, includeActivity: true, includeLanguages: true },
-  });
-
-  return (
-    <div className="roast-customization">
-      <h3>Customize Your Roast</h3>
-
-      <div className="option-group">
-        <label>Tone:</label>
-        <select
-          value={options.style.tone}
-          onChange={(e) => setOptions({
-            ...options,
-            style: { ...options.style, tone: e.target.value }
-          })}
-        >
-          <option value="friendly">Friendly Banter</option>
-          <option value="savage">Savage Mode</option>
-          <option value="professional">Professional Critique</option>
-          <option value="meme">Meme Lord</option>
-        </select>
-      </div>
-
-      <button onClick={() => onGenerate(options)}>
-        Generate Custom Roast
-      </button>
-    </div>
-  );
-};
-```
-
-## Results and Impact
-
-### User Engagement
-
-- **Daily active users**: 500+ developers
-- **Roasts generated**: 10,000+ since launch
-- **Average session duration**: 3-5 minutes
-- **Return users**: 40% come back for more roasts
-- **Social shares**: 60% of users share their roasts
-
-### Community Reception
-
-> "Finally, a way to make my terrible GitHub profile entertaining! 😂" - @developer123
-
-> "The AI actually picked up on my obsession with TODO apps. Too real!" - @todomaster
-
-> "Best way to procrastinate while still being developer-adjacent." - @procrastinator_dev
-
-### Technical Metrics
-
-- **API response time**: Average 2.3 seconds
-- **Success rate**: 94% of roast generations complete successfully
-- **Error rate**: <6% (mostly due to private profiles or API limits)
-
-## Future Enhancements
-
-### Planned Features
-
-1. **Roast History** - Save and revisit your past roasts
-2. **Comparison Mode** - Roast battles between developers
-3. **Team Roasts** - Analyze entire organization profiles
-4. **Roast Templates** - Pre-made roast styles for different occasions
-5. **Integration APIs** - Allow other apps to use the roasting engine
-
-### Technical Improvements
-
-```typescript
-const futureFeatures = {
-  ai: [
-    'Multi-model ensemble for better roasts',
-    'Sentiment analysis for tone adjustment',
-    'Personalized humor learning',
-  ],
-  social: [
-    'Developer roast leaderboards',
-    'Collaborative roast editing',
-    'Roast reaction system',
-  ],
-  platform: [
-    'GitLab and Bitbucket support',
-    'Mobile app development',
-    'API for third-party integration',
-  ],
-};
-```
-
-## Open Source and Community
-
-The project is open source and encourages community contributions:
-
-### Contributing Guidelines
-
-- **Roast Templates**: Submit new roast styles and tones
-- **Content Moderation**: Improve filtering algorithms
-- **Platform Integration**: Add support for other code platforms
-- **UI/UX**: Enhance the user experience
-- **Performance**: Optimize API calls and caching
-
-### Community Features
-
-- User-submitted roast templates
-- Community moderation of inappropriate content
-- Feature requests and voting system
-- Developer spotlight roasts
-
----
-
-_Remember, it's all in good fun! The goal is to bring some humor to the developer community while celebrating our quirky coding habits and patterns. Stay chill! 😎_
+The "chill guy" was a instagram trend, so i thought why not build a website for it.
