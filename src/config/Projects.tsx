@@ -1,8 +1,23 @@
+import Appwrite from '@/components/technologies/Appwrite';
+import Bun from '@/components/technologies/Bun';
+import ExpressJs from '@/components/technologies/ExpressJs';
+import Github from '@/components/technologies/Github';
+import MDXIcon from '@/components/technologies/MDXIcon';
 import MongoDB from '@/components/technologies/MongoDB';
+import Motion from '@/components/technologies/Motion';
+import Netlify from '@/components/technologies/Netlify';
 import NextJs from '@/components/technologies/NextJs';
 import NodeJs from '@/components/technologies/NodeJs';
+import PostgreSQL from '@/components/technologies/PostgreSQL';
+import Prisma from '@/components/technologies/Prisma';
 import ReactIcon from '@/components/technologies/ReactIcon';
+import Sanity from '@/components/technologies/Sanity';
+import Shadcn from '@/components/technologies/Shadcn';
+import SocketIo from '@/components/technologies/SocketIo';
+import TailwindCss from '@/components/technologies/TailwindCss';
+import ThreeJs from '@/components/technologies/ThreeJs';
 import TypeScript from '@/components/technologies/TypeScript';
+import Vercel from '@/components/technologies/Vercel';
 import { Project } from '@/types/project';
 
 export const projects: Project[] = [
@@ -14,11 +29,14 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/notesbuddy.mp4?tr=orig',
     link: 'https://notesbuddy.in',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
-      <NodeJs key="nodejs" />,
-      <MongoDB key="mongodb" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'React', icon: <ReactIcon key="react" /> },
+      { name: 'Vercel', icon: <Vercel key="vercel" /> },
+      { name: 'MongoDB', icon: <MongoDB key="mongodb" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'shadcn/ui', icon: <Shadcn key="shadcn" /> },
+      { name: 'MDX', icon: <MDXIcon key="mdx" /> },
     ],
     github: 'https://github.com/ramxcodes/notesbuddy',
     live: 'https://notesbuddy.in',
@@ -34,9 +52,10 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/appwrite.mp4',
     link: 'https://mcp.ramx.in/',
     technologies: [
-      <TypeScript key="typescript" />,
-      <NodeJs key="nodejs" />,
-      <NextJs key="nextjs" />,
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'Bun', icon: <Bun key="bun" /> },
+      { name: 'Vercel', icon: <Vercel key="vercel" /> },
+      { name: 'Appwrite', icon: <Appwrite key="appwrite" /> },
     ],
     github: 'https://github.com/ramxcodes/appwrite-mcp-server',
     live: 'https://mcp.ramx.in/',
@@ -52,10 +71,13 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/syncify.mp4',
     link: 'https://syncify.rocks',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
-      <NodeJs key="nodejs" />,
+      { name: 'React', icon: <ReactIcon key="react" /> },
+      { name: 'Node.js', icon: <NodeJs key="nodejs" /> },
+      { name: 'MongoDB', icon: <MongoDB key="mongodb" /> },
+      { name: 'Vercel', icon: <Vercel key="vercel" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'shadcn/ui', icon: <Shadcn key="shadcn" /> },
+      { name: 'Socket.io', icon: <SocketIo key="socketio" /> },
     ],
     github: 'https://github.com/ramxcodes/syncify',
     live: 'https://syncify.rocks',
@@ -71,10 +93,12 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/pasandida.mp4',
     link: 'https://www.pasandidaurat.com/',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
-      <NodeJs key="nodejs" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'Prisma', icon: <Prisma key="prisma" /> },
+      { name: 'PostgreSQL', icon: <PostgreSQL key="postgresql" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'Socket.io', icon: <SocketIo key="socketio" /> },
     ],
     github: 'https://github.com/ramxcodes/pasandida-aurat',
     live: 'https://www.pasandidaurat.com/',
@@ -90,9 +114,12 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/quest.mp4',
     link: 'https://quest.ramx.in/',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'Vercel', icon: <Vercel key="vercel" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'MDX', icon: <MDXIcon key="mdx" /> },
+      { name: 'shadcn/ui', icon: <Shadcn key="shadcn" /> },
     ],
     github: 'https://github.com/ramxcodes/the-quest',
     live: 'https://quest.ramx.in/',
@@ -108,9 +135,12 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/fest-x.mp4',
     link: 'https://fest-x.ramx.in/',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'MongoDB', icon: <MongoDB key="mongodb" /> },
+      { name: 'Vercel', icon: <Vercel key="vercel" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'shadcn/ui', icon: <Shadcn key="shadcn" /> },
     ],
     github: 'https://github.com/ramxcodes/fest-x',
     live: 'https://fest-x.ramx.in/',
@@ -125,10 +155,12 @@ export const projects: Project[] = [
     image: '/project/chillguy.png',
     link: 'https://chillguy.ramx.in',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
-      <NodeJs key="nodejs" />,
+      { name: 'React', icon: <ReactIcon key="react" /> },
+      { name: 'Express.js', icon: <ExpressJs key="expressjs" /> },
+      { name: 'Vercel', icon: <Vercel key="vercel" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'Netlify', icon: <Netlify key="netlify" /> },
+      { name: 'GitHub', icon: <Github key="github" /> },
     ],
     github: 'https://github.com/ramxcodes/chill-guy',
     live: 'https://chillguy.ramx.in',
@@ -144,9 +176,11 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/ramspace.mp4',
     link: 'https://blog.ramx.in/',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'React', icon: <ReactIcon key="react" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'MDX', icon: <MDXIcon key="mdx" /> },
     ],
     github: 'https://github.com/ramxcodes/poems-blog',
     live: 'https://blog.ramx.in/',
@@ -162,9 +196,12 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/intent.mp4',
     link: 'https://intent-js.ramx.in',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'React', icon: <ReactIcon key="react" /> },
+      { name: 'Motion', icon: <Motion key="motion" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'shadcn/ui', icon: <Shadcn key="shadcn" /> },
     ],
     github: 'https://github.com/ramxcodes/intent-js',
     live: 'https://intent-js.ramx.in',
@@ -180,9 +217,13 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/moonstone.mp4',
     link: 'https://moonstone.ramx.in/',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'React', icon: <ReactIcon key="react" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'Motion', icon: <Motion key="motion" /> },
+      { name: 'Three.js', icon: <ThreeJs key="threejs" /> },
+      { name: 'shadcn/ui', icon: <Shadcn key="shadcn" /> },
     ],
     github: 'https://github.com/ramxcodes/moonstone-fest',
     live: 'https://moonstone.ramx.in/',
@@ -198,9 +239,8 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/valorant.mp4',
     link: 'https://valorant.ramx.in',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'React', icon: <ReactIcon key="react" /> },
     ],
     github: 'https://github.com/ramxcodes/valorant-remastered',
     live: 'https://valorant.ramx.in',
@@ -216,9 +256,11 @@ export const projects: Project[] = [
     video: 'https://ik.imagekit.io/hokb3mrdr/that-startup.mp4',
     link: 'https://that-startup.ramx.in/',
     technologies: [
-      <NextJs key="nextjs" />,
-      <TypeScript key="typescript" />,
-      <ReactIcon key="react" />,
+      { name: 'Next.js', icon: <NextJs key="nextjs" /> },
+      { name: 'TypeScript', icon: <TypeScript key="typescript" /> },
+      { name: 'Tailwind CSS', icon: <TailwindCss key="tailwindcss" /> },
+      { name: 'Sanity', icon: <Sanity key="sanity" /> },
+      { name: 'Vercel', icon: <Vercel key="vercel" /> },
     ],
     github: 'https://github.com/ramxcodes/that-startup',
     live: 'https://that-startup.ramx.in/',

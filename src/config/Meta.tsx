@@ -14,8 +14,8 @@ export const siteConfig = {
   name: heroConfig.name,
   title: 'Sleek Portfolio',
   description: 'Sleek Portfolio Template by @Ramxcodes',
-  url: 'https://sleek-portfolio.vercel.app', // Update with your actual domain
-  ogImage: '/assets/logo.png',
+  url: 'https://sleek-portfolio.vercel.app',
+  ogImage: '/meta/opengraph-image.png',
   author: {
     name: about.name,
     twitter: '@ramxcodes',
@@ -35,7 +35,6 @@ export const siteConfig = {
   ],
 };
 
-// Page-specific metadata
 export const pageMetadata: Record<string, PageMeta> = {
   // Home page
   '/': {
@@ -48,7 +47,7 @@ export const pageMetadata: Record<string, PageMeta> = {
       'web development',
       'projects',
     ],
-    ogImage: '/assets/logo.png',
+    ogImage: '/meta/hero.png',
     twitterCard: 'summary_large_image',
   },
 
@@ -74,7 +73,7 @@ export const pageMetadata: Record<string, PageMeta> = {
       'software developer',
       'employment history',
     ],
-    ogImage: '/assets/logo.png',
+    ogImage: '/meta/work.png',
     twitterCard: 'summary_large_image',
   },
 
@@ -90,7 +89,7 @@ export const pageMetadata: Record<string, PageMeta> = {
       'applications',
       'software',
     ],
-    ogImage: '/assets/logo.png',
+    ogImage: '/meta/projects.png',
     twitterCard: 'summary_large_image',
   },
 
@@ -106,7 +105,7 @@ export const pageMetadata: Record<string, PageMeta> = {
       'web development',
       'technical writing',
     ],
-    ogImage: '/assets/logo.png',
+    ogImage: '/meta/blogs.png',
     twitterCard: 'summary_large_image',
   },
 
@@ -122,7 +121,7 @@ export const pageMetadata: Record<string, PageMeta> = {
       'qualifications',
       'download',
     ],
-    ogImage: '/assets/logo.png',
+    ogImage: '/meta/resume.png',
     twitterCard: 'summary',
   },
 
@@ -139,7 +138,7 @@ export const pageMetadata: Record<string, PageMeta> = {
       'productivity',
       'development environment',
     ],
-    ogImage: '/assets/logo.png',
+    ogImage: '/meta/gears.png',
     twitterCard: 'summary_large_image',
   },
 
@@ -156,7 +155,7 @@ export const pageMetadata: Record<string, PageMeta> = {
       'development environment',
       'guide',
     ],
-    ogImage: '/assets/logo.png',
+    ogImage: '/meta/setup.png',
     twitterCard: 'summary_large_image',
   },
 };

@@ -1,9 +1,5 @@
-import {
-  heroConfig,
-  parseTemplate,
-  skillComponents,
-  socialLinks,
-} from '@/config/Hero';
+import { heroConfig, skillComponents, socialLinks } from '@/config/Hero';
+import { parseTemplate } from '@/lib/hero';
 import { Link } from 'next-view-transitions';
 import Image from 'next/image';
 import React from 'react';
@@ -37,12 +33,16 @@ export default function Hero() {
         );
       } else if (part.type === 'bold' && 'text' in part) {
         return (
-          <b key={part.key} className="text-secondary">
+          <b key={part.key} className="whitespace-pre-wrap text-primary">
             {part.text}
           </b>
         );
       } else if (part.type === 'text' && 'text' in part) {
-        return <span key={part.key}>{part.text}</span>;
+        return (
+          <span key={part.key} className="whitespace-pre-wrap">
+            {part.text}
+          </span>
+        );
       }
       return null;
     });
@@ -65,7 +65,7 @@ export default function Hero() {
           Hi, I&apos;m {name} — <span className="text-secondary">{title}</span>
         </h1>
 
-        <div className="mt-4 flex flex-wrap gap-2 text-lg text-neutral-500">
+        <div className="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-2 text-base md:text-lg text-neutral-500 whitespace-pre-wrap">
           {renderDescription()}
         </div>
       </div>

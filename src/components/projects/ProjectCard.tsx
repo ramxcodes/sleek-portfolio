@@ -116,9 +116,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </h4>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((technology, index) => (
-                <div key={index} className="size-6">
-                  {technology}
-                </div>
+                <Tooltip key={index}>
+                  <TooltipTrigger>
+                    <div className="size-6 hover:scale-120 transition-all duration-300 hover:cursor-pointer">
+                      {technology.icon}
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{technology.name}</p>
+                  </TooltipContent>
+                </Tooltip>
               ))}
             </div>
           </div>

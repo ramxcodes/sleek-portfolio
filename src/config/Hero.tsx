@@ -89,7 +89,7 @@ export const heroConfig = {
   // Description Configuration
   description: {
     template:
-      'I use {skills:0} to build interactive web apps using {skills:1}, {skills:2}, {skills:3} and {skills:4}. With a focus on **UI** design. Enthusiastic about **Three.js,** driven by a keen eye for design.',
+      'I build interactive web apps using {skills:0}, {skills:1}, {skills:2}, {skills:3} and {skills:4}. With a focus on <b>UI</b> design. Enthusiastic about <b>Three.js</b>, driven by a keen eye for design.',
   },
 
   // Buttons Configuration
@@ -132,66 +132,3 @@ export const socialLinks = [
     icon: <Mail />,
   },
 ];
-
-// Utility function to parse template string with skills and bold text
-export const parseTemplate = (
-  template: string,
-  skills: typeof heroConfig.skills,
-) => {
-  // First, split by skill references {skills:X}
-  const parts = template.split(/(\{skills:\d+\})/);
-
-  return parts
-    .map((part, index) => {
-      // Check if this part is a skill reference
-      const skillMatch = part.match(/\{skills:(\d+)\}/);
-      if (skillMatch) {
-        const skillIndex = parseInt(skillMatch[1]);
-        const skill = skills[skillIndex];
-        if (skill) {
-          return {
-            type: 'skill',
-            skill: skill,
-            key: index,
-          };
-        }
-      }
-
-      // Parse bold text in this part
-      const boldParts = part.split(/(\*\*.*?\*\*)/);
-      return boldParts.map((boldPart, boldIndex) => {
-        if (boldPart.startsWith('**') && boldPart.endsWith('**')) {
-          return {
-            type: 'bold',
-            text: boldPart.slice(2, -2),
-            key: `${index}-${boldIndex}`,
-          };
-        }
-        return {
-          type: 'text',
-          text: boldPart,
-          key: `${index}-${boldIndex}`,
-        };
-      });
-    })
-    .flat();
-};
-
-// Legacy function - kept for backwards compatibility
-export const parseBoldText = (text: string) => {
-  const parts = text.split(/(\*\*.*?\*\*)/);
-  return parts.map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return {
-        text: part.slice(2, -2),
-        bold: true,
-        key: index,
-      };
-    }
-    return {
-      text: part,
-      bold: false,
-      key: index,
-    };
-  });
-};
