@@ -35,7 +35,7 @@ NODE_ENV="development"
 NEXT_PUBLIC_URL="http://localhost:3000"
 ```
 
-### 🤖 Setting up Telegram Integration
+### Setting up Telegram Integration
 
 1. Create a new bot with [@BotFather](https://t.me/botfather) on Telegram
 2. Copy the bot token provided
@@ -45,7 +45,7 @@ NEXT_PUBLIC_URL="http://localhost:3000"
    - Then send `/id` to [@rosebot](https://t.me/MissRose_bot)
    - Boom! you get your `id`
 
-## 🚀 Getting Started
+## Getting Started
 
 1. Clone the repository:
 
