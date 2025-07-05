@@ -111,7 +111,6 @@ ${data.message.trim()}
     });
 
     if (response.ok) {
-      console.log('Message sent to Telegram successfully');
       return true;
     } else {
       const errorText = await response.text();
