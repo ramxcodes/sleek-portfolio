@@ -4,6 +4,7 @@ import { ProjectNavigation } from '@/components/projects/ProjectNavigation';
 import ArrowLeft from '@/components/svgs/ArrowLeft';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { siteConfig } from '@/config/Meta';
 import {
   getProjectCaseStudyBySlug,
   getProjectCaseStudySlugs,
@@ -45,6 +46,7 @@ export async function generateMetadata({
   const { title, description, image } = caseStudy.frontmatter;
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title: `${title} - Project Case Study`,
     description,
     openGraph: {

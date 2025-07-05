@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sleek Portfolio by ramxcodes
 
-## Getting Started
+A modern, responsive portfolio website built with Next.js 15, TypeScript, Tailwind CSS, and Shadcn UI. Features a blog system, project showcase, work experience timeline, and contact form with Telegram integration.
 
-First, run the development server:
+![Portfolio Preview](/public/meta/hero.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- **Next.js 15** with App Router
+- **Tailwind CSS** for styling
+- **Shadcn UI** components
+- **Dark/Light** mode
+- **Responsive** design
+- **MDX** for blog posts and project details
+- **Contact Form** with Telegram integration
+- **SEO** optimized
+- **TypeScript** for type safety
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js (v18 or higher)
+- Bun (preferred) or npm
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+TELEGRAM_BOT_TOKEN="your-token"
+TELEGRAM_CHAT_ID="your-chat-id"
+GEMINI_API_KEY="your-api-key"
+NODE_ENV="development"
+NEXT_PUBLIC_URL="http://localhost:3000"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🤖 Setting up Telegram Integration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create a new bot with [@BotFather](https://t.me/botfather) on Telegram
+2. Copy the bot token provided
+3. Start a chat with your bot
+4. Get your chat ID by:
+   - Add your `bot` in a group as `admin`
+   - Then send `/id` to [@rosebot](https://t.me/MissRose_bot)
+   - Boom! you get your `id`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+1. Clone the repository:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   git clone https://github.com/ramxcodes/sleek-portfolio.git
+   cd sleek-portfolio
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install dependencies:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   # Using bun (recommended)
+   bun install
 
-## Deploy on Vercel
+   # Using npm
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Run the development server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   # Using bun
+   bun dev
+
+   # Using npm
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Configuration
+
+The project uses configuration files in the `src/config` directory for easy customization:
+
+- `About.tsx` - About section content
+- `Contact.tsx` - Contact form settings
+- `Experience.tsx` - Work experience details
+- `Footer.tsx` - Footer links and content
+- `Gears.tsx` - Setup/gear section
+- `Hero.tsx` - Hero section content
+- `Meta.tsx` - SEO and metadata
+- `Navbar.tsx` - Navigation links
+- `Projects.tsx` - Project showcase settings
+- `Quote.ts` - Random quotes configuration
+- `Resume.ts` - Resume section details
+- `Setup.tsx` - Development setup information
+
+## Adding New Technology Icons
+
+1. Visit [Devicon](https://devicon.dev/) to find the icon you want to add
+2. Create a new component in `src/components/technologies/`
+3. Follow the existing component structure for consistency
+
+Example:
+
+```tsx
+export const NewTechIcon = () => {
+  return <svg>// SVG content from devicon</svg>;
+};
+```
+
+## Adding Content
+
+### Blog Posts
+
+1. Create a new MDX file in `src/data/blog/`
+2. Add metadata and content following existing post structure
+3. Add blog thumbnail in `public/blog/`
+
+### Projects
+
+1. Create a new MDX file in `src/data/projects/`
+2. Add metadata and content following existing project structure
+3. Add project thumbnail in `public/project/`
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

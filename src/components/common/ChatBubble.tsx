@@ -194,6 +194,7 @@ const ChatBubble: React.FC = () => {
 
   return (
     <ExpandableChat
+      className="hover:cursor-pointer"
       position="bottom-right"
       size="lg"
       icon={<ChatBubbleIcon className="h-6 w-6" />}

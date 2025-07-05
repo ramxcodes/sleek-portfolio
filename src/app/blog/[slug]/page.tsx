@@ -4,6 +4,7 @@ import Container from '@/components/common/Container';
 import ArrowLeft from '@/components/svgs/ArrowLeft';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { siteConfig } from '@/config/Meta';
 import {
   getBlogPostBySlug,
   getBlogPostSlugs,
@@ -45,6 +46,7 @@ export async function generateMetadata({
   const { title, description, image } = post.frontmatter;
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title,
     description,
     openGraph: {

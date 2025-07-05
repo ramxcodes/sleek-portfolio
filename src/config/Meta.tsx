@@ -14,7 +14,7 @@ export const siteConfig = {
   name: heroConfig.name,
   title: 'Sleek Portfolio',
   description: 'Sleek Portfolio Template by @Ramxcodes',
-  url: 'https://sleek-portfolio.vercel.app',
+  url: process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
   ogImage: '/meta/opengraph-image.png',
   author: {
     name: about.name,
@@ -170,6 +170,7 @@ export function generateMetadata(pathname: string) {
   const pageMeta = getPageMetadata(pathname);
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title: pageMeta.title,
     description: pageMeta.description,
     keywords: pageMeta.keywords?.join(', '),
