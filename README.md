@@ -4,6 +4,12 @@ A modern, responsive portfolio website built with Next.js 15, TypeScript, Tailwi
 
 ![Portfolio Preview](/public/meta/hero.png)
 
+## Deploy 
+
+Click here to your portfolio template now:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Framxcodes%2Fsleek-portfolio&env=TELEGRAM_BOT_TOKEN,TELEGRAM_CHAT_ID,GEMINI_API_KEY,NEXT_PUBLIC_URL)
+
 ## Features
 
 - **Next.js 15** with App Router
