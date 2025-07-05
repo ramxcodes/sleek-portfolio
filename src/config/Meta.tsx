@@ -80,7 +80,7 @@ export const pageMetadata: Record<string, PageMeta> = {
 
   // Projects page
   '/projects': {
-    title: 'Projects - My Work Portfolio',
+    title: 'Projects - My Work & Projects Portfolio',
     description:
       'Discover my projects and work across different technologies and domains. From web apps to mobile solutions.',
     keywords: [

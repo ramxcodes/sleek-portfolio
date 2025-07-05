@@ -1,0 +1,394 @@
+---
+title: 'Pasandida Aurat - Anonymous Dating Platform'
+description: 'A unique dating platform featuring anonymous questions and authentic connections, currently in development with innovative matching algorithms'
+image: '/project/pasandida.png'
+video: '/project/pasandida-aurat.mp4'
+technologies:
+  [
+    'Next.js',
+    'TypeScript',
+    'Tailwind CSS',
+    'Prisma',
+    'PostgreSQL',
+    'WebRTC',
+    'Socket.io',
+  ]
+github: 'https://github.com/ramxcodes/pasandida-aurat'
+live: 'https://www.pasandidaurat.com/'
+timeline: '2024 - Present'
+role: 'Full Stack Developer & Product Designer'
+team: 'Solo Project'
+status: 'In Development'
+featured: true
+challenges: ['Privacy & Safety', 'Anonymous System', 'Real-time Features']
+learnings: ['Dating Psychology', 'Privacy Design', 'Real-time Communication']
+isPublished: true
+---
+
+## Overview
+
+**Pasandida Aurat** is an innovative dating platform that prioritizes authentic connections through anonymous questioning systems and "not going to lie" honesty features. Currently in development, the platform aims to revolutionize online dating by removing superficial barriers and encouraging genuine conversations.
+
+## Key Features (In Development)
+
+### 💕 **Authentic Connection System**
+
+- **Anonymous Questions**: Ice-breaker questions without revealing identity
+- **"Not Going to Lie" Feature**: Encouraging radical honesty
+- **Gradual Reveal**: Progressive disclosure of personal information
+- **Compatibility Matching**: Algorithm-based personality matching
+
+### 🔒 **Privacy-First Design**
+
+- **Anonymous Interaction**: Initial conversations without photos
+- **Secure Communication**: End-to-end encrypted messaging
+- **Consent-Based Reveal**: User-controlled identity disclosure
+- **Safety Reporting**: Comprehensive user protection system
+
+## Technical Architecture (Planned)
+
+### Anonymous Matching System
+
+```typescript
+interface User {
+  id: string;
+  anonymousId: string; // For initial interactions
+  profile: {
+    age: number;
+    interests: string[];
+    lookingFor: 'friendship' | 'dating' | 'serious' | 'casual';
+    location: {
+      city: string;
+      radius: number; // km for matching
+    };
+  };
+  preferences: {
+    ageRange: { min: number; max: number };
+    interests: string[];
+    dealBreakers: string[];
+  };
+  privacy: {
+    showPhotos: 'never' | 'after_match' | 'after_reveal';
+    showRealName: 'never' | 'after_trust' | 'after_meet';
+    allowAnonymousQuestions: boolean;
+  };
+}
+
+const MatchingAlgorithm: React.FC = () => {
+  const findMatches = async (userId: string) => {
+    const user = await getUserProfile(userId);
+
+    const potentialMatches = await database.user.findMany({
+      where: {
+        AND: [
+          { id: { not: userId } },
+          {
+            profile: {
+              age: {
+                gte: user.preferences.ageRange.min,
+                lte: user.preferences.ageRange.max
+              }
+            }
+          },
+          {
+            profile: {
+              interests: {
+                hasSome: user.profile.interests
+              }
+            }
+          }
+        ]
+      }
+    });
+
+    return potentialMatches.map(match => ({
+      ...match,
+      compatibilityScore: calculateCompatibility(user, match)
+    }));
+  };
+
+  return <MatchingInterface onFindMatches={findMatches} />;
+};
+```
+
+### Anonymous Question System
+
+```typescript
+interface AnonymousQuestion {
+  id: string;
+  senderId: string; // Anonymous ID
+  receiverId: string; // Anonymous ID
+  question: string;
+  category: 'icebreaker' | 'personal' | 'dealbreaker' | 'fun';
+  timestamp: Date;
+  answered: boolean;
+  revealed: boolean; // If sender identity is revealed
+}
+
+const AnonymousQuestions: React.FC = () => {
+  const [questions, setQuestions] = useState<AnonymousQuestion[]>([]);
+  const [newQuestion, setNewQuestion] = useState('');
+
+  const sendAnonymousQuestion = async (receiverAnonymousId: string, question: string) => {
+    const questionData = {
+      receiverId: receiverAnonymousId,
+      question,
+      category: determineCategory(question),
+      senderId: session?.user?.anonymousId
+    };
+
+    try {
+      const response = await fetch('/api/questions/anonymous', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(questionData)
+      });
+
+      if (response.ok) {
+        toast.success('Anonymous question sent!');
+        setNewQuestion('');
+      }
+    } catch (error) {
+      toast.error('Failed to send question');
+    }
+  };
+
+  return (
+    <div className="anonymous-questions">
+      <QuestionList questions={questions} />
+      <QuestionComposer
+        value={newQuestion}
+        onChange={setNewQuestion}
+        onSend={sendAnonymousQuestion}
+      />
+    </div>
+  );
+};
+```
+
+### "Not Going to Lie" Feature
+
+```typescript
+const HonestySystem: React.FC = () => {
+  const [honestyLevel, setHonestyLevel] = useState<'surface' | 'deeper' | 'radical'>('surface');
+  const [question, setQuestion] = useState('');
+
+  const honestQuestions = {
+    surface: [
+      "What's your biggest pet peeve?",
+      "What's something you're not good at?",
+      "What's your most unpopular opinion?"
+    ],
+    deeper: [
+      "What's your biggest insecurity?",
+      "What's something you've never told anyone?",
+      "What's your worst habit?"
+    ],
+    radical: [
+      "What's your deal-breaker in relationships?",
+      "What's something you're ashamed of?",
+      "What would make you end a relationship immediately?"
+    ]
+  };
+
+  const generateHonestQuestion = () => {
+    const questions = honestQuestions[honestyLevel];
+    const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+    setQuestion(randomQuestion);
+  };
+
+  return (
+    <div className="honesty-system">
+      <div className="honesty-level-selector mb-6">
+        <h3 className="text-lg font-semibold mb-4">Choose your honesty level:</h3>
+        <div className="flex space-x-4">
+          {(['surface', 'deeper', 'radical'] as const).map(level => (
+            <button
+              key={level}
+              onClick={() => setHonestyLevel(level)}
+              className={`px-4 py-2 rounded-lg capitalize ${
+                honestyLevel === level
+                  ? 'bg-pink-500 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {level}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <button
+        onClick={generateHonestQuestion}
+        className="mb-4 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+      >
+        Generate Honest Question
+      </button>
+
+      {question && (
+        <div className="honest-question bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+          <p className="text-lg font-medium">{question}</p>
+          <p className="text-sm text-gray-600 mt-2">Remember: Not going to lie! 🤞</p>
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+## Safety & Privacy Features
+
+### **Comprehensive Safety System**
+
+```typescript
+const SafetyFeatures = {
+  reporting: {
+    categories: [
+      'harassment',
+      'fake_profile',
+      'inappropriate_content',
+      'scam',
+      'other',
+    ],
+    autoModeration: true,
+    humanReview: true,
+  },
+
+  verification: {
+    email: true,
+    phone: true,
+    photo: 'optional',
+    identity: 'optional_premium',
+  },
+
+  privacy: {
+    dataEncryption: 'end_to_end',
+    locationPrecision: 'approximate',
+    photoAccess: 'consent_based',
+    messageRetention: '30_days_after_unmatch',
+  },
+
+  blocking: {
+    immediate: true,
+    preventRecontact: true,
+    reportToModerators: true,
+  },
+};
+```
+
+### **Gradual Trust Building**
+
+```typescript
+interface TrustLevel {
+  level: 'anonymous' | 'verified' | 'trusted' | 'intimate';
+  permissions: {
+    seePhotos: boolean;
+    knowRealName: boolean;
+    shareLocation: boolean;
+    videoCall: boolean;
+  };
+  requirements: string[];
+}
+
+const TrustSystem: React.FC = () => {
+  const [trustLevel, setTrustLevel] = useState<TrustLevel>({
+    level: 'anonymous',
+    permissions: {
+      seePhotos: false,
+      knowRealName: false,
+      shareLocation: false,
+      videoCall: false
+    },
+    requirements: []
+  });
+
+  const buildTrust = async (action: 'answer_question' | 'reveal_photo' | 'video_verify' | 'meet_irl') => {
+    // Trust building logic
+    const newLevel = calculateNewTrustLevel(trustLevel, action);
+    setTrustLevel(newLevel);
+  };
+
+  return (
+    <div className="trust-building">
+      <TrustMeter level={trustLevel.level} />
+      <PermissionsList permissions={trustLevel.permissions} />
+      <TrustActions onAction={buildTrust} />
+    </div>
+  );
+};
+```
+
+## Development Progress
+
+### **Current Status**
+
+- 🔨 **In Development**: Core features being implemented
+- 🎨 **Design Phase**: UI/UX design iterations
+- 🔒 **Security Focus**: Privacy-first architecture planning
+- 📱 **Mobile-First**: Responsive design approach
+
+### **Completed Features**
+
+- ✅ **Landing Page**: Initial website structure
+- ✅ **User Authentication**: Basic auth system
+- ✅ **Database Schema**: User and matching models
+- ✅ **Anonymous ID System**: Identity protection layer
+
+### **In Progress**
+
+- 🔄 **Matching Algorithm**: Compatibility calculation
+- 🔄 **Question System**: Anonymous question features
+- 🔄 **Real-time Chat**: Secure messaging system
+- 🔄 **Trust Building**: Progressive disclosure mechanics
+
+## Challenges & Solutions
+
+### **Privacy vs. Connection**
+
+**Challenge**: Balancing anonymity with meaningful connections
+**Solution**: Gradual trust-building system with user-controlled reveals
+
+### **Safety Concerns**
+
+**Challenge**: Ensuring user safety in anonymous environment
+**Solution**: Multi-layered moderation and reporting systems
+
+### **Authentic Interactions**
+
+**Challenge**: Preventing superficial interactions
+**Solution**: "Not going to lie" features and deep questioning
+
+## Future Features
+
+### **Advanced Matching**
+
+- [ ] AI-powered compatibility analysis
+- [ ] Voice-based matching options
+- [ ] Interest-based group activities
+- [ ] Relationship coaching integration
+
+### **Community Features**
+
+- [ ] Anonymous relationship advice forums
+- [ ] Success story sharing (anonymized)
+- [ ] Dating tips and educational content
+- [ ] Relationship milestone tracking
+
+### **Technology Integration**
+
+- [ ] AR filters for identity reveal moments
+- [ ] Voice message encryption
+- [ ] Advanced photo verification
+- [ ] Behavioral pattern analysis
+
+## Impact Goals
+
+### **Relationship Quality**
+
+- **Deeper Connections**: Moving beyond surface-level attraction
+- **Authentic Communication**: Encouraging honest conversations
+- **Reduced Ghosting**: Building investment through trust
+- **Long-term Success**: Focus on compatibility over appearance
+
+**Development Site**: [pasandidaurat.com](https://www.pasandidaurat.com/)
+**Status**: Coming Soon - Building the future of authentic dating

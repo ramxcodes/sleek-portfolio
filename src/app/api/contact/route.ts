@@ -69,9 +69,15 @@ async function sendToTelegram(data: {
   message: string;
 }): Promise<boolean> {
   const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
+  const telegramChatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!telegramToken) {
     console.error('TELEGRAM_BOT_TOKEN not configured');
+    return false;
+  }
+
+  if (!telegramChatId) {
+    console.error('TELEGRAM_CHAT_ID not configured');
     return false;
   }
 
@@ -98,7 +104,7 @@ ${data.message.trim()}
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        chat_id: telegramToken.split(':')[0],
+        chat_id: telegramChatId,
         text: message,
         parse_mode: 'Markdown',
       }),

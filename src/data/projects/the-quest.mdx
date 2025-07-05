@@ -1,0 +1,436 @@
+---
+title: 'The Quest - Personal Challenge Tracker'
+description: 'A mission-driven personal tracking system for completing 500 DSA problems, earning ₹300,000, and improving fitness within 6 months'
+image: '/project/quest.png'
+video: '/project/the-quest.mp4'
+technologies:
+  ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'LocalStorage']
+github: 'https://github.com/ramxcodes/the-quest'
+live: 'https://quest.ramx.in/'
+timeline: '2024 - Present'
+role: 'Full Stack Developer & Goal Setter'
+team: 'Solo Project'
+status: 'Active'
+featured: true
+challenges:
+  ['Real-time Tracking', 'Motivation Design', 'Progress Visualization']
+learnings: ['Goal Setting', 'Progress Tracking', 'Self-Discipline']
+isPublished: true
+---
+
+## Overview
+
+**The Quest** is a personal challenge tracking system designed to monitor and motivate the completion of three ambitious goals within 6 months: solving 500 DSA problems, earning ₹300,000, and maintaining fitness consistency. The platform features real-time countdown, progress visualization, and motivational design to maintain momentum throughout the journey.
+
+## Mission Statement
+
+> **MISSION** - Complete 500 DSA Problems, Earn ₹300,000 & Get in better shape within 6 months.
+
+## Key Features
+
+### 🎯 **Triple Goal Tracking**
+
+- **DSA Progress**: 0/500 coding problems solved
+- **Financial Goal**: ₹0/₹300,000 earnings target
+- **Fitness Journey**: 5/177 days completed
+- **Time Countdown**: Real-time 6-month deadline tracking
+
+### ⏰ **Real-Time Countdown**
+
+- **Dynamic Timer**: Days, hours, minutes, seconds display
+- **Urgency Design**: Visual countdown to deadline
+- **Motivation**: Constant reminder of time remaining
+- **Precision**: Millisecond-accurate tracking
+
+## Technical Implementation
+
+### Countdown System
+
+```typescript
+interface QuestTimer {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  milliseconds: number;
+}
+
+const QuestCountdown: React.FC = () => {
+  const [timeLeft, setTimeLeft] = useState<QuestTimer>({
+    days: 0, hours: 0, minutes: 0, seconds: 0, milliseconds: 0
+  });
+
+  useEffect(() => {
+    const targetDate = new Date('2025-06-30T23:59:59'); // 6 months from start
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+          milliseconds: difference % 1000
+        });
+      }
+    }, 10); // Update every 10ms for smooth animation
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="countdown-display text-6xl font-bold text-center">
+      {timeLeft.days} days, {timeLeft.hours} hours, {timeLeft.minutes} minutes, {timeLeft.seconds} seconds, {timeLeft.milliseconds} ms
+    </div>
+  );
+};
+```
+
+### Progress Tracking System
+
+```typescript
+interface QuestProgress {
+  dsa: {
+    current: number;
+    target: number;
+    percentage: number;
+  };
+  money: {
+    current: number;
+    target: number;
+    percentage: number;
+  };
+  fitness: {
+    current: number;
+    target: number;
+    percentage: number;
+  };
+}
+
+const ProgressTracker: React.FC = () => {
+  const [progress, setProgress] = useState<QuestProgress>({
+    dsa: { current: 0, target: 500, percentage: 0 },
+    money: { current: 0, target: 300000, percentage: 0 },
+    fitness: { current: 5, target: 177, percentage: 2.8 }
+  });
+
+  const updateProgress = (category: keyof QuestProgress, value: number) => {
+    setProgress(prev => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        current: value,
+        percentage: (value / prev[category].target) * 100
+      }
+    }));
+
+    // Save to localStorage for persistence
+    localStorage.setItem('quest-progress', JSON.stringify(progress));
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {Object.entries(progress).map(([key, data]) => (
+        <ProgressCard
+          key={key}
+          title={key.toUpperCase()}
+          current={data.current}
+          target={data.target}
+          percentage={data.percentage}
+          onUpdate={(value) => updateProgress(key as keyof QuestProgress, value)}
+        />
+      ))}
+    </div>
+  );
+};
+```
+
+### Progress Card Component
+
+```typescript
+interface ProgressCardProps {
+  title: string;
+  current: number;
+  target: number;
+  percentage: number;
+  onUpdate: (value: number) => void;
+}
+
+const ProgressCard: React.FC<ProgressCardProps> = ({
+  title, current, target, percentage, onUpdate
+}) => {
+  return (
+    <motion.div
+      className="bg-gradient-to-br from-purple-600 to-blue-600 p-6 rounded-xl text-white"
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 300 }}
+    >
+      <h3 className="text-2xl font-bold mb-4">{title}</h3>
+
+      {/* Progress Bar */}
+      <div className="w-full bg-white/20 rounded-full h-4 mb-4">
+        <motion.div
+          className="bg-white rounded-full h-4"
+          initial={{ width: 0 }}
+          animate={{ width: `${percentage}%` }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        />
+      </div>
+
+      {/* Statistics */}
+      <div className="text-center">
+        <p className="text-3xl font-bold">
+          {title === 'MONEY' ? `₹${current.toLocaleString()}` : current}
+        </p>
+        <p className="text-lg opacity-80">
+          {title === 'MONEY' ? `₹${target.toLocaleString()}` : target} {getUnit(title)}
+        </p>
+        <p className="text-sm opacity-60">{percentage.toFixed(1)}% Complete</p>
+      </div>
+
+      {/* Update Button */}
+      <motion.button
+        className="w-full mt-4 bg-white/20 hover:bg-white/30 rounded-lg p-2"
+        whileTap={{ scale: 0.95 }}
+        onClick={() => {
+          const newValue = prompt(`Update ${title} progress:`);
+          if (newValue && !isNaN(Number(newValue))) {
+            onUpdate(Number(newValue));
+          }
+        }}
+      >
+        Update Progress
+      </motion.button>
+    </motion.div>
+  );
+};
+```
+
+## Goal Categories
+
+### **DSA in JavaScript**
+
+```typescript
+const dsaGoals = {
+  target: 500,
+  current: 0,
+  categories: {
+    arrays: { solved: 0, total: 75 },
+    strings: { solved: 0, total: 50 },
+    linkedLists: { solved: 0, total: 40 },
+    trees: { solved: 0, total: 60 },
+    graphs: { solved: 0, total: 45 },
+    dynamicProgramming: { solved: 0, total: 80 },
+    sorting: { solved: 0, total: 30 },
+    searching: { solved: 0, total: 25 },
+    greedy: { solved: 0, total: 35 },
+    backtracking: { solved: 0, total: 30 },
+    others: { solved: 0, total: 30 },
+  },
+  platforms: ['LeetCode', 'HackerRank', 'CodeChef', 'GeeksforGeeks'],
+  difficulty: {
+    easy: { solved: 0, target: 200 },
+    medium: { solved: 0, target: 250 },
+    hard: { solved: 0, target: 50 },
+  },
+};
+```
+
+### **Financial Milestones**
+
+```typescript
+const moneyGoals = {
+  target: 300000,
+  current: 0,
+  sources: {
+    freelancing: { earned: 0, target: 150000 },
+    projects: { earned: 0, target: 100000 },
+    consulting: { earned: 0, target: 50000 },
+  },
+  milestones: [
+    { amount: 50000, achieved: false, date: null },
+    { amount: 100000, achieved: false, date: null },
+    { amount: 200000, achieved: false, date: null },
+    { amount: 300000, achieved: false, date: null },
+  ],
+};
+```
+
+### **Fitness Journey**
+
+```typescript
+const fitnessGoals = {
+  totalDays: 177,
+  completedDays: 5,
+  activities: {
+    gym: { days: 3, target: 90 },
+    running: { days: 1, target: 45 },
+    yoga: { days: 1, target: 30 },
+    sports: { days: 0, target: 12 },
+  },
+  metrics: {
+    weight: { current: null, target: null },
+    strength: { current: null, target: null },
+    endurance: { current: null, target: null },
+  },
+};
+```
+
+## Motivational Design
+
+### **Visual Elements**
+
+- **Fire Emoji**: Representing burning passion and determination
+- **Gradient Backgrounds**: Energy and progress visualization
+- **Real-time Updates**: Immediate feedback and motivation
+- **Achievement Badges**: Milestone celebration system
+
+### **Psychological Features**
+
+```typescript
+const motivationalSystem = {
+  dailyQuotes: [
+    'Every expert was once a beginner.',
+    'The code you write today shapes tomorrow.',
+    'Progress, not perfection.',
+    'Consistency beats intensity.',
+  ],
+
+  streakTracking: {
+    dsa: { current: 0, longest: 0 },
+    fitness: { current: 5, longest: 5 },
+    coding: { current: 0, longest: 0 },
+  },
+
+  milestoneRewards: {
+    dsa100: 'First 100 problems badge',
+    money50k: '₹50,000 earnings milestone',
+    fitness30: '30-day fitness streak',
+  },
+};
+```
+
+## Progress Persistence
+
+### **Local Storage Management**
+
+```typescript
+class QuestStorage {
+  private static KEY = 'quest-progress';
+
+  static save(progress: QuestProgress): void {
+    localStorage.setItem(
+      this.KEY,
+      JSON.stringify({
+        ...progress,
+        lastUpdated: new Date().toISOString(),
+      }),
+    );
+  }
+
+  static load(): QuestProgress | null {
+    const stored = localStorage.getItem(this.KEY);
+    if (!stored) return null;
+
+    try {
+      return JSON.parse(stored);
+    } catch {
+      return null;
+    }
+  }
+
+  static clear(): void {
+    localStorage.removeItem(this.KEY);
+  }
+}
+```
+
+### **Backup & Sync**
+
+```typescript
+// Future implementation for cloud sync
+const cloudSync = {
+  backup: async (data: QuestProgress) => {
+    // Implementation for backing up to cloud storage
+  },
+
+  restore: async () => {
+    // Implementation for restoring from cloud
+  },
+
+  sync: async () => {
+    // Bi-directional sync between local and cloud
+  },
+};
+```
+
+## Challenges & Solutions
+
+### **Motivation Maintenance**
+
+**Challenge**: Sustaining motivation over 6 months
+**Solution**: Real-time countdown, visual progress, and milestone celebration
+
+### **Progress Tracking**
+
+**Challenge**: Accurate and honest progress reporting
+**Solution**: Simple update interface with persistence
+
+### **Time Pressure**
+
+**Challenge**: Balancing three demanding goals
+**Solution**: Clear visualization of time remaining and priorities
+
+## Results & Current Status
+
+### **Timeline Progress**
+
+- 🕒 **Time Elapsed**: Started recently
+- ⏰ **Time Remaining**: 169 days, 6 hours, 17 minutes
+- 📊 **Overall Progress**: Early stages with fitness leading
+
+### **Individual Goals**
+
+- **DSA**: 0/500 problems (0% complete)
+- **Money**: ₹0/₹300,000 (0% complete)
+- **Fitness**: 5/177 days (2.8% complete)
+
+### **Learning Insights**
+
+- ✅ **Consistency**: Daily fitness habit established
+- 📝 **Planning**: Need structured DSA study plan
+- 💰 **Income**: Multiple revenue streams to explore
+- ⏱️ **Time Management**: Critical for success
+
+## Future Enhancements
+
+### **Analytics Dashboard**
+
+- [ ] Daily/weekly/monthly progress charts
+- [ ] Streak tracking and visualization
+- [ ] Goal velocity and prediction algorithms
+- [ ] Comparative progress analysis
+
+### **Social Features**
+
+- [ ] Share progress updates on social media
+- [ ] Connect with accountability partners
+- [ ] Public progress dashboard option
+- [ ] Community challenges and leaderboards
+
+### **Advanced Tracking**
+
+- [ ] Integration with coding platforms (LeetCode API)
+- [ ] Financial tracking with bank integration
+- [ ] Fitness app synchronization
+- [ ] Automated progress updates
+
+## Personal Commitment
+
+**The Quest** represents a commitment to structured self-improvement and measurable growth. It embodies the philosophy that ambitious goals require systematic tracking, consistent effort, and unwavering determination. The 6-month timeframe creates urgency while the visual progress tracking maintains motivation.
+
+**Track Progress**: [quest.ramx.in](https://quest.ramx.in/)
+**Follow Journey**: [@Ramxcodes](https://twitter.com/ramxcodes) for updates

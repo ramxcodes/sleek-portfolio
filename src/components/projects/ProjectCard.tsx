@@ -142,7 +142,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             ) : (
               <>
                 <div className="size-2 rounded-full bg-red-500 animate-pulse" />
-                Not Functional
+                Building
               </>
             )}
           </div>

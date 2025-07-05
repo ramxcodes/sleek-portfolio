@@ -1,0 +1,311 @@
+---
+title: 'Moonstone 2K25 - College Festival Website'
+description: "Official website for Moonstone 2K25, Medicaps University's premier annual college festival with event management and registration"
+image: '/project/moonstone.png'
+video: '/project/moonstone-fest.mp4'
+technologies:
+  ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'React']
+github: 'https://github.com/ramxcodes/moonstone-fest'
+live: 'https://moonstone.ramx.in/'
+timeline: '2024 - 2025'
+role: 'Frontend Developer'
+team: 'Solo Project'
+status: 'Active'
+featured: true
+challenges: ['Event Showcase', 'Registration Flow', 'Visual Design']
+learnings: ['Festival Planning', 'Event Management', 'UI/UX Design']
+isPublished: true
+---
+
+## Overview
+
+**Moonstone 2K25** is the official website for Medicaps University's premier annual college festival. The platform showcases the three-day celebration of talent, creativity, and community spirit with comprehensive event listings, registration systems, and interactive features.
+
+## Key Features
+
+### 🎉 **Festival Highlights**
+
+- **3-Day Celebration**: Multi-day event coordination
+- **Diverse Events**: Cultural, academic, technical, and sports
+- **Interactive Gallery**: Memories from previous years
+- **Real-time Countdown**: Event anticipation building
+
+### 🎯 **Event Categories**
+
+- **Cultural**: Art exhibitions, performances
+- **Academic**: Competitions, seminars
+- **Technical**: Hackathons, coding contests
+- **Creative**: Design challenges, workshops
+- **Robotics**: BOTZILLA robo wars
+- **Management**: Business competitions
+- **Gaming**: Esports tournaments
+- **Sports**: Athletic competitions
+
+## Technical Implementation
+
+### Festival Website Architecture
+
+```typescript
+interface FestivalEvent {
+  id: string;
+  title: string;
+  category: 'cultural' | 'academic' | 'creative' | 'robotics' | 'management' | 'technical' | 'gaming' | 'sports';
+  organizer: string;
+  status: 'open' | 'closed' | 'upcoming';
+  description: string;
+  registrationLink: string;
+  image: string;
+}
+
+const FestivalPage: React.FC = () => {
+  const [events, setEvents] = useState<FestivalEvent[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [countdown, setCountdown] = useState<TimeLeft>({});
+
+  useEffect(() => {
+    // Countdown to festival start
+    const interval = setInterval(() => {
+      const festivalDate = new Date('2025-03-15');
+      const now = new Date();
+      const difference = festivalDate.getTime() - now.getTime();
+
+      setCountdown({
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((difference % (1000 * 60)) / 1000)
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="festival-website">
+      <HeroSection countdown={countdown} />
+      <AboutSection />
+      <EventsSection events={events} category={selectedCategory} />
+      <MemoriesGallery />
+      <SponsorsSection />
+    </div>
+  );
+};
+```
+
+### Interactive Event Showcase
+
+```typescript
+const EventsSection: React.FC<{ events: FestivalEvent[]; category: string }> = ({ events, category }) => {
+  const filteredEvents = events.filter(event =>
+    category === 'all' || event.category === category
+  );
+
+  return (
+    <section className="events-section py-16">
+      <div className="container mx-auto px-4">
+        <h2 className="text-4xl font-bold text-center mb-12">
+          EVENTS OF MOONSTONE 2K25
+        </h2>
+
+        <CategoryFilter
+          categories={['all', 'cultural', 'academic', 'creative', 'robotics', 'management', 'technical', 'gaming', 'sports']}
+          selected={category}
+          onChange={setSelectedCategory}
+        />
+
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          {filteredEvents.map((event, index) => (
+            <EventCard key={event.id} event={event} index={index} />
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+```
+
+### Memories Gallery with Hover Effects
+
+```typescript
+const MemoriesGallery: React.FC = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const memories = Array.from({ length: 16 }, (_, i) => ({
+    id: i,
+    image: `/memories/moonstone-2k24-${i}.jpg`,
+    title: `Moonstone 2K24 Memory ${i + 1}`
+  }));
+
+  return (
+    <section className="memories-section py-16 bg-black text-white">
+      <div className="container mx-auto px-4">
+        <h2 className="text-4xl font-bold text-center mb-4">
+          HOVER/TAP TO SEE MEMORIES
+        </h2>
+        <h3 className="text-2xl text-center mb-12">MOONSTONE 2K24 MEMORIES</h3>
+
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+          {memories.map((memory, index) => (
+            <motion.div
+              key={memory.id}
+              className="relative aspect-square overflow-hidden rounded-lg cursor-pointer"
+              onHoverStart={() => setHoveredIndex(index)}
+              onHoverEnd={() => setHoveredIndex(null)}
+              whileHover={{ scale: 1.1, zIndex: 10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Image
+                src={memory.image}
+                alt={memory.title}
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
+              />
+              {hoveredIndex === index && (
+                <motion.div
+                  className="absolute inset-0 bg-black/70 flex items-center justify-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <p className="text-white text-sm text-center p-2">{memory.title}</p>
+                </motion.div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+```
+
+## Festival Events Highlights
+
+### **Featured Events**
+
+- **Art Exhibition**: Creative showcase by students
+- **Aurelius Cup**: Academic competition
+- **Best out of Waste**: Sustainability challenge
+- **BOTZILLA**: Ultimate robot warfare
+- **Brandomania**: Brand management challenge
+- **Buzz the Biz**: Management spell bee
+
+### **Registration System**
+
+```typescript
+const EventRegistration: React.FC<{ eventId: string }> = ({ eventId }) => {
+  const [registration, setRegistration] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    college: '',
+    year: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId, ...registration })
+      });
+
+      if (response.ok) {
+        toast.success('Registration successful! Check email for confirmation.');
+      }
+    } catch (error) {
+      toast.error('Registration failed. Please try again.');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="registration-form">
+      {/* Form fields */}
+      <button type="submit" className="register-btn">
+        Register Now
+      </button>
+    </form>
+  );
+};
+```
+
+## Design & User Experience
+
+### **Visual Design Elements**
+
+- **Dark Theme**: Professional festival aesthetic
+- **Gradient Overlays**: Modern visual appeal
+- **Interactive Hover**: Engaging user interactions
+- **Countdown Timer**: Building anticipation
+- **Responsive Grid**: Mobile-optimized layouts
+
+### **Integration with NotesBuddy**
+
+```typescript
+// Cross-promotion with NotesBuddy platform
+const NotesBuddyPromo: React.FC = () => (
+  <section className="notebuddy-promo py-16">
+    <div className="container mx-auto px-4 text-center">
+      <h3 className="text-3xl font-bold mb-4">Want to Ace your exam?</h3>
+      <p className="text-lg mb-6">
+        Visit <strong>notesbuddy</strong> - a comprehensive platform to study.
+        Access notes, flashcards, quizzes, one-shot videos and more.
+      </p>
+      <a href="https://notesbuddy.in" className="btn-primary">
+        Try Notesbuddy →
+      </a>
+    </div>
+  </section>
+);
+```
+
+## Challenges & Solutions
+
+### **Event Coordination**
+
+**Challenge**: Managing multiple event categories and registrations
+**Solution**: Organized categorization and streamlined registration flow
+
+### **Visual Impact**
+
+**Challenge**: Creating engaging festival atmosphere online
+**Solution**: Interactive galleries, animations, and immersive design
+
+### **Information Architecture**
+
+**Challenge**: Presenting complex event information clearly
+**Solution**: Intuitive navigation and filtering systems
+
+## Results & Impact
+
+### **Festival Success**
+
+- 🎉 **Multi-Event Platform**: Comprehensive festival coverage
+- 📱 **Mobile Responsive**: Seamless mobile experience
+- 🎯 **User Engagement**: Interactive features and galleries
+- 📧 **Registration Flow**: Streamlined participant onboarding
+
+### **Technical Achievements**
+
+- **Performance**: Fast loading with optimized images
+- **Accessibility**: Inclusive design principles
+- **SEO**: Optimized for search discovery
+- **Analytics**: Event tracking and user insights
+
+## Community Impact
+
+### **University Connection**
+
+- **Student Showcase**: Platform for talent display
+- **Event Organization**: Streamlined festival management
+- **Memory Preservation**: Digital archive of celebrations
+- **Community Building**: Bringing students together
+
+**Live Festival Site**: [moonstone.ramx.in](https://moonstone.ramx.in/)
+**Note**: This is not the official website for Moonstone 2k25

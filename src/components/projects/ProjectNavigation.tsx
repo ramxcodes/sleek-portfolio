@@ -3,7 +3,7 @@ import { Separator } from '@/components/ui/separator';
 import { Link } from 'next-view-transitions';
 
 import ArrowLeft from '../svgs/ArrowLeft';
-import ArrowRight from '../svgs/ArrowRight';
+import ArrowUUpRight from '../svgs/ArrowUUpRight';
 
 interface ProjectNavigationProps {
   previous: { title: string; slug: string } | null;
@@ -41,7 +41,7 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
               </Link>
             </Button>
           ) : (
-            <div className="h-16" /> // Spacer for alignment
+            <div className="h-16" />
           )}
         </div>
 
@@ -61,12 +61,12 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
                     </div>
                     <div className="font-medium">{next.title}</div>
                   </div>
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowUUpRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
             </Button>
           ) : (
-            <div className="h-16" /> // Spacer for alignment
+            <div className="h-16" />
           )}
         </div>
       </div>

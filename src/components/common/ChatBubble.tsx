@@ -12,8 +12,9 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { heroConfig } from '@/config/Hero';
 import { cn } from '@/lib/utils';
-import { MessageCircle, Send } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
+import ChatBubbleIcon from '@/components/svgs/ChatBubbleIcon';
+import SendIcon from '../svgs/SendIcon';
 
 interface Message {
   id: number;
@@ -26,7 +27,7 @@ interface Message {
 const initialMessages: Message[] = [
   {
     id: 1,
-    text: "Hello! I'm ${heroConfig.name}'s Portfolio Assistant. How can I help you?",
+    text: "Hello! I'm Ram's Portfolio Assistant. How can I help you?",
     sender: 'bot',
     timestamp: new Date().toLocaleTimeString([], {
       hour: '2-digit',
@@ -195,11 +196,11 @@ const ChatBubble: React.FC = () => {
     <ExpandableChat
       position="bottom-right"
       size="lg"
-      icon={<MessageCircle className="h-6 w-6" />}
+      icon={<ChatBubbleIcon className="h-6 w-6" />}
     >
       <ExpandableChatHeader>
         <div className="flex items-center space-x-3">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-8 w-8 border-2 border-primary bg-blue-300 dark:bg-yellow-300">
             <AvatarImage src="/assets/logo.png" alt="Assistant" />
             <AvatarFallback>AI</AvatarFallback>
           </Avatar>
@@ -232,7 +233,7 @@ const ChatBubble: React.FC = () => {
               >
                 <div className="flex items-start space-x-2">
                   {message.sender === 'bot' && (
-                    <Avatar className="h-6 w-6">
+                    <Avatar className="h-6 w-6 border-2 border-primary bg-blue-300 dark:bg-yellow-300">
                       <AvatarImage src="/assets/logo.png" alt="Assistant" />
                       <AvatarFallback>AI</AvatarFallback>
                     </Avatar>
@@ -284,7 +285,7 @@ const ChatBubble: React.FC = () => {
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
             ) : (
-              <Send className="h-4 w-4" />
+              <SendIcon className="h-4 w-4" />
             )}
           </Button>
         </div>

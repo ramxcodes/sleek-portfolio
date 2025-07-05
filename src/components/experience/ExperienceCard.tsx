@@ -13,6 +13,10 @@ interface ExperienceCardProps {
   experience: Experience;
 }
 
+const parseDescription = (text: string): string => {
+  return text.replace(/\*(.*?)\*/g, '<b>$1</b>');
+};
+
 export function ExperienceCard({ experience }: ExperienceCardProps) {
   return (
     <div className="flex flex-col gap-4">
@@ -30,34 +34,42 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-bold">{experience.company}</h3>
-              <Link
-                href={experience.website ?? ''}
-                target="_blank"
-                className="size-4 text-neutral-500"
-              >
-                <Website />
-              </Link>
-              <Link
-                href={experience.x ?? ''}
-                target="_blank"
-                className="size-4 text-neutral-500"
-              >
-                <X />
-              </Link>
-              <Link
-                href={experience.linkedin ?? ''}
-                target="_blank"
-                className="size-4 text-neutral-500"
-              >
-                <LinkedIn />
-              </Link>
-              <Link
-                href={experience.github ?? ''}
-                target="_blank"
-                className="size-4 text-neutral-500"
-              >
-                <Github />
-              </Link>
+              {experience.website && (
+                <Link
+                  href={experience.website}
+                  target="_blank"
+                  className="size-4 text-neutral-500"
+                >
+                  <Website />
+                </Link>
+              )}
+              {experience.x && (
+                <Link
+                  href={experience.x}
+                  target="_blank"
+                  className="size-4 text-neutral-500"
+                >
+                  <X />
+                </Link>
+              )}
+              {experience.linkedin && (
+                <Link
+                  href={experience.linkedin}
+                  target="_blank"
+                  className="size-4 text-neutral-500"
+                >
+                  <LinkedIn />
+                </Link>
+              )}
+              {experience.github && (
+                <Link
+                  href={experience.github}
+                  target="_blank"
+                  className="size-4 text-neutral-500"
+                >
+                  <Github />
+                </Link>
+              )}
               {experience.isCurrent && (
                 <div className="flex items-center gap-1 rounded-md border-green-300 bg-green-500/10 px-2 py-1 text-xs">
                   <div className="size-2 rounded-full bg-green-500 animate-pulse"></div>
@@ -98,7 +110,12 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
       <div className="text-secondary flex flex-col">
         {experience.description.map(
           (description: string, descIndex: number) => (
-            <p key={descIndex}>• {description}</p>
+            <p
+              key={descIndex}
+              dangerouslySetInnerHTML={{
+                __html: `• ${parseDescription(description)}`,
+              }}
+            />
           ),
         )}
       </div>
