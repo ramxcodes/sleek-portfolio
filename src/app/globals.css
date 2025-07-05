@@ -152,3 +152,22 @@
 .prose .group:hover .opacity-0 {
   @apply opacity-100;
 }
+
+/* Page fade-in animation with blur */
+@keyframes fadeInBlur {
+  0% {
+    opacity: 0.2;
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.animate-fade-in-blur {
+  animation: fadeInBlur 0.5s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0.4;
+  filter: blur(3px);
+}

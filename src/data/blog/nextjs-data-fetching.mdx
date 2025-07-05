@@ -1,0 +1,320 @@
+---
+title: 'Next.JS Data Fetching mistakes & Security vulnerabilities'
+description: 'A guide to Next.js data fetching mistakes & security vulnerabilities'
+image: '/blog/nextjs-data-fetching.png'
+tags: ['frontend', 'development', 'nextjs']
+date: '2025-07-05'
+isPublished: true
+---
+
+## The typical vulnerability
+
+Fetching data in `Next. Js` feels pretty straightforward foe the first time.
+Just use async await in react server component and good to go.
+
+If user authenticate required await headers, cookies or session as you required.
+
+Here's what flow looks like :
+
+Create an async function, grab some data with Prisma (suppose all the TODO from DB), call it inside your RSC (react server component), and you're done, right?
+
+Unfortunately, NO
+It's not simple actually. What you have done is created a POST request. Not GET but a POST request because that's how Next. Js works under the hood.
+
+So what's the issue with POST request?
+The issue is -
+
+- It blocks parallelism
+- It doesn't support caching
+- Bypass your authenticate
+- And also create a security vulnerability
+
+## The problem
+
+### Server Actions for Data Fetching
+
+Let's start with a common example.
+I've built a simple todo application where users can create todos that render below a form.
+
+Here's what the typical (but problematic) implementation looks like:
+
+```ts
+// page.tsx
+'use client';
+
+export default function Home() {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    getTodos().then(setTodos);
+  }, []);
+
+  // Rest of component...
+}
+```
+
+```ts
+// actions.ts
+'use server';
+
+export async function getTodos() {
+  const todos = await prisma.todo.findMany();
+  return todos;
+}
+```
+
+This works, but it creates several critical problems:
+
+#### Problem 1 : POST Requests for Data Fetching
+
+When you use server actions to fetch data, you're creating POST requests instead of GET requests.
+
+I'd say open your browser tab and fetch something using server action and the request will be shown as POST Request.
+
+![POST Req](https://i.postimg.cc/LsDWwMWN/image.png)
+
+#### Problem 2 : No Parallelism
+
+The bigger issue is that POST requests run successively, not in parallel.
+If I we suppose request takes 15-second for the data fetching function and try to create a new todo while data is loading, the creation request waits for the fetch to complete first. This destroys performance.
+
+Here's what happens:
+
+- Request 1 (fetch): 15 seconds
+- Request 2 (create): Waits for Request 1 to finish, then executes
+- Total time: 15+ seconds
+
+![What we doing](https://i.postimg.cc/d0KSN0tb/image.png)
+
+What we want:
+
+- Request 1 (fetch): 15 seconds
+- Request 2 (create): 0.01 seconds (runs in parallel)
+- Total time: ~15 seconds
+
+![What we want](https://i.postimg.cc/0NxcdHVx/image.png)
+
+#### Solution 1: Server Components with Streaming
+
+The first step is moving data fetching to server components.
+Server components let you fetch data and render parts of your UI on the server, with optional caching and streaming.
+
+Example :
+
+```typescript
+// page.tsx (Server Component)
+import { Suspense } from 'react'
+import TodoForm from './components/todo-form'
+import TodoList from './components/todo-list'
+
+export default function Home() {
+  return (
+    <div>
+      <TodoForm />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TodoList />
+      </Suspense>
+    </div>
+  )
+}
+```
+
+```typescript
+// components/todo-form.tsx (Client Component)
+'use client';
+
+export default function TodoForm() {
+  // Form logic with client-side validation
+  // and server action for mutations
+}
+```
+
+```typescript
+// components/todo-list.tsx (Server Component)
+import prisma from '@/lib/prisma'
+
+async function getTodos() {
+  return await prisma.todo.findMany()
+}
+
+export default async function TodoList() {
+  const todos = await getTodos()
+
+  return (
+    <div>
+      {todos.map(todo => (
+        <div key={todo.id}>
+          <h3>{todo.title}</h3>
+          <p>{todo.content}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+This approach:
+
+- Uses GET requests (implicit in server components)
+- Enables parallel request execution
+- Provides streaming with Suspense boundaries
+- Maintains proper separation between server and client code
+
+#### The Security Problem: Session Verification
+
+Now let's add authentication.
+A common mistake is verifying sessions only at the page level:
+
+```typescript
+// page.tsx
+export default async function Home() {
+  const { getUser } = getServerSession()
+  const user = await getUser()
+
+  if (!user) {
+    redirect('/api/auth/login')
+  }
+
+  return (
+    // Component JSX
+  )
+}
+```
+
+This seems secure, but it creates a critical vulnerability.
+What happens when you extract the `TodoList` component for reuse?
+Suppose you created a `/test` route and imported the `TodoList` component and forgot to do validation there or If another developer creates a new route and imports your component:
+
+```typescript
+// app/test/page.tsx
+import TodoList from '@/components/todo-list'
+
+export default function TestPage() {
+  return <TodoList /> // No session verification!
+}
+```
+
+Visiting `/test` in an incognito browser will display the todos without authentication.
+The session check only exists at the page level, not where the data is actually fetched.
+
+#### Solution 2: Data Access Layer
+
+The [Next.js documentation recommends](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#creating-a-data-access-layer) creating a data access layer to centralize data requests and authorization logic.
+
+Here's the implementation:
+
+```typescript
+// app/data/user/require-user.ts
+import { redirect } from 'next/navigation';
+import { cache } from 'react';
+import 'server-only';
+
+export const requireUser = cache(async () => {
+  const { getUser } = getServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    redirect('/api/auth/login');
+  }
+
+  return user;
+});
+```
+
+```typescript
+// app/data/todo/get-todos.ts
+import prisma from '@/lib/prisma';
+import 'server-only';
+
+import { requireUser } from '../user/require-user';
+
+export async function getTodos() {
+  await requireUser(); // Verify session before fetching data
+
+  return await prisma.todo.findMany();
+}
+```
+
+\
+
+```typescript
+// components/todo-list.tsx
+import { getTodos } from '@/app/data/todo/get-todos'
+
+export default async function TodoList() {
+  const todos = await getTodos()
+
+  return (
+    <div>
+      {todos.map(todo => (
+        <div key={todo.id}>
+          <h3>{todo.title}</h3>
+          <p>{todo.content}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+### Benefits of the Data Access Layer
+
+1. **Single Source of Truth**: All data-related code is centralized in one place, making updates and debugging easier.
+2. **Natural Security Checkpoint**: Session verification happens where data is fetched, preventing accidental data leaks when components are reused.
+3. **Organized Structure**: Create folders for different data types:
+
+   ```bash
+   app/data/
+   ├── user/
+   │   ├── require-user.ts
+   │   ├── get-user.ts
+   │   └── get-all-users.ts
+   └── todo/
+       ├── get-todos.ts
+       ├── get-todo.ts
+       └── get-admin-todos.ts
+   ```
+
+#### Performance Optimization: React Cache
+
+Notice the `cache()` function wrapping our `requireUser` function.
+This is crucial for performance.
+
+Imagine a dashboard that needs multiple data sources:
+
+- Get subscribers
+- Get total customers
+- Get revenue for last 30 days
+- Get recent orders
+- And 6 more data points
+
+Without caching, `requireUser()` would run 10 times for a single page render. With React's `cache()` function, it runs once and caches the result for that render pass.
+
+The cache is scoped to a single server-side render and doesn't persist between page navigations, making it perfect for this use case.
+
+#### Security Enhancement: Server-Only
+
+Add the `server-only` package to prevent accidental client-side usage:
+
+```typescript
+import 'server-only';
+
+// This import ensures the function only runs on the server
+// and throws a build-time error if imported in client components
+```
+
+This is different from the `'use server'` directive:
+
+- `'use server'`: Creates server actions callable from both server and client
+- `'server-only'`: Ensures code only executes on the server, throws errors otherwise
+
+### Summary
+
+1. **Use Server Components** for data fetching to get proper GET requests and enable parallelism
+2. **Implement a Data Access Layer** to centralize data logic and security checks
+3. **Verify Sessions at the Data Layer** not just at page level to prevent security vulnerabilities
+4. **Use React's cache() Function** to optimize repeated authentication checks
+5. **Add server-only Imports** to prevent accidental client-side usage
+6. **Use Suspense Boundaries** for streaming and better user experience
+
+Thanks for reading ! Follow me on x its [@ramxcodes](https://x.com/ramxcodes)

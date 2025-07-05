@@ -1,0 +1,283 @@
+---
+title: 'Routing in Next.js (App Router) - A Complete Guide (2025)'
+description: 'A guide to routing in Next.js (App Router) covering Catch-All Segments, Dynamic Routes, Nested Routes, and more.'
+image: '/blog/routing-in-nextjs.png'
+tags: ['frontend', 'development', 'nextjs']
+date: '2025-03-12'
+isPublished: true
+---
+
+# Routing in Next.js
+
+Next.js has a file-system-based routing system. The URLs you can access in your browser are determined by how you organize your files and folders within your project.
+
+## Understanding the _src/app_ Directory
+
+In Next.js (when using the App Router), the _src/app_ directory serves as the foundation for your application's structure. Key files inside this directory include:
+
+- _layout.tsx_ – Defines the layout for your application, allowing you to persist UI elements across different pages.
+- _page.tsx_ – Represents the content of a particular route.
+
+## Scenario 1: Creating a Homepage
+
+Suppose you want to have a homepage accessible at:
+
+_http://localhost:3000/_
+
+To achieve this, ensure that a _page.tsx_ file exists inside the _src/app_ directory. By default, this file is created when you initialize a Next.js project.
+
+## Scenario 2: Creating Additional Pages
+
+Now, let's say you want to create additional pages with different URLs.
+
+### Creating an About Page
+
+To create a page accessible at:
+
+_http://localhost:3000/about_
+
+Follow these steps:
+
+1. Inside the _src/app_ directory, create a new folder named _about_.
+2. Inside _about_, create a _page.tsx_ file.
+3. Add the following code:
+
+```tsx
+export default function About() {
+  return <h1>Hello from About</h1>;
+}
+```
+
+### Creating a Custom Page (e.g., Ramx Page)
+
+If you want a page accessible at:
+
+_http://localhost:3000/ramx_
+
+Follow the same steps as above:
+
+1. Inside _src/app_, create a folder named _ramx_.
+2. Inside _ramx_, create a _page.tsx_ file.
+3. Add the following code:
+
+```tsx
+export default function Ramx() {
+  return <h1>Hello from Ramx</h1>;
+}
+```
+
+### Folder Structure for the Pages
+
+After adding these pages, your _src/app_ directory will look like this:
+
+```sh
+src/app/
+   layout.tsx  - Defines layout structure
+   page.tsx  - Homepage
+   about/
+      page.tsx  - About Page
+   ramx/
+      page.tsx  - Ramx Page
+```
+
+---
+
+# Nested Routes
+
+## Scenario 3: Creating Blog Pages
+
+Suppose you want to handle the following routes:
+
+- _http://localhost:3000/blog_
+- _http://localhost:3000/blog/first_
+- _http://localhost:3000/blog/second_
+
+### Steps:
+
+1. First, create a _blog_ folder inside _src/app_.
+2. Inside _blog_, create a _page.tsx_ file.
+
+This will create the route:
+
+_http://localhost:3000/blog_
+
+#### Handling _/blog/first_ and _/blog/second_
+
+**Brute force method** (Good for small projects, but not recommended for scalability):
+
+Manually create separate folders:
+
+```sh
+src/app/blog/first/page.tsx
+src/app/blog/second/page.tsx
+```
+
+Each file should contain:
+
+```tsx
+export default function FirstBlog() {
+  return <h1>First Blog Post</h1>;
+}
+```
+
+```tsx
+export default function SecondBlog() {
+  return <h1>Second Blog Post</h1>;
+}
+```
+
+![routes](https://i.postimg.cc/J7cJj49y/image.png)
+
+---
+
+# Dynamic Routing
+
+## Scenario 4: Creating a Product Listing Page
+
+Suppose you want to create a product listing page where:
+
+- _/products_ lists all products.
+- Individual product pages exist at _/products/product-1_, _/products/product-2_, etc.
+
+Each product also has a details page, such as _/products/1_.
+
+### Brute Force Method (Not Scalable)
+
+Manually create:
+
+```sh
+src/app/products/product-1/page.tsx
+src/app/products/product-2/page.tsx
+src/app/products/product-3/page.tsx
+```
+
+### **Using Dynamic Routing (Recommended Method)**
+
+Instead of manually creating pages for each product, use **dynamic routing**.
+
+#### Steps:
+
+1. Create a folder named _[productId]_ inside _src/app/products/_.
+2. Inside _[productId]_, create a _page.tsx_ file.
+
+Your folder structure should look like:
+
+```sh
+src/app/products/
+   page.tsx   # Product listing page
+   [productId]/
+      page.tsx  # Dynamic product page
+```
+
+### **Code for Dynamic Product Page**
+
+```tsx
+export default function ProductPage({
+  params,
+}: {
+  params: { productId: string };
+}) {
+  return <h1>Product ID: {params.productId}</h1>;
+}
+```
+
+Now, if you visit _http://localhost:3000/products/100_, the _params.productId_ will be _100_, and it will render dynamically.
+
+---
+
+# Nested Dynamic Routes
+
+## Scenario 5: Category & Product Pages
+
+Let's say you need URLs like:
+
+- _http://localhost:3000/categories/electronics_
+- _http://localhost:3000/categories/fashion_
+- _http://localhost:3000/categories/electronics/phones_
+- _http://localhost:3000/categories/fashion/shoes_
+
+### **Steps to Implement:**
+
+1. Create a _categories_ folder inside _src/app_.
+2. Inside _categories_, create a dynamic _[categoryId]_ folder.
+3. Inside _[categoryId]_, create a dynamic _[subCategoryId]_ folder.
+4. Add _page.tsx_ inside both folders.
+
+#### **Folder Structure:**
+
+```sh
+src/app/categories/
+   [categoryId]/
+      page.tsx  # Category page
+      [subCategoryId]/
+         page.tsx  # Sub-category page
+```
+
+#### **Code for Category Page:**
+
+```tsx
+export default function CategoryPage({
+  params,
+}: {
+  params: { categoryId: string };
+}) {
+  return <h1>Category: {params.categoryId}</h1>;
+}
+```
+
+#### **Code for Sub-Category Page:**
+
+```tsx
+export default function SubCategoryPage({
+  params,
+}: {
+  params: { categoryId: string; subCategoryId: string };
+}) {
+  return (
+    <h1>
+      {params.subCategoryId} in {params.categoryId}
+    </h1>
+  );
+}
+```
+
+---
+
+# Catch-All Segments
+
+## Scenario 6: Handling Unknown Nested Routes
+
+If you need to handle **any level of nested paths**, use a **catch-all segment**.
+
+### **Example URLs:**
+
+- _http://localhost:3000/docs_
+- _http://localhost:3000/docs/getting-started_
+- _http://localhost:3000/docs/api/reference_
+
+### **How to Implement:**
+
+1. Inside _src/app_, create a _docs_ folder.
+2. Inside _docs_, create a _[...slug]_ folder (the three dots indicate "catch-all").
+3. Inside _[...slug]_, create _page.tsx_.
+
+#### **Folder Structure:**
+
+```sh
+src/app/docs/
+   [...slug]/
+      page.tsx
+```
+
+#### **Code for Catch-All Route:**
+
+```tsx
+export default function DocsPage({ params }: { params: { slug?: string[] } }) {
+  return (
+    <div>
+      <h1>Docs Page</h1>
+      <p>Path: {params.slug ? params.slug.join(' / ') : 'Home'}</p>
+    </div>
+  );
+}
+```

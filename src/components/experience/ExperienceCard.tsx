@@ -8,6 +8,7 @@ import Github from '../svgs/Github';
 import LinkedIn from '../svgs/LinkedIn';
 import Website from '../svgs/Website';
 import X from '../svgs/X';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 interface ExperienceCardProps {
   experience: Experience;
@@ -35,40 +36,60 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-bold">{experience.company}</h3>
               {experience.website && (
-                <Link
-                  href={experience.website}
-                  target="_blank"
-                  className="size-4 text-neutral-500"
-                >
-                  <Website />
-                </Link>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={experience.website}
+                      target="_blank"
+                      className="size-4 text-neutral-500"
+                    >
+                      <Website />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Visit Website</TooltipContent>
+                </Tooltip>
               )}
               {experience.x && (
-                <Link
-                  href={experience.x}
-                  target="_blank"
-                  className="size-4 text-neutral-500"
-                >
-                  <X />
-                </Link>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={experience.x}
+                      target="_blank"
+                      className="size-4 text-neutral-500"
+                    >
+                      <X />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Follow on X</TooltipContent>
+                </Tooltip>
               )}
               {experience.linkedin && (
-                <Link
-                  href={experience.linkedin}
-                  target="_blank"
-                  className="size-4 text-neutral-500"
-                >
-                  <LinkedIn />
-                </Link>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={experience.linkedin}
+                      target="_blank"
+                      className="size-4 text-neutral-500"
+                    >
+                      <LinkedIn />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Connect on LinkedIn</TooltipContent>
+                </Tooltip>
               )}
               {experience.github && (
-                <Link
-                  href={experience.github}
-                  target="_blank"
-                  className="size-4 text-neutral-500"
-                >
-                  <Github />
-                </Link>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={experience.github}
+                      target="_blank"
+                      className="size-4 text-neutral-500"
+                    >
+                      <Github />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>View GitHub</TooltipContent>
+                </Tooltip>
               )}
               {experience.isCurrent && (
                 <div className="flex items-center gap-1 rounded-md border-green-300 bg-green-500/10 px-2 py-1 text-xs">

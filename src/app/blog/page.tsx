@@ -35,7 +35,7 @@ export default function BlogPage() {
         {/* Header */}
         <div className="space-y-4 text-center">
           <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-            Blog
+            Blogs
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Thoughts, tutorials, and insights on engineering, and programming.

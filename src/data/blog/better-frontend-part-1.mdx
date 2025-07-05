@@ -1,0 +1,182 @@
+---
+title: 'Better Frontend Part 1: Learn development and design principles'
+description: 'A guide to better frontend development and design principles for beginners part 1'
+image: '/blog/frontend-part-1.png'
+tags: ['frontend', 'development', 'design']
+date: '2025-02-25'
+isPublished: true
+---
+
+## Why?
+
+**You may ask why I am writing this blog.**  
+**What is my expertise?**  
+**What is the purpose of this blog?**
+
+## Introduction
+
+I have been working as a frontend developer for the past 2 years and have learned a lot along the way.
+
+I have seen many developers struggling with frontend development and design principles.
+
+So, I thought: why not share my knowledge with all of you?
+
+In this blog, I will share some key principles that every frontend developer should know. So, let's get started.
+
+First of all, pardon me if I make any mistakes in this blog. I am not a native English speaker and I am an amateur blogger.
+
+## Rule 1 : Needs over design
+
+Don't be like a typical developer
+
+opens vs code
+
+```bash
+# Open integrated terminal in VS Code
+ctrl + shift + ~
+
+# Create a new Next.js project
+npm create-next-app@latest
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+and quickly removes the template code
+
+and now you are **staring** at white screen figuring out if i need a top navbar
+or sidebar or a on left or right
+
+what should be the color etc.....
+
+**STOP**  
+**STOP**  
+**STOP**
+
+Before doing all this take a step back and think about the **needs** of the user
+what is the project is about
+
+First of all take a copy and pen | or open notion, obsidian or any note taking app and write down the needs of the user
+
+- what is the project about
+- what is the main goal of the project
+- what is the target audience
+- what is the main feature of the project
+- what is the main problem that the project is solving
+
+### Example :
+
+You're building a flight booking service. You could start
+with a feature like "**searching for a flight**"
+
+Your interface will need:
+
+- A field for the departure city
+- A field for the destination city
+- A field for the departure date
+- A field for the return date
+- A button to perform the search
+
+Now just google out designs for flight booking service and you will get a lot of designs
+
+something like these
+
+![Flight booking](https://cdn.dribbble.com/users/563824/screenshots/4856957/drbl_2.png)
+
+all these designs you will find are good but do you really need all these features in your project think about it as well.
+
+remember focus on needs not design
+
+User experience matters _(which includes design as well but only 30% of it)_
+
+---
+
+## Rule 2 : Improve Incrementally
+
+In early stage of design / development don't try to make everything perfect
+
+don't think about -
+
+- Typefaces to use
+- Color schemes
+- Animations
+- Icons etc
+
+_That stuff will all matter eventually, but it doesn't matter right now._
+
+Focus on creating a **functional** and **usable** product first.
+
+Once you have a **functional** product, you can start **iterating** on it.
+
+You can start by:
+
+- Improving the design
+- Adding animations
+- Adding icons
+- Adding more features
+
+---
+
+## Rule 3 : Hierarchy is everything
+
+Even if you have colors in your mind. don't just start applying them randomly
+
+first make a Grey scale design
+this will force you to focus on the **hierarchy** of the design
+
+like
+
+- Padding
+- Margins
+- Font sizes
+- Font weights
+- Line heights etc
+
+It's a little more challenging, but you'll end up with a clearer interface with a strong hierarchy that's easy to enhance with color later.
+
+### GRAYSCALE DESIGN
+
+![Grayscale design](https://i.pinimg.com/736x/21/ac/81/21ac8136a79a1bb78afb001387003399.jpg)
+
+---
+
+### COLORFUL DESIGN
+
+![Colorful design](https://cdn.dribbble.com/userupload/17410132/file/original-aaf038015bfe4d530bedeb143678b45f.png)
+
+also a small tip
+
+> Don't over-invest & overdo things make a clutter free to the point design
+
+## Rule 4 : Don't design too much
+
+You don't need to design every single feature in an app before you move on to implementation, in fact, it's better if you don't.
+
+Figuring out how every feature in a product should interact and how every
+edge case should look is really hard, especially in the abstract.
+
+How to handle unknown long errors in the form.  
+How will this table look if it has 2000 users.  
+What if this same date has 2 events how it will show it.
+
+You're setting yourself up for frustration by trying to figure this stuff out
+using only a design tool and your imagination
+
+##### Instead work in cycles
+
+Instead of designing everything upfront on paper or Figma, work in short cycles.
+
+Design a simple version and iterate over it.
+
+Once satisfied with the basic design, implement it.
+
+You'll likely encounter unexpected complexities, but it's easier to fix design problems in a real interface than to imagine every edge case in advance. Iterate on the working design until there are no more issues, then move on to the next feature.
+
+Don't get overwhelmed by abstract planning. Build the real thing as early as possible to reduce the burden on your imagination.
+
+---
+
+Stay tuned for Part 2!
