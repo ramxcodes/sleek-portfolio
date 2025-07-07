@@ -17,16 +17,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const umamiSrc = process.env.NEXT_PUBLIC_UMAMI_SRC;
+  const umamiId = process.env.NEXT_PUBLIC_UMAMI_ID;
   return (
     <ViewTransitions>
       <html lang="en">
         <head>
-          <Script
-            src="https://cloud.umami.is/script.js"
-            data-website-id="df3998a2-e0aa-4727-8b75-6af6b3834047"
-            strategy="afterInteractive"
-            defer
-          />
+          {umamiSrc && umamiId && (
+            <Script
+              src={umamiSrc}
+              data-website-id={umamiId}
+              strategy="afterInteractive"
+              defer
+            />
+          )}
         </head>
         <body className={`font-hanken-grotesk antialiased`}>
           <ReactLenis root>
