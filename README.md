@@ -8,7 +8,7 @@ A modern, responsive portfolio website built with Next.js 15, TypeScript, Tailwi
 
 Click here to your portfolio template now:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Framxcodes%2Fsleek-portfolio&env=TELEGRAM_BOT_TOKEN,TELEGRAM_CHAT_ID,GEMINI_API_KEY,NEXT_PUBLIC_URL)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Framxcodes%2Fsleek-portfolio&env=TELEGRAM_BOT_TOKEN,TELEGRAM_CHAT_ID,GEMINI_API_KEY,NEXT_PUBLIC_URL,NEXT_PUBLIC_UMAMI_SRC,NEXT_PUBLIC_UMAMI_ID)
 
 ## Features
 
@@ -21,6 +21,7 @@ Click here to your portfolio template now:
 - **Contact Form** with Telegram integration
 - **SEO** optimized
 - **TypeScript** for type safety
+- **Umami Analytics** for privacy-focused web analytics
 
 ## Prerequisites
 
@@ -39,6 +40,8 @@ TELEGRAM_CHAT_ID="your-chat-id"
 GEMINI_API_KEY="your-api-key"
 NODE_ENV="development"
 NEXT_PUBLIC_URL="http://localhost:3000"
+NEXT_PUBLIC_UMAMI_SRC="your-umami-script-url"
+NEXT_PUBLIC_UMAMI_ID="your-umami-website-id"
 ```
 
 ### Setting up Telegram Integration
@@ -50,6 +53,22 @@ NEXT_PUBLIC_URL="http://localhost:3000"
    - Add your `bot` in a group as `admin`
    - Then send `/id` to [@rosebot](https://t.me/MissRose_bot)
    - Boom! you get your `id`
+
+### Setting up Umami Analytics
+
+1. Visit Umami:
+   - Self-host Umami or use [Umami Cloud](https://cloud.umami.is)
+   - Follow Umami's [installation guide](https://umami.is/docs/install)
+
+2. Get your credentials:
+   - Copy your Umami script URL (ends with `/script.js`)
+   - Get your website ID from Umami dashboard
+
+3. Configure environment variables:
+   ```env
+   NEXT_PUBLIC_UMAMI_SRC="https://[your-umami-instance]/script.js"
+   NEXT_PUBLIC_UMAMI_ID="your-website-id"
+   ```
 
 ## Getting Started
 

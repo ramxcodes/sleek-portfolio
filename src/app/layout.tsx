@@ -5,7 +5,7 @@ import { Quote } from '@/components/common/Quote';
 import { generateMetadata as getMetadata } from '@/config/Meta';
 import ReactLenis from 'lenis/react';
 import { ViewTransitions } from 'next-view-transitions';
-
+import UmamiAnalytics from '@/components/analytics/UmamiAnalytics';
 import './globals.css';
 
 export const metadata = getMetadata('/');
@@ -25,6 +25,7 @@ export default function RootLayout({
             <Quote />
             <Footer />
             <ChatBubble />
+            <UmamiAnalytics />
           </ReactLenis>
         </body>
       </html>
