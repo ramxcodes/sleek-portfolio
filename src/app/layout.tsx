@@ -1,6 +1,7 @@
 import ChatBubble from '@/components/common/ChatBubble';
 import Footer from '@/components/common/Footer';
 import Navbar from '@/components/common/Navbar';
+import OnekoCat from '@/components/common/OnekoCat';
 import { Quote } from '@/components/common/Quote';
 import { generateMetadata as getMetadata } from '@/config/Meta';
 import ReactLenis from 'lenis/react';
@@ -31,6 +32,7 @@ export default function RootLayout({
           <ReactLenis root>
             <Navbar />
             {children}
+            <OnekoCat />
             <Quote />
             <Footer />
             <ChatBubble />
