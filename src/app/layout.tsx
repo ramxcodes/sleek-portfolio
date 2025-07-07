@@ -16,21 +16,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const umamiSrc = process.env.NEXT_PUBLIC_UMAMI_SRC;
-  const umamiId = process.env.NEXT_PUBLIC_UMAMI_ID;
   return (
     <ViewTransitions>
       <html lang="en">
-        <head>
-          {umamiSrc && umamiId && (
-            <Script
-              src={umamiSrc}
-              data-website-id={umamiId}
-              strategy="afterInteractive"
-              defer
-            />
-          )}
-        </head>
         <body className={`font-hanken-grotesk antialiased`}>
           <ReactLenis root>
             <Navbar />
