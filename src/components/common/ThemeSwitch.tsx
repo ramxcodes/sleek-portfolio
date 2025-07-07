@@ -38,7 +38,7 @@ export default function ThemeSwitch({ className }: ThemeSwitchProps) {
       const transition = document.createElement('div');
       transition.style.position = 'fixed';
       transition.style.inset = '0';
-      transition.style.zIndex = '9999';
+      transition.style.zIndex = '30';
       transition.style.pointerEvents = 'none';
       transition.style.backgroundColor =
         theme === 'light' ? 'oklch(0.145 0 0)' : 'oklch(1 0 0)';
@@ -73,7 +73,7 @@ export default function ThemeSwitch({ className }: ThemeSwitchProps) {
     <button
       onClick={toggleTheme}
       disabled={isAnimating}
-      className={`relative flex h-8 w-8 items-center justify-center overflow-hidden transition-opacity hover:opacity-80 ${className} hover:cursor-pointer`}
+      className={`relative flex h-8 w-8 items-center justify-center overflow-hidden transition-opacity hover:opacity-80 ${className} hover:cursor-pointer z-50`}
       aria-label="Toggle theme"
     >
       <Sun

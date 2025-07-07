@@ -1,5 +1,6 @@
 'use client';
 
+import ChatBubbleIcon from '@/components/svgs/ChatBubbleIcon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,10 +11,12 @@ import {
 } from '@/components/ui/expandable-chat';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { chatSuggestions } from '@/config/ChatPrompt';
 import { heroConfig } from '@/config/Hero';
 import { cn } from '@/lib/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import ChatBubbleIcon from '@/components/svgs/ChatBubbleIcon';
+import ReactMarkdown from 'react-markdown';
+
 import SendIcon from '../svgs/SendIcon';
 
 interface Message {
@@ -57,9 +60,10 @@ const ChatBubble: React.FC = () => {
   const handleSendMessage = async () => {
     if (!newMessage.trim() || isLoading) return;
 
+    const messageText = newMessage.trim();
     const userMessage: Message = {
       id: Date.now(),
-      text: newMessage.trim(),
+      text: messageText,
       sender: 'user',
       timestamp: new Date().toLocaleTimeString([], {
         hour: '2-digit',
@@ -86,6 +90,53 @@ const ChatBubble: React.FC = () => {
 
     setMessages((prev) => [...prev, botMessage]);
 
+    // Send the message using the refactored function
+    await sendMessage(messageText, botMessageId);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setNewMessage(suggestion);
+    // Auto-send the suggestion
+    const userMessage: Message = {
+      id: Date.now(),
+      text: suggestion,
+      sender: 'user',
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
+
+    // Create a temporary bot message for streaming
+    const botMessageId = Date.now() + 1;
+    const botMessage: Message = {
+      id: botMessageId,
+      text: '',
+      sender: 'bot',
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+      isStreaming: true,
+    };
+
+    setMessages((prev) => [...prev, botMessage]);
+
+    // Send the message (reuse the same logic as handleSendMessage)
+    sendMessage(suggestion, botMessageId);
+  };
+
+  const sendMessage = async (messageText: string, botMessageId: number) => {
     try {
       // Prepare conversation history for Gemini API format
       const history = messages.slice(-10).map((msg) => ({
@@ -99,7 +150,7 @@ const ChatBubble: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: userMessage.text,
+          message: messageText,
           history,
         }),
       });
@@ -159,7 +210,6 @@ const ChatBubble: React.FC = () => {
                 break;
               }
             } catch {
-              // Ignore parse errors for incomplete JSON
               continue;
             }
           }
@@ -182,13 +232,7 @@ const ChatBubble: React.FC = () => {
       );
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
+      setNewMessage('');
     }
   };
 
@@ -228,7 +272,7 @@ const ChatBubble: React.FC = () => {
                 className={cn(
                   'flex w-max max-w-xs flex-col gap-2 rounded-lg px-3 py-2 text-sm',
                   message.sender === 'user'
-                    ? 'ml-auto bg-primary text-primary-foreground'
+                    ? 'ml-auto text-secondary bg-muted'
                     : 'bg-muted',
                 )}
               >
@@ -241,20 +285,52 @@ const ChatBubble: React.FC = () => {
                   )}
                   <div className="flex-1 md:max-w-sm max-w-xs">
                     <div className="flex items-center gap-2">
-                      <p className="flex-1">
-                        {message.text ||
-                          (message.isStreaming && (
+                      <div className="flex-1 prose prose-sm max-w-none dark:prose-invert">
+                        {message.text ? (
+                          <ReactMarkdown
+                            components={{
+                              a: (props) => (
+                                <a
+                                  {...props}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-500 hover:text-blue-700 underline break-words"
+                                />
+                              ),
+                              // Custom paragraph component to remove default margins
+                              p: (props) => (
+                                <p {...props} className="m-0 leading-relaxed" />
+                              ),
+                              // Custom list components
+                              ul: (props) => (
+                                <ul {...props} className="m-0 pl-4" />
+                              ),
+                              ol: (props) => (
+                                <ol {...props} className="m-0 pl-4" />
+                              ),
+                              li: (props) => <li {...props} className="m-0" />,
+                              // Custom strong/bold component
+                              strong: (props) => (
+                                <strong {...props} className="font-semibold" />
+                              ),
+                            }}
+                          >
+                            {message.text}
+                          </ReactMarkdown>
+                        ) : (
+                          message.isStreaming && (
                             <span className="text-muted-foreground">
                               Thinking...
                             </span>
-                          ))}
-                      </p>
+                          )
+                        )}
+                      </div>
                     </div>
                     <p
                       className={cn(
                         'text-xs mt-1',
                         message.sender === 'user'
-                          ? 'text-primary-foreground/70'
+                          ? 'text-secondary'
                           : 'text-muted-foreground',
                       )}
                     >
@@ -264,6 +340,28 @@ const ChatBubble: React.FC = () => {
                 </div>
               </div>
             ))}
+
+            {/* Show suggestions only when conversation just started */}
+            {messages.length === 1 && !isLoading && (
+              <div className="space-y-2">
+                <p className="text-xs text-muted-foreground px-3">
+                  Quick questions:
+                </p>
+                <div className="flex flex-wrap gap-2 px-3">
+                  {chatSuggestions.map((suggestion, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="text-xs h-8 px-3 bg-background hover:bg-muted border-muted-foreground/20"
+                    >
+                      {suggestion}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </ScrollArea>
       </ExpandableChatBody>

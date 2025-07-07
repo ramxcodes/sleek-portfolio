@@ -117,6 +117,7 @@ The project uses configuration files in the `src/config` directory for easy cust
 - `Quote.ts` - Random quotes configuration
 - `Resume.ts` - Resume section details
 - `Setup.tsx` - Development setup information
+- `cat.ts` - Enable disable the cat
 
 ## Adding New Technology Icons
 
