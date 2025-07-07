@@ -69,14 +69,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       <CardContent className="px-6">
         <div className="space-y-4">
-          {/* Project Header */}
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1">
-              <h3 className="text-xl font-semibold leading-tight group-hover:text-primary">
-                {project.title}
-              </h3>
-              <p className="text-secondary mt-2">{project.description}</p>
-            </div>
+          {/* Project Header - Title and Icons */}
+          <div className="flex items-center justify-between gap-4">
+            <h3 className="text-xl font-semibold leading-tight group-hover:text-primary">
+              {project.title}
+            </h3>
             <div className="flex items-center gap-2">
               <Tooltip>
                 <TooltipTrigger>
@@ -94,13 +91,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger>
-                  <Link
-                    className="text-secondary flex size-6 items-center justify-center hover:text-primary transition-colors"
-                    href={project.github}
-                    target="_blank"
-                  >
-                    <Github />
-                  </Link>
+                  {project.github && (
+                    <Link
+                      className="text-secondary flex size-6 items-center justify-center hover:text-primary transition-colors"
+                      href={project.github}
+                      target="_blank"
+                    >
+                      <Github />
+                    </Link>
+                  )}
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>View GitHub</p>
@@ -108,6 +107,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </Tooltip>
             </div>
           </div>
+
+          {/* Description */}
+          <p className="text-secondary line-clamp-3">{project.description}</p>
 
           {/* Technologies */}
           <div>
