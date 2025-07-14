@@ -7,6 +7,7 @@ import { generateMetadata as getMetadata } from '@/config/Meta';
 import ReactLenis from 'lenis/react';
 import { ViewTransitions } from 'next-view-transitions';
 import UmamiAnalytics from '@/components/analytics/UmamiAnalytics';
+import Providers from '@/components/common/Providers';
 import './globals.css';
 
 export const metadata = getMetadata('/');
@@ -20,6 +21,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html lang="en">
         <body className={`font-hanken-grotesk antialiased`}>
+          <Providers>
           <ReactLenis root>
             <Navbar />
             {children}
@@ -29,6 +31,7 @@ export default function RootLayout({
             <ChatBubble />
             <UmamiAnalytics />
           </ReactLenis>
+          </Providers>
         </body>
       </html>
     </ViewTransitions>
