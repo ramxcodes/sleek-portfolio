@@ -58,7 +58,7 @@ export default function ThemeSwitch({ className }: ThemeSwitchProps) {
         setIsAnimating(false);
       }, 500);
     },
-    [resolvedTheme, isAnimating],
+    [resolvedTheme, isAnimating, setTheme],
   );
 
   if (!mounted) return null;
