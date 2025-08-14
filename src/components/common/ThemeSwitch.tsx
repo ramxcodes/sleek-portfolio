@@ -1,89 +1,92 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import {
+  AnimationStart,
+  AnimationVariant,
+  createAnimation,
+} from '@/theme/theme-animations';
 import { useTheme } from 'next-themes';
+import React from 'react';
+
 import Moon from '../svgs/Moon';
 import Sun from '../svgs/Sun';
+import { Button } from '../ui/button';
 
-interface ThemeSwitchProps {
-  className?: string;
+/* eslint-disable react-hooks/exhaustive-deps */
+
+interface ThemeToggleAnimationProps {
+  variant?: AnimationVariant;
+  start?: AnimationStart;
+  showLabel?: boolean;
+  url?: string;
 }
 
-export default function ThemeSwitch({ className }: ThemeSwitchProps) {
-  const { setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+export default function ThemeSwitch({
+  variant = 'circle',
+  start = 'top-right',
+  showLabel = false,
+  url,
+}: ThemeToggleAnimationProps) {
+  const { theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-    return () => {
-      const existingTransition = document.querySelector('[data-theme-transition]');
-      if (existingTransition) {
-        existingTransition.remove();
-      }
-    };
+  const styleId = 'theme-transition-styles';
+
+  const updateStyles = React.useCallback((css: string) => {
+    if (typeof window === 'undefined') return;
+
+    let styleElement = document.getElementById(styleId) as HTMLStyleElement;
+
+    if (!styleElement) {
+      styleElement = document.createElement('style');
+      styleElement.id = styleId;
+      document.head.appendChild(styleElement);
+    }
+
+    styleElement.textContent = css;
   }, []);
 
-  const toggleTheme = useCallback(
-    async (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (isAnimating) return;
-      setIsAnimating(true);
-      const rect = event.currentTarget.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      const backgroundColor = resolvedTheme === 'light' ? 'oklch(0.145 0 0)' : 'oklch(1 0 0)';
+  const toggleTheme = React.useCallback(() => {
+    const animation = createAnimation(variant, start, url);
 
-      const transition = document.createElement('div');
-      transition.setAttribute('data-theme-transition', 'true');
-      transition.style.cssText = `
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        pointer-events: none;
-        background: ${backgroundColor};
-        clip-path: circle(0px at ${x}px ${y}px);
-        transition: clip-path 500ms cubic-bezier(0.4, 0, 0.2, 1);
-      `;
-      document.body.appendChild(transition);
-      requestAnimationFrame(() => {
-        const maxRadius = Math.max(window.innerWidth, window.innerHeight) * 1.2;
-        transition.style.clipPath = `circle(${maxRadius}px at ${x}px ${y}px)`;
-      });
+    updateStyles(animation.css);
 
-      const newTheme = resolvedTheme === 'light' ? 'dark' : 'light';
-      setTimeout(() => setTheme(newTheme), 250);
+    if (typeof window === 'undefined') return;
 
-      setTimeout(() => {
-        transition.remove();
-        setIsAnimating(false);
-      }, 500);
-    },
-    [resolvedTheme, isAnimating, setTheme],
-  );
+    const switchTheme = () => {
+      setTheme(theme === 'light' ? 'dark' : 'light');
+    };
 
-  if (!mounted) return null;
+    if (!document.startViewTransition) {
+      switchTheme();
+      return;
+    }
+
+    document.startViewTransition(switchTheme);
+  }, [theme, setTheme]);
 
   return (
-    <button
+    <Button
       onClick={toggleTheme}
-      disabled={isAnimating}
-      className={`relative flex h-8 w-8 items-center justify-center overflow-hidden transition-opacity hover:opacity-80 ${className} hover:cursor-pointer z-50`}
-      aria-label="Toggle theme"
+      variant="ghost"
+      size="icon"
+      className="w-9 p-0 h-9 relative group hover:cursor-pointer"
+      name="Theme Toggle Button"
     >
-      <Sun
-        className={`absolute h-5 w-5 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-          resolvedTheme === 'dark'
-            ? 'translate-y-0 scale-100 opacity-100'
-            : 'translate-y-5 scale-50 opacity-0'
-        }`}
-      />
-      <Moon
-        className={`absolute h-5 w-5 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-          resolvedTheme === 'light'
-            ? 'translate-y-0 scale-100 opacity-100'
-            : 'translate-y-5 scale-50 opacity-0'
-        }`}
-      />
-    </button>
+      <Sun className="size-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute size-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Theme Toggle </span>
+      {showLabel && (
+        <>
+          <span className="hidden group-hover:block border rounded-full px-2 absolute -top-10">
+            {' '}
+            variant = {variant}
+          </span>
+          <span className="hidden group-hover:block border rounded-full px-2 absolute -bottom-10">
+            {' '}
+            start = {start}
+          </span>
+        </>
+      )}
+    </Button>
   );
 }

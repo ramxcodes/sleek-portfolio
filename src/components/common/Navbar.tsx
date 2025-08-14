@@ -33,7 +33,7 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <ThemeSwitch />
+          <ThemeSwitch start="top-right" />
         </div>
       </div>
     </Container>
