@@ -14,6 +14,7 @@ import PostgreSQL from '@/components/technologies/PostgreSQL';
 import Postman from '@/components/technologies/Postman';
 import Prisma from '@/components/technologies/Prisma';
 import ReactIcon from '@/components/technologies/ReactIcon';
+import TailwindCss from '@/components/technologies/TailwindCss';
 import TypeScript from '@/components/technologies/TypeScript';
 import Vercel from '@/components/technologies/Vercel';
 
@@ -63,7 +64,7 @@ export const experiences: Experience[] = [
       {
         name: 'Tailwind CSS',
         href: 'https://tailwindcss.com/',
-        icon: <Bun />,
+        icon: <TailwindCss />,
       },
       {
         name: 'TypeScript',
@@ -74,6 +75,31 @@ export const experiences: Experience[] = [
         name: 'React',
         href: 'https://react.dev/',
         icon: <ReactIcon />,
+      },
+      {
+        name: 'Figma',
+        href: 'https://figma.com/',
+        icon: <Figma />,
+      },
+      {
+        name: 'Vercel',
+        href: 'https://vercel.com/',
+        icon: <Vercel />,
+      },
+      {
+        name: 'AWS',
+        href: 'https://aws.amazon.com/',
+        icon: <AWS />,
+      },
+      {
+        name: 'Postman',
+        href: 'https://www.postman.com/',
+        icon: <Postman />,
+      },
+      {
+        name: 'Bun',
+        href: 'https://bun.sh/',
+        icon: <Bun />,
       },
     ],
     website: 'https://promote.fun/',
