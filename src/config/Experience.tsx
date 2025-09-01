@@ -7,6 +7,7 @@ import Figma from '@/components/technologies/Figma';
 import Html from '@/components/technologies/Html';
 import JavaScript from '@/components/technologies/JavaScript';
 import MongoDB from '@/components/technologies/MongoDB';
+import NestJs from '@/components/technologies/NestJs';
 import NextJs from '@/components/technologies/NextJs';
 import NodeJs from '@/components/technologies/NodeJs';
 import PostgreSQL from '@/components/technologies/PostgreSQL';
@@ -39,6 +40,87 @@ export interface Experience {
 }
 
 export const experiences: Experience[] = [
+  {
+    isCurrent: true,
+    company: 'Promote',
+    position: 'Founding Frontend Engineer',
+    location: 'United States (Remote)',
+    image: '/company/promote.png',
+    description: [
+      'Architected and developed the complete frontend infrastructure for Promote platform, a comprehensive solution for creating and managing promotional campaigns.',
+      'Led a comprehensive codebase refactoring initiative that improved maintainability, scalability, and development velocity across the entire platform.',
+      'Integrated and optimized backend API connections, implementing efficient data fetching strategies and error handling mechanisms.',
+      'Enhanced user experience and interface design through implementation of consistent design systems, accessibility standards, and performance optimizations.',
+    ],
+    startDate: 'August 2025',
+    endDate: 'Present',
+    technologies: [
+      {
+        name: 'Next.js',
+        href: 'https://nextjs.org/',
+        icon: <NextJs />,
+      },
+      {
+        name: 'Tailwind CSS',
+        href: 'https://tailwindcss.com/',
+        icon: <Bun />,
+      },
+      {
+        name: 'TypeScript',
+        href: 'https://typescriptlang.org/',
+        icon: <TypeScript />,
+      },
+      {
+        name: 'React',
+        href: 'https://react.dev/',
+        icon: <ReactIcon />,
+      },
+    ],
+    website: 'https://promote.fun/',
+    github: 'https://github.com/Promote-fun',
+    x: 'https://x.com/promotefun_',
+  },
+  {
+    isCurrent: false,
+    company: 'Upsurge Labs',
+    position: 'Backend Developer Intern',
+    location: 'Bangalore, India (On-Site)',
+    image: '/company/upsurge.png',
+    description: [
+      'Backend development for *Bhindi.io*, a flagship product of Upsurge Labs, focusing on core infrastructure and agent development.',
+      'Engineered and deployed multiple high-performance agents, enhancing product capabilities and user experience.',
+      'Testing agent functionality, authentication, automation, and system stability.',
+      'Streamlined development workflows by optimizing internal tools and maintaining detailed technical documentation.',
+    ],
+    startDate: 'June 2025',
+    endDate: 'July 2025',
+    technologies: [
+      {
+        name: 'NestJS',
+        href: 'https://nestjs.com/',
+        icon: <NestJs />,
+      },
+      {
+        name: 'Postman',
+        href: 'https://www.postman.com/',
+        icon: <Postman />,
+      },
+      {
+        name: 'TypeScript',
+        href: 'https://www.typescriptlang.org/',
+        icon: <TypeScript />,
+      },
+      {
+        name: 'Express',
+        href: 'https://expressjs.com/',
+        icon: <ExpressJs />,
+      },
+    ],
+    website: 'https://bhindi.io',
+    github: 'https://github.com/upsurgeio',
+    x: 'https://x.com/upsurgelabs',
+    linkedin: 'https://www.linkedin.com/company/upsurge-labs-pte-ltd',
+  },
   {
     isCurrent: false,
     company: 'Prepeasy',
