@@ -66,7 +66,7 @@ export default function CTA({
           <p className="opacity-50 font-[family-name:var(--font-instrument-serif)] text-base md:text-xl mb-4 sm:mb-3">
             {preText}
           </p>
-          <div className="w-full sm:w-auto mt-4 sm:mt-0">
+          <div className="w-full sm:w-auto mt-4 sm:mt-0 flex justify-center sm:justify-end">
             <div
               className="inline-flex items-center text-sm bg-black/5 dark:bg-white/15 border border-dashed dark:border-white/30 border-black/20 py-1 px-2 rounded-md shadow-[0_0_5px_rgba(0,0,0,0.1)] dark:shadow-[0_0_5px_rgba(255,255,255,0.1)] self-end text-black dark:text-white cursor-pointer transition-all group"
               onClick={handleButtonClick}
@@ -113,7 +113,7 @@ export default function CTA({
 
       {/* Cal.com Dialog */}
       <Dialog open={showCalPopup} onOpenChange={setShowCalPopup}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+        <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-4rem)] md:max-w-4xl max-h-[90vh] overflow-hidden">
           <DialogHeader>
             <DialogTitle>Book a Meeting</DialogTitle>
             <DialogDescription>
