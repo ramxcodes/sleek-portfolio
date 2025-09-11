@@ -38,17 +38,19 @@ export interface Experience {
   github?: string;
   technologies: Technology[];
   isCurrent: boolean;
+  isBlur?: boolean;
 }
 
 export const experiences: Experience[] = [
   {
     isCurrent: true,
-    company: 'Promote',
+    isBlur: true,
+    company: 'good day :3',
     position: 'Founding Frontend Engineer',
     location: 'United States (Remote)',
     image: '/company/promote.png',
     description: [
-      'Architected and developed the complete frontend infrastructure for Promote platform, a comprehensive solution for creating and managing promotional campaigns.',
+      'Architected and developed the complete frontend infrastructure for the platform, a comprehensive solution for creating and managing promotional campaigns.',
       'Led a comprehensive codebase refactoring initiative that improved maintainability, scalability, and development velocity across the entire platform.',
       'Integrated and optimized backend API connections, implementing efficient data fetching strategies and error handling mechanisms.',
       'Enhanced user experience and interface design through implementation of consistent design systems, accessibility standards, and performance optimizations.',
@@ -102,9 +104,9 @@ export const experiences: Experience[] = [
         icon: <Bun />,
       },
     ],
-    website: 'https://promote.fun/',
-    github: 'https://github.com/Promote-fun',
-    x: 'https://x.com/promotefun_',
+    website: '#',
+    github: '#',
+    x: '#',
   },
   {
     isCurrent: false,
