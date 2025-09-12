@@ -63,7 +63,7 @@ export default function CTA({
     <>
       <Container className="mt-20 border border-dashed dark:border-white/10 border-black/20 py-8 rounded-md ">
         <div className="sm:px-12 px-6 mt-6 pb-8 sm:flex sm:justify-between sm:items-center w-full flex-col">
-          <p className="opacity-50 font-[family-name:var(--font-instrument-serif)] text-base md:text-xl mb-4 sm:mb-3">
+          <p className="opacity-50 text-base md:text-xl mb-4 sm:mb-3 text-center">
             {preText}
           </p>
           <div className="w-full sm:w-auto mt-4 sm:mt-0 flex justify-center sm:justify-end">
