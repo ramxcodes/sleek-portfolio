@@ -1,13 +1,13 @@
 'use client';
 
 import { githubConfig } from '@/config/Github';
-import { Github as GithubIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import Container from '../common/Container';
+import GithubIcon from '../svgs/Github';
 import { Button } from '../ui/button';
 
 const ActivityCalendar = dynamic(
@@ -128,7 +128,7 @@ export default function Github() {
               {githubConfig.title}
             </h2>
             <p className="text-sm text-muted-foreground">
-              {githubConfig.subtitle}
+              <b>{githubConfig.username}</b>&apos;s {githubConfig.subtitle}
             </p>
             {!isLoading && !hasError && totalContributions > 0 && (
               <p className="text-sm text-primary font-medium mt-1">
