@@ -41,7 +41,7 @@ function ScrollArea({
 
       if ((delta < 0 && canScrollUp) || (delta > 0 && canScrollDown)) {
         e.stopPropagation();
-        // Do NOT preventDefault here to preserve native scroll behavior
+    // keep native scroll
       }
       // If chat can't scroll further, allow Lenis/page scroll to happen
     }
