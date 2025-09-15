@@ -1,5 +1,6 @@
 import { heroConfig, skillComponents, socialLinks } from '@/config/Hero';
 import { parseTemplate } from '@/lib/hero';
+import { cn } from '@/lib/utils';
 import { Link } from 'next-view-transitions';
 import Image from 'next/image';
 import React from 'react';
@@ -79,6 +80,12 @@ export default function Hero() {
             <Button
               key={index}
               variant={button.variant as 'outline' | 'default'}
+              className={cn(
+                button.variant === 'outline' &&
+                  'inset-shadow-indigo-500',
+                button.variant === 'default' &&
+                  'inset-shadow-indigo-500',
+              )}
             >
               {IconComponent && <IconComponent />}
               <Link href={button.href}>{button.text}</Link>

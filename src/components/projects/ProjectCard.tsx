@@ -71,9 +71,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="space-y-4">
           {/* Project Header - Title and Icons */}
           <div className="flex items-center justify-between gap-4">
-            <h3 className="text-xl font-semibold leading-tight group-hover:text-primary">
-              {project.title}
-            </h3>
+            <Link href={project.projectDetailsPageSlug}>
+              <h3 className="text-xl font-semibold leading-tight group-hover:text-primary hover:cursor-pointer">
+                {project.title}
+              </h3>
+            </Link>
             <div className="flex items-center gap-2">
               <Tooltip>
                 <TooltipTrigger>

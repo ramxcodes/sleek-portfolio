@@ -1,5 +1,6 @@
 'use client';
 
+import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 import {
   AnimationStart,
   AnimationVariant,
@@ -28,6 +29,7 @@ export default function ThemeSwitch({
   url,
 }: ThemeToggleAnimationProps) {
   const { theme, setTheme } = useTheme();
+  const { triggerHaptic, isMobile } = useHapticFeedback();
 
   const styleId = 'theme-transition-styles';
 
@@ -54,6 +56,11 @@ export default function ThemeSwitch({
 
     const switchTheme = () => {
       setTheme(theme === 'light' ? 'dark' : 'light');
+
+      // Trigger haptic feedback on mobile devices
+      if (isMobile()) {
+        triggerHaptic('medium');
+      }
     };
 
     if (!document.startViewTransition) {
@@ -62,7 +69,7 @@ export default function ThemeSwitch({
     }
 
     document.startViewTransition(switchTheme);
-  }, [theme, setTheme]);
+  }, [theme, setTheme, isMobile, triggerHaptic]);
 
   return (
     <Button

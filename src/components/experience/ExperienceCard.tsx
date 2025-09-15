@@ -1,4 +1,5 @@
 import { type Experience } from '@/config/Experience';
+import { cn } from '@/lib/utils';
 import { Link } from 'next-view-transitions';
 import Image from 'next/image';
 import React from 'react';
@@ -34,7 +35,14 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
           />
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-bold">{experience.company}</h3>
+              <h3
+                className={cn(
+                  'text-lg font-bold',
+                  experience.isBlur ? 'blur-[5px]' : 'blur-none',
+                )}
+              >
+                {experience.company}
+              </h3>
               {experience.website && (
                 <Tooltip>
                   <TooltipTrigger asChild>
