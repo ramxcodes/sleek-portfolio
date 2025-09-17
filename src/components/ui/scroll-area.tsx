@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import type Lenis from 'lenis';
 import * as React from 'react';
 
 function ScrollArea({
@@ -10,11 +11,12 @@ function ScrollArea({
   ...props
 }: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
   const viewportRef = React.useRef<HTMLDivElement | null>(null);
-  const [lenisInstance, setLenisInstance] = React.useState<any>(null);
+  const [lenisInstance, setLenisInstance] = React.useState<Lenis | null>(null);
 
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).lenis) {
-      setLenisInstance((window as any).lenis);
+    type WindowWithLenis = Window & { lenis?: Lenis };
+    if (typeof window !== 'undefined' && (window as WindowWithLenis).lenis) {
+      setLenisInstance((window as WindowWithLenis).lenis!);
     }
   }, []);
 
@@ -41,7 +43,7 @@ function ScrollArea({
 
       if ((delta < 0 && canScrollUp) || (delta > 0 && canScrollDown)) {
         e.stopPropagation();
-    // keep native scroll
+        // keep native scroll
       }
       // If chat can't scroll further, allow Lenis/page scroll to happen
     }
@@ -81,8 +83,10 @@ function ScrollBar({
       orientation={orientation}
       className={cn(
         'flex touch-none p-px transition-colors select-none',
-        orientation === 'vertical' && 'h-full w-2.5 border-l border-l-transparent',
-        orientation === 'horizontal' && 'h-2.5 flex-col border-t border-t-transparent',
+        orientation === 'vertical' &&
+          'h-full w-2.5 border-l border-l-transparent',
+        orientation === 'horizontal' &&
+          'h-2.5 flex-col border-t border-t-transparent',
         className,
       )}
       {...props}
