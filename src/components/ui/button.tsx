@@ -1,3 +1,6 @@
+'use client';
+
+import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 import { cn } from '@/lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
@@ -39,17 +42,27 @@ function Button({
   variant,
   size,
   asChild = false,
+  onClick,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : 'button';
+  const { triggerHaptic, isMobile } = useHapticFeedback();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (isMobile()) {
+      triggerHaptic('light');
+    }
+    onClick?.(event);
+  };
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      onClick={handleClick}
       {...props}
     />
   );
