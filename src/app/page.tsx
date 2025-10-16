@@ -7,6 +7,7 @@ import Github from '@/components/landing/Github';
 import Hero from '@/components/landing/Hero';
 import Work from '@/components/landing/Projects';
 import Setup from '@/components/landing/Setup';
+import Journey from '@/components/landing/Journey';
 import React from 'react';
 
 export default function page() {
@@ -20,6 +21,7 @@ export default function page() {
       <Blog />
       <CTA />
       <Setup />
+      <Journey />
     </Container>
   );
 }
