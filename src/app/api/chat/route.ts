@@ -6,10 +6,10 @@ import * as z from 'zod';
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
 const RATE_LIMIT_WINDOW = 60 * 1000;
-const RATE_LIMIT_MAX_REQUESTS = 20;
+const RATE_LIMIT_MAX_REQUESTS = 5;
 
 const chatSchema = z.object({
-  message: z.string().min(1).max(500),
+  message: z.string().min(1).max(2000),
   history: z
     .array(
       z.object({
@@ -20,6 +20,45 @@ const chatSchema = z.object({
     .optional()
     .default([]),
 });
+
+function sanitizeInput(input: string): string {
+  const injectionPatterns = [
+    /ignore previous instructions/gi,
+    /system prompt/gi,
+    /you are now/gi,
+    /act as/gi,
+    /pretend to be/gi,
+    /ignore all previous/gi,
+    /forget everything/gi,
+    /new instructions/gi,
+    /override/gi,
+    /bypass/gi,
+    /hack/gi,
+    /exploit/gi,
+    /inject/gi,
+    /prompt injection/gi,
+    /system message/gi,
+    /role play/gi,
+    /character/gi,
+    /persona/gi,
+    /behave as/gi,
+    /respond as/gi,
+  ];
+
+  let sanitized = input;
+
+  injectionPatterns.forEach((pattern) => {
+    sanitized = sanitized.replace(pattern, '[REDACTED]');
+  });
+
+  sanitized = sanitized.trim().replace(/\s+/g, ' ');
+
+  if (sanitized.length > 2000) {
+    sanitized = sanitized.substring(0, 2000);
+  }
+
+  return sanitized;
+}
 
 function getClientIP(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -115,10 +154,16 @@ export async function POST(request: NextRequest) {
           role: 'model',
         },
         // Add conversation history
-        ...validatedData.history,
+        ...validatedData.history.map((msg) => ({
+          ...msg,
+          parts: msg.parts.map((part) => ({
+            ...part,
+            text: msg.role === 'user' ? sanitizeInput(part.text) : part.text,
+          })),
+        })),
         // Add current message
         {
-          parts: [{ text: validatedData.message }],
+          parts: [{ text: sanitizeInput(validatedData.message) }],
           role: 'user',
         },
       ],
