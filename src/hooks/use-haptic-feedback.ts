@@ -36,10 +36,13 @@ export const useHapticFeedback = () => {
       }
 
       // For iOS devices with haptic feedback support
-      // @ts-expect-error - This is for iOS Safari haptic feedback
       if (
         window.DeviceMotionEvent &&
-        typeof window.DeviceMotionEvent.requestPermission === 'function'
+        typeof (
+          window.DeviceMotionEvent as unknown as {
+            requestPermission?: () => Promise<string>;
+          }
+        ).requestPermission === 'function'
       ) {
         // iOS haptic feedback through AudioContext (workaround)
         const AudioContextClass =
