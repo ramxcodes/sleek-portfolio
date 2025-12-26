@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export default function GearCard() {
-  return (
-    <div>GearCard</div>
-  )
+  return <div>GearCard</div>;
 }

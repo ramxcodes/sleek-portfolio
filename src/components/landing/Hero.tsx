@@ -81,10 +81,8 @@ export default function Hero() {
               key={index}
               variant={button.variant as 'outline' | 'default'}
               className={cn(
-                button.variant === 'outline' &&
-                  'inset-shadow-indigo-500',
-                button.variant === 'default' &&
-                  'inset-shadow-indigo-500',
+                button.variant === 'outline' && 'inset-shadow-indigo-500',
+                button.variant === 'default' && 'inset-shadow-indigo-500',
               )}
             >
               {IconComponent && <IconComponent />}

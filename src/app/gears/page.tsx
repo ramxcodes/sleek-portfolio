@@ -4,8 +4,8 @@ import { Separator } from '@/components/ui/separator';
 import { devices, software, webExtensions } from '@/config/Gears';
 import { generateMetadata as getMetadata } from '@/config/Meta';
 import { ArrowUpRight, Puzzle } from 'lucide-react';
-import { Link } from 'next-view-transitions';
 import { Metadata } from 'next';
+import { Link } from 'next-view-transitions';
 import React from 'react';
 
 export const metadata: Metadata = {
@@ -18,9 +18,9 @@ export const metadata: Metadata = {
       follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1
-    }
-  }
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function GearsPage() {

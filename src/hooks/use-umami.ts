@@ -1,13 +1,16 @@
-'use client'
+'use client';
 
-import { useCallback } from "react"
-import type { AnalyticsEvent } from "@/types/analytics"
+import type { AnalyticsEvent } from '@/types/analytics';
+import { useCallback } from 'react';
 
 declare global {
   interface Window {
     umami?: {
-      track: (event: AnalyticsEvent['name'], data: AnalyticsEvent['data']) => void
-    }
+      track: (
+        event: AnalyticsEvent['name'],
+        data: AnalyticsEvent['data'],
+      ) => void;
+    };
   }
 }
 
@@ -17,11 +20,11 @@ declare global {
  * ```tsx
  * function MyComponent() {
  *   const { trackEvent } = useUmami()
- * 
+ *
  *   const handleClick = () => {
  *     trackEvent({
  *       name: 'button_click',
- *       data: { 
+ *       data: {
  *         buttonId: 'hero_cta',
  *         section: 'hero'
  *       }
@@ -34,13 +37,13 @@ declare global {
 export function useUmami() {
   const trackEvent = useCallback((event: AnalyticsEvent) => {
     try {
-      if (typeof window !== "undefined" && window.umami) {
-        window.umami.track(event.name, event.data)
+      if (typeof window !== 'undefined' && window.umami) {
+        window.umami.track(event.name, event.data);
       }
     } catch (error) {
-      console.error("Error tracking Umami event:", error)
+      console.error('Error tracking Umami event:', error);
     }
-  }, [])
+  }, []);
 
-  return { trackEvent }
+  return { trackEvent };
 }

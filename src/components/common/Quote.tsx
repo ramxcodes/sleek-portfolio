@@ -1,9 +1,9 @@
 'use client';
 
+import { quotes } from '@/config/Quote';
 import { useEffect, useState } from 'react';
 
 import Container from './Container';
-import { quotes } from '@/config/Quote';
 
 export const Quote = () => {
   const [currentQuote, setCurrentQuote] = useState<{

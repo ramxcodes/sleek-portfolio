@@ -1,11 +1,11 @@
 import Container from '@/components/common/Container';
 import CheckCircle from '@/components/svgs/CheckCircle';
 import { Separator } from '@/components/ui/separator';
-import { settingsJson, steps } from '@/config/Setup';
 import { generateMetadata as getMetadata } from '@/config/Meta';
+import { settingsJson, steps } from '@/config/Setup';
 import { Download, ExternalLink, FileText } from 'lucide-react';
-import Link from 'next/link';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import React from 'react';
 
 export const metadata: Metadata = {
@@ -18,9 +18,9 @@ export const metadata: Metadata = {
       follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1
-    }
-  }
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function SetupPage() {
