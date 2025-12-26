@@ -1,6 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
+import path from 'path';
 
 const journeyDirectory = path.join(process.cwd(), 'src/data/journey');
 
@@ -18,4 +18,6 @@ export function getJourneyContent() {
   }
 }
 
-export default { getJourneyContent };
+const journeyLib = { getJourneyContent };
+
+export default journeyLib;

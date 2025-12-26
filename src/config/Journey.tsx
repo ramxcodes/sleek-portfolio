@@ -1,6 +1,6 @@
-import React from 'react';
-import CV from '@/components/svgs/CV';
 import Calender from '@/components/svgs/Calender';
+import { CertificateIcon } from '@phosphor-icons/react/dist/ssr';
+import React from 'react';
 
 export type JourneyItem = {
   name: string;
@@ -19,11 +19,13 @@ export const journeyItems: JourneyItem[] = [
   {
     name: 'Certificates & Achievements',
     description: 'A curated list of certificates and achievements.',
-    icon: CV,
+    icon: CertificateIcon,
     href: '/journey/certificates',
   },
 ];
 
-export default {
+const journeyConfig = {
   journeyItems,
 };
+
+export default journeyConfig;
