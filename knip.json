@@ -1,0 +1,29 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["src/**/*.{ts,tsx,js,jsx}"],
+  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}!"],
+  "ignore": ["public/oneko/oneko.js"],
+  "ignoreDependencies": [
+    "@mdx-js/loader",
+    "@mdx-js/react",
+    "@next/mdx",
+    "@types/mdx",
+    "date-fns",
+    "motion",
+    "recharts",
+    "rehype-stringify",
+    "remark-frontmatter",
+    "remark-gfm",
+    "shiki",
+    "@tailwindcss/typography",
+    "eslint-config-next",
+    "tailwindcss",
+    "tw-animate-css",
+    "postcss"
+  ],
+  "ignoreExportsUsedInFile": {
+    "interface": true,
+    "type": true
+  },
+  "tags": ["-lintignore"]
+}
