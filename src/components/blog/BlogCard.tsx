@@ -27,7 +27,7 @@ export function BlogCard({ post }: BlogCardProps) {
   });
 
   return (
-    <Card className="group h-full w-full overflow-hidden transition-all p-0 border-gray-100 dark:border-gray-800 shadow-none">
+    <Card className="group h-full w-full overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800">
       <CardHeader className="p-0">
         <div className="relative aspect-video overflow-hidden">
           <Link href={`/blog/${slug}`}>
@@ -38,11 +38,11 @@ export function BlogCard({ post }: BlogCardProps) {
       <CardContent>
         <div className="space-y-3">
           <Link href={`/blog/${slug}`}>
-            <h3 className="line-clamp-2 text-xl font-semibold leading-tight group-hover:text-primary">
+            <h3 className="group-hover:text-primary line-clamp-2 text-xl leading-tight font-semibold">
               {title}
             </h3>
           </Link>
-          <p className="line-clamp-3 text-secondary mt-4">{description}</p>
+          <p className="text-secondary mt-4 line-clamp-3">{description}</p>
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-0">
@@ -59,16 +59,16 @@ export function BlogCard({ post }: BlogCardProps) {
               </Badge>
             )}
           </div>
-          <div className="flex items-center gap-2 justify-between mt-4">
+          <div className="mt-4 flex items-center justify-between gap-2">
             <time
-              className="text-sm text-secondary flex items-center gap-2"
+              className="text-secondary flex items-center gap-2 text-sm"
               dateTime={date}
             >
               <Calender className="size-4" /> {formattedDate}
             </time>
             <Link
               href={`/blog/${slug}`}
-              className="flex items-center justify-end gap-2 hover:underline underline-offset-4 text-secondary"
+              className="text-secondary flex items-center justify-end gap-2 underline-offset-4 hover:underline"
             >
               Read More <ArrowRight className="size-4" />
             </Link>

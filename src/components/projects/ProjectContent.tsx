@@ -71,36 +71,36 @@ export function ProjectContent({ frontmatter, content }: ProjectContentProps) {
             )}
           </div>
 
-          <h1 className="text-4xl font-bold leading-tight lg:text-5xl">
+          <h1 className="text-4xl leading-tight font-bold lg:text-5xl">
             {title}
           </h1>
 
-          <p className="text-xl text-muted-foreground">{description}</p>
+          <p className="text-muted-foreground text-xl">{description}</p>
 
           {/* Project Meta Information */}
-          <div className="grid gap-4 rounded-lg border bg-muted/20 p-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="bg-muted/20 grid gap-4 rounded-lg border p-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <h5 className="text-sm font-semibold text-muted-foreground">
+              <h5 className="text-muted-foreground text-sm font-semibold">
                 Timeline
               </h5>
               <p className="text-sm">{timeline}</p>
             </div>
             <div>
-              <h5 className="text-sm font-semibold text-muted-foreground">
+              <h5 className="text-muted-foreground text-sm font-semibold">
                 Role
               </h5>
               <p className="text-sm">{role}</p>
             </div>
             {team && (
               <div>
-                <h5 className="text-sm font-semibold text-muted-foreground">
+                <h5 className="text-muted-foreground text-sm font-semibold">
                   Team
                 </h5>
                 <p className="text-sm">{team}</p>
               </div>
             )}
             <div>
-              <h5 className="text-sm font-semibold text-muted-foreground">
+              <h5 className="text-muted-foreground text-sm font-semibold">
                 Status
               </h5>
               <Badge variant={statusVariant} className="text-xs">
@@ -145,13 +145,13 @@ export function ProjectContent({ frontmatter, content }: ProjectContentProps) {
 
       {/* Technology Stack */}
       <div className="mb-8">
-        <div className="rounded-lg border bg-muted/20 p-4">
+        <div className="bg-muted/20 rounded-lg border p-4">
           <h3 className="mb-3 text-lg font-semibold">Technology Stack</h3>
           <div className="flex flex-wrap gap-2">
             {technologies.map((tech) => (
               <div
                 key={tech}
-                className="inline-flex items-center gap-2 rounded-full bg-muted/50 px-3 py-1.5 text-sm font-medium"
+                className="bg-muted/50 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium"
               >
                 <span>{tech}</span>
               </div>
@@ -204,7 +204,7 @@ export function ProjectContent({ frontmatter, content }: ProjectContentProps) {
       )}
 
       {/* Content */}
-      <div className="prose prose-neutral max-w-none dark:prose-invert">
+      <div className="prose prose-neutral dark:prose-invert max-w-none">
         <MDXRemote
           source={content}
           components={ProjectComponents}

@@ -60,11 +60,11 @@ export default function CertificatesGallery({
         {certificates.map((cert) => (
           <Card
             key={cert.file}
-            className="group h-full w-full overflow-hidden transition-all p-0 border-gray-100 dark:border-gray-800 shadow-none cursor-pointer"
+            className="group h-full w-full cursor-pointer overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800"
             onClick={() => setActive(cert.file)}
           >
             <CardHeader className="p-0">
-              <div className="group relative aspect-video overflow-hidden bg-muted/20">
+              <div className="group bg-muted/20 relative aspect-video overflow-hidden">
                 <Image
                   src={cert.file}
                   alt={cert.title || 'certificate'}
@@ -77,18 +77,18 @@ export default function CertificatesGallery({
 
             <CardContent className="px-6">
               <div className="space-y-2">
-                <h3 className="text-xl font-semibold leading-tight group-hover:text-primary">
+                <h3 className="group-hover:text-primary text-xl leading-tight font-semibold">
                   {cert.title || 'Certificate'}
                 </h3>
                 {cert.issuer && (
-                  <p className="text-sm text-secondary">{cert.issuer}</p>
+                  <p className="text-secondary text-sm">{cert.issuer}</p>
                 )}
               </div>
             </CardContent>
 
             {cert.date && (
               <CardFooter className="p-6 pt-0">
-                <time className="text-sm text-secondary" dateTime={cert.date}>
+                <time className="text-secondary text-sm" dateTime={cert.date}>
                   {formatDate(cert.date)}
                 </time>
               </CardFooter>
@@ -104,15 +104,15 @@ export default function CertificatesGallery({
           if (!open) setActive(null);
         }}
       >
-        <DialogContent className="max-w-[90vw] max-h-[90vh] w-full p-0 border-0 bg-background/95 backdrop-blur-sm">
+        <DialogContent className="bg-background/95 max-h-[90vh] w-full max-w-[90vw] border-0 p-0 backdrop-blur-sm">
           {active && (
             <>
               <DialogTitle className="sr-only">
                 {certificates.find((c) => c.file === active)?.title ||
                   'Certificate'}
               </DialogTitle>
-              <div className="h-60 md:h-92 flex items-center justify-center p-4">
-                <div className="relative w-full h-full rounded-lg">
+              <div className="flex h-60 items-center justify-center p-4 md:h-92">
+                <div className="relative h-full w-full rounded-lg">
                   <Image
                     src={active}
                     alt={
@@ -120,25 +120,25 @@ export default function CertificatesGallery({
                       'certificate'
                     }
                     fill
-                    className="object-contain rounded-lg"
+                    className="rounded-lg object-contain"
                   />
                 </div>
               </div>
               {certificates.find((c) => c.file === active) && (
-                <div className="px-6 pb-6 pt-2 border-t">
+                <div className="border-t px-6 pt-2 pb-6">
                   <div className="space-y-1">
                     <h3 className="text-lg font-semibold">
                       {certificates.find((c) => c.file === active)?.title ||
                         'Certificate'}
                     </h3>
                     {certificates.find((c) => c.file === active)?.issuer && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {certificates.find((c) => c.file === active)?.issuer}
                       </p>
                     )}
                     {certificates.find((c) => c.file === active)?.date && (
                       <time
-                        className="text-xs text-muted-foreground"
+                        className="text-muted-foreground text-xs"
                         dateTime={
                           certificates.find((c) => c.file === active)?.date
                         }

@@ -39,7 +39,7 @@ export function CodeCopyButton({ code }: CodeCopyButtonProps) {
       ) : (
         <Tooltip>
           <TooltipTrigger className="cursor-pointer">
-            <Copy className="h-4 w-4 text-secondary" />
+            <Copy className="text-secondary h-4 w-4" />
           </TooltipTrigger>
           <TooltipContent>Copy to clipboard</TooltipContent>
         </Tooltip>

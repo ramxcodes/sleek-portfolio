@@ -65,7 +65,7 @@ export default function CertificatesPage() {
           <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
             Certificates & Achievements
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
             A curated list of my certificates and notable achievements.
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function CertificatesPage() {
             <h2 className="text-2xl font-semibold">
               All Certificates
               {allCertificates.length > 0 && (
-                <span className="ml-2 text-sm font-normal text-muted-foreground">
+                <span className="text-muted-foreground ml-2 text-sm font-normal">
                   ({allCertificates.length}{' '}
                   {allCertificates.length === 1
                     ? 'certificate'

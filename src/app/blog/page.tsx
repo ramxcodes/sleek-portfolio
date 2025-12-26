@@ -33,8 +33,8 @@ function BlogPageLoading() {
       <div className="space-y-8">
         {/* Header Skeleton */}
         <div className="space-y-4 text-center">
-          <Skeleton className="h-12 w-32 mx-auto" />
-          <Skeleton className="h-6 w-96 mx-auto" />
+          <Skeleton className="mx-auto h-12 w-32" />
+          <Skeleton className="mx-auto h-6 w-96" />
         </div>
 
         <Separator />

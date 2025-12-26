@@ -10,7 +10,7 @@ interface ExperienceListProps {
 export function ExperienceList({ experiences }: ExperienceListProps) {
   if (experiences.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="py-8 text-center">
         <p className="text-muted-foreground">No work experiences found.</p>
       </div>
     );

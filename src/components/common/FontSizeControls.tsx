@@ -76,7 +76,7 @@ export default function FontSizeControls() {
             <Button
               variant="outline"
               size="sm"
-              className="fixed bottom-4 left-4 z-50 h-12 w-12 rounded-full bg-background/95 backdrop-blur-sm border border-border shadow-lg hover:bg-accent"
+              className="bg-background/95 border-border hover:bg-accent fixed bottom-4 left-4 z-50 h-12 w-12 rounded-full border shadow-lg backdrop-blur-sm"
               aria-label="Open font size controls"
             >
               <Settings size={20} />
@@ -93,10 +93,10 @@ export default function FontSizeControls() {
               <div className="flex flex-col items-center gap-6">
                 {/* Font size display */}
                 <div className="text-center">
-                  <div className="text-3xl font-mono font-bold text-foreground mb-2">
+                  <div className="text-foreground mb-2 font-mono text-3xl font-bold">
                     {fontSize}px
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     Current font size
                   </div>
                 </div>
@@ -118,7 +118,7 @@ export default function FontSizeControls() {
                     variant="outline"
                     size="lg"
                     onClick={handleReset}
-                    className="h-12 px-4 text-sm font-mono hover:bg-accent whitespace-nowrap"
+                    className="hover:bg-accent h-12 px-4 font-mono text-sm whitespace-nowrap"
                     aria-label="Reset font size"
                   >
                     Reset
@@ -138,11 +138,11 @@ export default function FontSizeControls() {
 
                 {/* Size range indicator */}
                 <div className="w-full max-w-xs">
-                  <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                  <div className="text-muted-foreground mb-2 flex justify-between text-xs">
                     <span>12px</span>
                     <span>24px</span>
                   </div>
-                  <div className="w-full bg-muted rounded-full h-2">
+                  <div className="bg-muted h-2 w-full rounded-full">
                     <div
                       className="bg-primary h-2 rounded-full transition-all duration-300"
                       style={{
@@ -158,8 +158,8 @@ export default function FontSizeControls() {
       </div>
 
       {/* Desktop: Original vertical controls */}
-      <div className="hidden md:flex fixed top-1/2 right-6 z-50 -translate-y-1/2">
-        <div className="bg-background/95 backdrop-blur-sm border border-border rounded-lg p-2 shadow-lg">
+      <div className="fixed top-1/2 right-6 z-50 hidden -translate-y-1/2 md:flex">
+        <div className="bg-background/95 border-border rounded-lg border p-2 shadow-lg backdrop-blur-sm">
           <div className="flex flex-col items-center gap-3">
             <div className="flex flex-col items-center gap-2">
               <Button
@@ -177,7 +177,7 @@ export default function FontSizeControls() {
                 variant="ghost"
                 size="sm"
                 onClick={handleReset}
-                className="h-10 px-1 text-xs font-mono hover:bg-accent whitespace-nowrap"
+                className="hover:bg-accent h-10 px-1 font-mono text-xs whitespace-nowrap"
                 aria-label="Reset font size"
               >
                 {fontSize}px

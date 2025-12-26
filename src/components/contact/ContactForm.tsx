@@ -98,7 +98,7 @@ export default function ContactForm() {
   };
 
   return (
-    <Card className="border-none shadow-none bg-transparent">
+    <Card className="border-none bg-transparent shadow-none">
       <CardHeader>
         <CardTitle>Send me a message</CardTitle>
         <CardDescription>

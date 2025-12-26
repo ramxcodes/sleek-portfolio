@@ -11,7 +11,7 @@ interface ProjectListProps {
 export function ProjectList({ projects, className }: ProjectListProps) {
   if (projects.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="py-8 text-center">
         <p className="text-muted-foreground">No projects found.</p>
       </div>
     );

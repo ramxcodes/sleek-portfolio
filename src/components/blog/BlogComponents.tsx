@@ -42,7 +42,7 @@ export const BlogComponents = {
     children: React.ReactNode;
     [key: string]: unknown;
   }) => (
-    <h2 className="mb-4 mt-8 text-3xl font-semibold" {...props}>
+    <h2 className="mt-8 mb-4 text-3xl font-semibold" {...props}>
       {children}
     </h2>
   ),
@@ -53,7 +53,7 @@ export const BlogComponents = {
     children: React.ReactNode;
     [key: string]: unknown;
   }) => (
-    <h3 className="mb-3 mt-6 text-2xl font-medium" {...props}>
+    <h3 className="mt-6 mb-3 text-2xl font-medium" {...props}>
       {children}
     </h3>
   ),
@@ -65,7 +65,7 @@ export const BlogComponents = {
     children: React.ReactNode;
     [key: string]: unknown;
   }) => (
-    <p className="mb-4 leading-7 text-muted-foreground" {...props}>
+    <p className="text-muted-foreground mb-4 leading-7" {...props}>
       {children}
     </p>
   ),
@@ -99,7 +99,7 @@ export const BlogComponents = {
     children: React.ReactNode;
     [key: string]: unknown;
   }) => (
-    <li className="leading-7 text-muted-foreground" {...props}>
+    <li className="text-muted-foreground leading-7" {...props}>
       {children}
     </li>
   ),
@@ -137,7 +137,7 @@ export const BlogComponents = {
     return (
       <div className="group relative mb-4">
         <pre
-          className="overflow-x-auto rounded-lg border bg-muted/30 p-4 text-sm [&>code]:bg-transparent [&>code]:p-0"
+          className="bg-muted/30 overflow-x-auto rounded-lg border p-4 text-sm [&>code]:bg-transparent [&>code]:p-0"
           {...props}
         >
           {children}
@@ -167,7 +167,7 @@ export const BlogComponents = {
 
     // Inline code styling
     return (
-      <code className="rounded px-2 py-1 text-sm font-mono" {...props}>
+      <code className="rounded px-2 py-1 font-mono text-sm" {...props}>
         {children}
       </code>
     );
@@ -181,7 +181,7 @@ export const BlogComponents = {
     [key: string]: unknown;
   }) => (
     <blockquote
-      className="mb-4 border-l-4 border-primary pl-4 italic text-muted-foreground"
+      className="border-primary text-muted-foreground mb-4 border-l-4 pl-4 italic"
       {...props}
     >
       {children}

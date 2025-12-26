@@ -30,7 +30,7 @@ export default function WorkExperiencePage() {
           <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
             Work Experience
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
             My work experiences across different companies and roles.
           </p>
         </div>
@@ -43,7 +43,7 @@ export default function WorkExperiencePage() {
             <h2 className="text-2xl font-semibold">
               All Experiences
               {experiences.length > 0 && (
-                <span className="ml-2 text-sm font-normal text-muted-foreground">
+                <span className="text-muted-foreground ml-2 text-sm font-normal">
                   ({experiences.length}{' '}
                   {experiences.length === 1 ? 'experience' : 'experiences'})
                 </span>

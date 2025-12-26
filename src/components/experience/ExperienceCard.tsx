@@ -101,7 +101,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
               )}
               {experience.isCurrent && (
                 <div className="flex items-center gap-1 rounded-md border-green-300 bg-green-500/10 px-2 py-1 text-xs">
-                  <div className="size-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <div className="size-2 animate-pulse rounded-full bg-green-500"></div>
                   Working
                 </div>
               )}

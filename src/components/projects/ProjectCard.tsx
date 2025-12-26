@@ -31,7 +31,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   return (
-    <Card className="group h-full w-full overflow-hidden transition-all p-0 border-gray-100 dark:border-gray-800 shadow-none">
+    <Card className="group h-full w-full overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800">
       <CardHeader className="p-0">
         <div className="group relative aspect-video overflow-hidden">
           <Image
@@ -50,10 +50,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </button>
                 </div>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl w-full p-0 border-0">
+              <DialogContent className="w-full max-w-4xl border-0 p-0">
                 <div className="aspect-video w-full">
                   <video
-                    className="h-full w-full object-cover rounded-lg"
+                    className="h-full w-full rounded-lg object-cover"
                     src={project.video}
                     autoPlay
                     loop
@@ -72,7 +72,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {/* Project Header - Title and Icons */}
           <div className="flex items-center justify-between gap-4">
             <Link href={project.projectDetailsPageSlug}>
-              <h3 className="text-xl font-semibold leading-tight group-hover:text-primary hover:cursor-pointer">
+              <h3 className="group-hover:text-primary text-xl leading-tight font-semibold hover:cursor-pointer">
                 {project.title}
               </h3>
             </Link>
@@ -80,7 +80,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <Tooltip>
                 <TooltipTrigger>
                   <Link
-                    className="text-secondary flex size-6 items-center justify-center hover:text-primary transition-colors"
+                    className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
                     href={project.link}
                     target="_blank"
                   >
@@ -95,7 +95,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 <TooltipTrigger>
                   {project.github && (
                     <Link
-                      className="text-secondary flex size-6 items-center justify-center hover:text-primary transition-colors"
+                      className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
                       href={project.github}
                       target="_blank"
                     >
@@ -115,14 +115,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
           {/* Technologies */}
           <div>
-            <h4 className="text-sm font-medium mb-2 text-secondary">
+            <h4 className="text-secondary mb-2 text-sm font-medium">
               Technologies
             </h4>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((technology, index) => (
                 <Tooltip key={index}>
                   <TooltipTrigger>
-                    <div className="size-6 hover:scale-120 transition-all duration-300 hover:cursor-pointer">
+                    <div className="size-6 transition-all duration-300 hover:scale-120 hover:cursor-pointer">
                       {technology.icon}
                     </div>
                   </TooltipTrigger>
@@ -137,7 +137,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </CardContent>
 
       {project.details && (
-        <CardFooter className="p-6 pt-0 flex justify-between">
+        <CardFooter className="flex justify-between p-6 pt-0">
           <div
             className={`flex items-center gap-1 rounded-md px-2 py-1 text-xs ${
               project.isWorking
@@ -147,19 +147,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
           >
             {project.isWorking ? (
               <>
-                <div className="size-2 rounded-full bg-green-500 animate-pulse" />
+                <div className="size-2 animate-pulse rounded-full bg-green-500" />
                 All Systems Operational
               </>
             ) : (
               <>
-                <div className="size-2 rounded-full bg-red-500 animate-pulse" />
+                <div className="size-2 animate-pulse rounded-full bg-red-500" />
                 Building
               </>
             )}
           </div>
           <Link
             href={project.projectDetailsPageSlug}
-            className="text-secondary flex items-center gap-2 text-sm hover:underline underline-offset-4 hover:text-primary transition-colors"
+            className="text-secondary hover:text-primary flex items-center gap-2 text-sm underline-offset-4 transition-colors hover:underline"
           >
             View Details <ArrowRight className="size-4" />
           </Link>

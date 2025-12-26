@@ -23,7 +23,7 @@ export default function JourneyPage() {
             <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
               Journey
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
               No journey content found. Add `src/data/journey/journey.mdx` to
               display content here.
             </p>
@@ -41,13 +41,13 @@ export default function JourneyPage() {
           <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
             Journey
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
             A timeline of my learning, projects, and milestones.
           </p>
         </div>
         <Separator />
 
-        <div className="prose prose-neutral max-w-none dark:prose-invert">
+        <div className="prose prose-neutral dark:prose-invert max-w-none">
           <MDXRemote source={data.content} components={BlogComponents} />
         </div>
       </div>

@@ -32,7 +32,7 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
                 <div className="flex items-center gap-3">
                   <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
                   <div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-muted-foreground text-xs">
                       Previous Project
                     </div>
                     <div className="font-medium">{previous.title}</div>
@@ -56,7 +56,7 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
               <Link href={`/projects/${next.slug}`}>
                 <div className="flex items-center gap-3">
                   <div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-muted-foreground text-xs">
                       Next Project
                     </div>
                     <div className="font-medium">{next.title}</div>

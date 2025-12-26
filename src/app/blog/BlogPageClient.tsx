@@ -83,7 +83,7 @@ export function BlogPageClient({
           <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
             Blogs
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
             Thoughts, tutorials, and insights on engineering, and programming.
           </p>
         </div>
@@ -98,7 +98,7 @@ export function BlogPageClient({
               {selectedTag && (
                 <button
                   onClick={() => handleTagClick(selectedTag)}
-                  className="text-sm text-muted-foreground hover:text-foreground underline"
+                  className="text-muted-foreground hover:text-foreground text-sm underline"
                 >
                   Clear filter
                 </button>
@@ -116,7 +116,7 @@ export function BlogPageClient({
                   >
                     <Badge
                       variant={isSelected ? 'default' : 'outline'}
-                      className="capitalize cursor-pointer hover:bg-accent hover:text-accent-foreground tag-inner-shadow"
+                      className="hover:bg-accent hover:text-accent-foreground tag-inner-shadow cursor-pointer capitalize"
                     >
                       {tag} ({postCount})
                     </Badge>
@@ -133,7 +133,7 @@ export function BlogPageClient({
             <h2 className="text-2xl font-semibold">
               {selectedTag ? `Posts tagged "${selectedTag}"` : 'Latest Posts'}
               {filteredPosts.length > 0 && (
-                <span className="ml-2 text-sm font-normal text-muted-foreground">
+                <span className="text-muted-foreground ml-2 text-sm font-normal">
                   ({filteredPosts.length}{' '}
                   {filteredPosts.length === 1 ? 'post' : 'posts'})
                 </span>
