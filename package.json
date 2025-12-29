@@ -12,7 +12,8 @@
     "format:prettierrcjson": "prettier --config .prettierrc.json --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:all": "bun run format:prettierrc && bun run format:prettierrcjson",
     "prepare": "husky",
-    "knip": "knip"
+    "knip": "knip",
+    "test-telegram": "bun src/validate/testTelegram.ts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

@@ -47,12 +47,18 @@ NEXT_PUBLIC_UMAMI_ID="your-umami-website-id"
 ### Setting up Telegram Integration
 
 1. Create a new bot with [@BotFather](https://t.me/botfather) on Telegram
-2. Copy the bot token provided
-3. Start a chat with your bot
-4. Get your chat ID by:
-   - Add your `bot` in a group as `admin`
-   - Then send `/id` to [@rosebot](https://t.me/MissRose_bot)
-   - Boom! you get your `id`
+2. Copy the bot token and add it to your `.env` file as `TELEGRAM_BOT_TOKEN`
+3. Start a chat with your bot and send any message (e.g., "hello")
+4. Get your chat ID:
+
+   ```bash
+   # Run the test script to get your chat ID
+   bun run test-telegram
+   ```
+
+   - The script will show your Chat ID from the message you sent
+   - Copy the Chat ID and add it to your `.env` file as `TELEGRAM_CHAT_ID`
+   - Run the script again to verify everything works
 
 ### Setting up Umami Analytics
 
