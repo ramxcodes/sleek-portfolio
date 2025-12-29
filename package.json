@@ -12,7 +12,8 @@
     "format:prettierrcjson": "prettier --config .prettierrc.json --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:all": "bun run format:prettierrc && bun run format:prettierrcjson",
     "prepare": "husky",
-    "knip": "knip"
+    "knip": "knip",
+    "test-telegram": "bun src/validate/testTelegram.ts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -65,7 +66,6 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
-    "dotenv": "^17.2.3",
     "embla-carousel-react": "^8.6.0",
     "eventsource-parser": "^3.0.3",
     "gray-matter": "^4.0.3",

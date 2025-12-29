@@ -1,11 +1,34 @@
 // Quick test script to verify Telegram setup
-// Load environment variables from .env file
-import 'dotenv/config';
+// Uses Next.js environment variables (no dotenv needed)
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-async function testTelegram() {
+interface TelegramBotInfo {
+  ok: boolean;
+  result?: {
+    first_name: string;
+    username: string;
+  };
+}
+
+interface TelegramUpdate {
+  ok: boolean;
+  result: Array<{
+    message: {
+      chat: {
+        id: number;
+      };
+    };
+  }>;
+}
+
+interface TelegramSendResponse {
+  ok: boolean;
+  description?: string;
+}
+
+async function testTelegram(): Promise<void> {
   console.log('🔍 Testing Telegram Bot Setup...\n');
 
   // Check if environment variables are loaded
@@ -21,9 +44,9 @@ async function testTelegram() {
   const botInfoResponse = await fetch(
     `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe`,
   );
-  const botInfo = await botInfoResponse.json();
+  const botInfo: TelegramBotInfo = await botInfoResponse.json();
 
-  if (botInfo.ok) {
+  if (botInfo.ok && botInfo.result) {
     console.log('✅ Bot is active!');
     console.log(`   Name: ${botInfo.result.first_name}`);
     console.log(`   Username: @${botInfo.result.username}\n`);
@@ -37,7 +60,7 @@ async function testTelegram() {
   const updatesResponse = await fetch(
     `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`,
   );
-  const updates = await updatesResponse.json();
+  const updates: TelegramUpdate = await updatesResponse.json();
 
   if (updates.ok && updates.result.length > 0) {
     console.log('✅ Found messages!');
@@ -54,9 +77,11 @@ async function testTelegram() {
     }
   } else {
     console.log('❌ No messages found!');
-    console.log(
-      `   👉 Go to Telegram and search for @${botInfo.result.username}`,
-    );
+    if (botInfo.result) {
+      console.log(
+        `   👉 Go to Telegram and search for @${botInfo.result.username}`,
+      );
+    }
     console.log('   👉 Click START and send a message');
     console.log('   👉 Then run this script again\n');
     return;
@@ -79,7 +104,7 @@ async function testTelegram() {
     },
   );
 
-  const sendResult = await sendResponse.json();
+  const sendResult: TelegramSendResponse = await sendResponse.json();
 
   if (sendResult.ok) {
     console.log('✅ Test message sent successfully!');
