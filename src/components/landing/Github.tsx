@@ -48,7 +48,9 @@ export default function Github() {
   const [totalContributions, setTotalContributions] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     async function fetchData() {
@@ -118,6 +120,10 @@ export default function Github() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <Container className="mt-20">
       <div className="space-y-6">
@@ -172,32 +178,34 @@ export default function Github() {
             </Button>
           </div>
         ) : (
-          <div className="relative overflow-hidden">
-            <div className="bg-background/50 relative rounded-lg border border-dashed border-black/20 p-6 backdrop-blur-sm dark:border-white/10">
-              <div className="w-full overflow-x-auto">
-                <ActivityCalendar
-                  data={contributions}
-                  blockSize={12}
-                  blockMargin={4}
-                  fontSize={githubConfig.fontSize}
-                  colorScheme={theme === 'dark' ? 'dark' : 'light'}
-                  maxLevel={githubConfig.maxLevel}
-                  hideTotalCount={true}
-                  hideColorLegend={false}
-                  hideMonthLabels={false}
-                  theme={githubConfig.theme}
-                  labels={{
-                    months: githubConfig.months,
-                    weekdays: githubConfig.weekdays,
-                    totalCount: githubConfig.totalCountLabel,
-                  }}
-                  style={{
-                    color: 'rgb(139, 148, 158)',
-                  }}
-                />
+          mounted && (
+            <div className="relative overflow-hidden">
+              <div className="bg-background/50 relative rounded-lg border border-dashed border-black/20 p-6 backdrop-blur-sm dark:border-white/10">
+                <div className="w-full overflow-x-auto">
+                  <ActivityCalendar
+                    data={contributions}
+                    blockSize={12}
+                    blockMargin={4}
+                    fontSize={githubConfig.fontSize}
+                    colorScheme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+                    maxLevel={githubConfig.maxLevel}
+                    hideTotalCount={true}
+                    hideColorLegend={false}
+                    hideMonthLabels={false}
+                    theme={githubConfig.theme}
+                    labels={{
+                      months: githubConfig.months,
+                      weekdays: githubConfig.weekdays,
+                      totalCount: githubConfig.totalCountLabel,
+                    }}
+                    style={{
+                      color: 'rgb(139, 148, 158)',
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )
         )}
       </div>
     </Container>
