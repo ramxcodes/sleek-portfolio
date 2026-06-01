@@ -161,7 +161,18 @@ export default function Github() {
             <p className="mb-4 text-sm">
               {githubConfig.errorState.description}
             </p>
-            <Button variant="outline" asChild>
+            <Button
+              variant="outline"
+              asChild
+              track={{
+                name: 'external_link_click',
+                data: {
+                  url: `https://github.com/${githubConfig.username}`,
+                  text: githubConfig.errorState.buttonText,
+                  location: 'github_section',
+                },
+              }}
+            >
               <Link
                 href={`https://github.com/${githubConfig.username}`}
                 className="inline-flex items-center gap-2"

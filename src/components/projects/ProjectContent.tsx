@@ -112,7 +112,17 @@ export function ProjectContent({ frontmatter, content }: ProjectContentProps) {
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-3">
             {live && (
-              <Button asChild>
+              <Button
+                asChild
+                track={{
+                  name: 'external_link_click',
+                  data: {
+                    url: live,
+                    text: 'Live Demo',
+                    location: 'project_detail',
+                  },
+                }}
+              >
                 <Link
                   href={live}
                   target="_blank"
@@ -125,7 +135,18 @@ export function ProjectContent({ frontmatter, content }: ProjectContentProps) {
               </Button>
             )}
             {github && (
-              <Button variant="outline" asChild>
+              <Button
+                variant="outline"
+                asChild
+                track={{
+                  name: 'external_link_click',
+                  data: {
+                    url: github,
+                    text: 'Source Code',
+                    location: 'project_detail',
+                  },
+                }}
+              >
                 <Link
                   href={github}
                   target="_blank"

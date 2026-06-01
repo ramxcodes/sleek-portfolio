@@ -7,6 +7,7 @@ import React from 'react';
 
 import Container from '../common/Container';
 import Skill from '../common/Skill';
+import { TrackedLink } from '../common/TrackedLink';
 import CV from '../svgs/CV';
 import Chat from '../svgs/Chat';
 import { Button } from '../ui/button';
@@ -84,6 +85,10 @@ export default function Hero() {
                 button.variant === 'outline' && 'inset-shadow-indigo-500',
                 button.variant === 'default' && 'inset-shadow-indigo-500',
               )}
+              track={{
+                name: 'button_click',
+                data: { buttonId: button.text, section: 'hero' },
+              }}
             >
               {IconComponent && <IconComponent />}
               <Link href={button.href}>{button.text}</Link>
@@ -97,13 +102,21 @@ export default function Hero() {
         {socialLinks.map((link) => (
           <Tooltip key={link.name} delayDuration={0}>
             <TooltipTrigger asChild>
-              <Link
+              <TrackedLink
                 href={link.href}
                 key={link.name}
                 className="text-secondary flex items-center gap-2"
+                track={{
+                  name: 'external_link_click',
+                  data: {
+                    url: link.href,
+                    text: link.name,
+                    location: 'hero_social',
+                  },
+                }}
               >
                 <span className="size-6">{link.icon}</span>
-              </Link>
+              </TrackedLink>
             </TooltipTrigger>
             <TooltipContent>
               <p>{link.name}</p>

@@ -12,6 +12,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useUmami } from '@/hooks/use-umami';
+import type { AnalyticsEventData } from '@/types/analytics';
 import { type Project } from '@/types/project';
 import { Link } from 'next-view-transitions';
 import Image from 'next/image';
@@ -29,6 +31,27 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const { trackEvent } = useUmami();
+
+  // Stable, human-readable id derived from the project's details route, e.g.
+  // '/projects/sleek-portfolio' -> 'sleek-portfolio'. Keeps every project
+  // uniquely identifiable in the dashboard with no per-project config.
+  const projectId =
+    project.projectDetailsPageSlug.split('/').filter(Boolean).pop() ??
+    project.title;
+
+  const trackProject = (
+    action: AnalyticsEventData['project_click']['action'],
+  ) =>
+    trackEvent({
+      name: 'project_click',
+      data: {
+        projectId,
+        projectTitle: project.title,
+        action,
+        location: 'project_card',
+      },
+    });
 
   return (
     <Card className="group h-full w-full overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800">
@@ -45,7 +68,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:backdrop-blur-xs">
-                  <button className="flex size-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors duration-200 group-hover:cursor-pointer hover:bg-white/30">
+                  <button
+                    className="flex size-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors duration-200 group-hover:cursor-pointer hover:bg-white/30"
+                    onClick={() => trackProject('play_video')}
+                  >
                     <PlayCircle />
                   </button>
                 </div>
@@ -71,7 +97,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="space-y-4">
           {/* Project Header - Title and Icons */}
           <div className="flex items-center justify-between gap-4">
-            <Link href={project.projectDetailsPageSlug}>
+            <Link
+              href={project.projectDetailsPageSlug}
+              onClick={() => trackProject('view_details')}
+            >
               <h3 className="group-hover:text-primary text-xl leading-tight font-semibold hover:cursor-pointer">
                 {project.title}
               </h3>
@@ -83,6 +112,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
                     href={project.link}
                     target="_blank"
+                    onClick={() => trackProject('visit_website')}
                   >
                     <Website />
                   </Link>
@@ -98,6 +128,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                       className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
                       href={project.github}
                       target="_blank"
+                      onClick={() => trackProject('visit_github')}
                     >
                       <Github />
                     </Link>
@@ -160,6 +191,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <Link
             href={project.projectDetailsPageSlug}
             className="text-secondary hover:text-primary flex items-center gap-2 text-sm underline-offset-4 transition-colors hover:underline"
+            onClick={() => trackProject('view_details')}
           >
             View Details <ArrowRight className="size-4" />
           </Link>

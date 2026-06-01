@@ -16,7 +16,13 @@ export default function Projects() {
 
       <ProjectList className="mt-8" projects={projects.slice(0, 4)} />
       <div className="mt-8 flex justify-center">
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          track={{
+            name: 'button_click',
+            data: { buttonId: 'show_all_projects', section: 'projects' },
+          }}
+        >
           <Link href="/projects">Show all projects</Link>
         </Button>
       </div>

@@ -1,4 +1,5 @@
 import Container from '@/components/common/Container';
+import { TrackedLink } from '@/components/common/TrackedLink';
 import { ProjectContent } from '@/components/projects/ProjectContent';
 import { ProjectNavigation } from '@/components/projects/ProjectNavigation';
 import ArrowLeft from '@/components/svgs/ArrowLeft';
@@ -82,7 +83,15 @@ export default async function ProjectCaseStudyPage({
       <div className="space-y-12">
         {/* Back Button */}
         <div>
-          <Button variant="ghost" asChild className="group">
+          <Button
+            variant="ghost"
+            asChild
+            className="group"
+            track={{
+              name: 'button_click',
+              data: { buttonId: 'project_back', section: 'project_detail' },
+            }}
+          >
             <Link href="/projects" className="flex items-center space-x-2">
               <ArrowLeft className="size-4" />
               <span>Back to Projects</span>
@@ -114,7 +123,17 @@ export default async function ProjectCaseStudyPage({
                     key={project.slug}
                     className="group bg-card hover:bg-muted/50 rounded-lg border p-6 transition-colors"
                   >
-                    <Link href={`/projects/${project.slug}`}>
+                    <TrackedLink
+                      href={`/projects/${project.slug}`}
+                      track={{
+                        name: 'button_click',
+                        data: {
+                          buttonId: 'related_project',
+                          section: 'project_detail',
+                          action: project.slug,
+                        },
+                      }}
+                    >
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">
                           <h3 className="group-hover:text-primary text-lg font-semibold">
@@ -158,7 +177,7 @@ export default async function ProjectCaseStudyPage({
                           )}
                         </div>
                       </div>
-                    </Link>
+                    </TrackedLink>
                   </div>
                 ))}
               </div>

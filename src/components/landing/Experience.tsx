@@ -17,7 +17,13 @@ export default function Experience() {
         ))}
       </div>
       <div className="mt-8 flex justify-center">
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          track={{
+            name: 'button_click',
+            data: { buttonId: 'show_all_experiences', section: 'experience' },
+          }}
+        >
           <Link href="/work-experience">Show all work experiences</Link>
         </Button>
       </div>

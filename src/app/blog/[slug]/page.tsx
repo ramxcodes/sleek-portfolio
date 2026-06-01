@@ -80,7 +80,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="space-y-12">
           {/* Back Button */}
           <div>
-            <Button variant="ghost" asChild className="group">
+            <Button
+              variant="ghost"
+              asChild
+              className="group"
+              track={{
+                name: 'button_click',
+                data: { buttonId: 'blog_back', section: 'blog_detail' },
+              }}
+            >
               <Link href="/blog" className="flex items-center space-x-2">
                 <ArrowLeft className="size-4" />
                 <span>Back to Blog</span>
@@ -105,7 +113,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Back to Blog CTA */}
           <div className="text-center">
             <Separator className="mb-8" />
-            <Button asChild size="lg">
+            <Button
+              asChild
+              size="lg"
+              track={{
+                name: 'button_click',
+                data: { buttonId: 'blog_view_all', section: 'blog_detail' },
+              }}
+            >
               <Link href="/blog">View All Blogs</Link>
             </Button>
           </div>

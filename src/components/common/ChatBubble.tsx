@@ -14,6 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { chatSuggestions } from '@/config/ChatPrompt';
 import { heroConfig } from '@/config/Hero';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useUmami } from '@/hooks/use-umami';
 import { cn } from '@/lib/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -46,6 +47,7 @@ const ChatBubble: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { triggerHaptic, isMobile } = useHapticFeedback();
+  const { trackEvent } = useUmami();
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -68,6 +70,10 @@ const ChatBubble: React.FC = () => {
     }
 
     const messageText = newMessage.trim();
+    trackEvent({
+      name: 'chat_message_sent',
+      data: { message: messageText, sender: 'user' },
+    });
     const userMessage: Message = {
       id: Date.now(),
       text: messageText,
@@ -113,6 +119,11 @@ const ChatBubble: React.FC = () => {
     if (isMobile()) {
       triggerHaptic('selection');
     }
+
+    trackEvent({
+      name: 'chat_message_sent',
+      data: { message: suggestion, sender: 'user' },
+    });
 
     setNewMessage(suggestion);
     // Auto-send the suggestion

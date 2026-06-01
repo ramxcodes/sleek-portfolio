@@ -19,7 +19,13 @@ export default function Blog() {
         ))}
       </div>
       <div className="mt-8 flex justify-center">
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          track={{
+            name: 'button_click',
+            data: { buttonId: 'show_all_blogs', section: 'blog' },
+          }}
+        >
           <Link href="/blog">Show all blogs</Link>
         </Button>
       </div>

@@ -1,11 +1,11 @@
 import Container from '@/components/common/Container';
+import { TrackedLink } from '@/components/common/TrackedLink';
 import CheckCircle from '@/components/svgs/CheckCircle';
 import { Separator } from '@/components/ui/separator';
 import { generateMetadata as getMetadata } from '@/config/Meta';
 import { settingsJson, steps } from '@/config/Setup';
 import { Download, ExternalLink, FileText } from 'lucide-react';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import React from 'react';
 
 export const metadata: Metadata = {
@@ -65,10 +65,18 @@ export default function SetupPage() {
                 {step.content.map((item, index) => (
                   <div key={index} className="flex items-start gap-3">
                     {item.type === 'download' && (
-                      <Link
+                      <TrackedLink
                         href={item.href || '#'}
                         download
                         className="bg-muted/50 hover:bg-muted/70 flex w-full flex-col gap-3 rounded-lg border border-black/10 p-3 transition-colors sm:flex-row sm:items-center md:p-4 dark:border-white/10"
+                        track={{
+                          name: 'button_click',
+                          data: {
+                            buttonId: 'setup_download',
+                            section: 'setup',
+                            action: item.name,
+                          },
+                        }}
                       >
                         <Download className="text-muted-foreground size-4 flex-shrink-0" />
                         <div className="flex-1">
@@ -82,7 +90,7 @@ export default function SetupPage() {
                             {item.description}
                           </p>
                         </div>
-                      </Link>
+                      </TrackedLink>
                     )}
 
                     {item.type === 'instruction' && (

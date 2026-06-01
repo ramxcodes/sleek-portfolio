@@ -5,6 +5,7 @@ import Container from '@/components/common/Container';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useUmami } from '@/hooks/use-umami';
 import { BlogPostPreview } from '@/types/blog';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -32,6 +33,7 @@ export function BlogPageClient({
   const searchParams = useSearchParams();
   const router = useRouter();
   const { triggerHaptic, isMobile } = useHapticFeedback();
+  const { trackEvent } = useUmami();
 
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [filteredPosts, setFilteredPosts] = useState(initialPosts);
@@ -54,6 +56,15 @@ export function BlogPageClient({
     if (isMobile()) {
       triggerHaptic('light');
     }
+
+    trackEvent({
+      name: 'button_click',
+      data: {
+        buttonId: 'blog_tag_filter',
+        section: 'blog',
+        action: selectedTag === tag ? `clear:${tag}` : tag,
+      },
+    });
 
     if (selectedTag === tag) {
       setSelectedTag(null);

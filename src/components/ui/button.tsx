@@ -1,7 +1,9 @@
 'use client';
 
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useUmami } from '@/hooks/use-umami';
 import { cn } from '@/lib/utils';
+import type { AnalyticsEvent } from '@/types/analytics';
 import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
@@ -43,17 +45,28 @@ function Button({
   size,
   asChild = false,
   onClick,
+  track,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    /**
+     * Optional analytics event fired on click. Lets any button across the site
+     * opt into tracking with a single prop, e.g.
+     * `track={{ name: 'button_click', data: { buttonId: 'resume_download' } }}`.
+     */
+    track?: AnalyticsEvent;
   }) {
   const Comp = asChild ? Slot : 'button';
   const { triggerHaptic, isMobile } = useHapticFeedback();
+  const { trackEvent } = useUmami();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (isMobile()) {
       triggerHaptic('light');
+    }
+    if (track) {
+      trackEvent(track);
     }
     onClick?.(event);
   };
