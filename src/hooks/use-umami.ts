@@ -7,31 +7,29 @@ declare global {
   interface Window {
     umami?: {
       track: (
-        event: AnalyticsEvent['name'],
-        data: AnalyticsEvent['data'],
+        eventName: string,
+        eventData?: Record<string, string | number | boolean>,
       ) => void;
     };
   }
 }
 
 /**
- * Hook for tracking events with Umami Analytics
- * @example Usage
- * ```tsx
- * function MyComponent() {
- *   const { trackEvent } = useUmami()
+ * Hook for tracking events with Umami Analytics.
  *
- *   const handleClick = () => {
- *     trackEvent({
- *       name: 'button_click',
- *       data: {
- *         buttonId: 'hero_cta',
- *         section: 'hero'
- *       }
- *     })
- *   }
- *   return <button onClick={handleClick}>Click Me</button>
- * }
+ * `trackEvent` is type-safe: the `data` payload is constrained by the `name`
+ * via the `AnalyticsEvent` discriminated union, so the wrong payload for an
+ * event is a compile error. Calls are no-ops (not errors) when the Umami
+ * script hasn't loaded yet — e.g. blocked by an ad blocker or still loading.
+ *
+ * @example
+ * ```tsx
+ * const { trackEvent } = useUmami();
+ *
+ * trackEvent({
+ *   name: 'button_click',
+ *   data: { buttonId: 'hero_cta', section: 'hero' },
+ * });
  * ```
  */
 export function useUmami() {

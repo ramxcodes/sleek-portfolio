@@ -27,6 +27,10 @@ export default function BackToTop() {
           size="icon"
           className="fixed right-10 bottom-4 z-50 bg-white hover:cursor-pointer md:right-20 dark:bg-black"
           onClick={handleClick}
+          track={{
+            name: 'button_click',
+            data: { buttonId: 'back_to_top', section: 'global' },
+          }}
         >
           <ArrowUp className="size-4" />
         </Button>

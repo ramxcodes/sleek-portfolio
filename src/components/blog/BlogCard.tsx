@@ -6,9 +6,9 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { BlogPostPreview } from '@/types/blog';
-import { Link } from 'next-view-transitions';
 import Image from 'next/image';
 
+import { TrackedLink } from '../common/TrackedLink';
 import ArrowRight from '../svgs/ArrowRight';
 import Calender from '../svgs/Calender';
 
@@ -30,18 +30,38 @@ export function BlogCard({ post }: BlogCardProps) {
     <Card className="group h-full w-full overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800">
       <CardHeader className="p-0">
         <div className="relative aspect-video overflow-hidden">
-          <Link href={`/blog/${slug}`}>
+          <TrackedLink
+            href={`/blog/${slug}`}
+            track={{
+              name: 'button_click',
+              data: {
+                buttonId: 'blog_card_image',
+                section: 'blog_card',
+                action: slug,
+              },
+            }}
+          >
             <Image src={image} alt={title} fill className="object-cover" />
-          </Link>
+          </TrackedLink>
         </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          <Link href={`/blog/${slug}`}>
+          <TrackedLink
+            href={`/blog/${slug}`}
+            track={{
+              name: 'button_click',
+              data: {
+                buttonId: 'blog_card_title',
+                section: 'blog_card',
+                action: slug,
+              },
+            }}
+          >
             <h3 className="group-hover:text-primary line-clamp-2 text-xl leading-tight font-semibold">
               {title}
             </h3>
-          </Link>
+          </TrackedLink>
           <p className="text-secondary mt-4 line-clamp-3">{description}</p>
         </div>
       </CardContent>
@@ -66,12 +86,20 @@ export function BlogCard({ post }: BlogCardProps) {
             >
               <Calender className="size-4" /> {formattedDate}
             </time>
-            <Link
+            <TrackedLink
               href={`/blog/${slug}`}
               className="text-secondary flex items-center justify-end gap-2 underline-offset-4 hover:underline"
+              track={{
+                name: 'button_click',
+                data: {
+                  buttonId: 'blog_card_read_more',
+                  section: 'blog_card',
+                  action: slug,
+                },
+              }}
             >
               Read More <ArrowRight className="size-4" />
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </CardFooter>

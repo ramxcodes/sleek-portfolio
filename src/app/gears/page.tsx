@@ -1,11 +1,11 @@
 import Container from '@/components/common/Container';
+import { TrackedLink } from '@/components/common/TrackedLink';
 import Monitor from '@/components/svgs/devices/Monitor';
 import { Separator } from '@/components/ui/separator';
 import { devices, software, webExtensions } from '@/config/Gears';
 import { generateMetadata as getMetadata } from '@/config/Meta';
 import { ArrowUpRight, Puzzle } from 'lucide-react';
 import { Metadata } from 'next';
-import { Link } from 'next-view-transitions';
 import React from 'react';
 
 export const metadata: Metadata = {
@@ -71,9 +71,20 @@ export default function GearsPage() {
                     <span className="text-secondary text-sm">{index + 1}</span>
                   </div>
                   <h3 className="text-secondary ml-4 flex items-center gap-1 text-sm">
-                    <Link target="_blank" href={extension.href}>
+                    <TrackedLink
+                      target="_blank"
+                      href={extension.href}
+                      track={{
+                        name: 'external_link_click',
+                        data: {
+                          url: extension.href,
+                          text: extension.name,
+                          location: 'gears_extensions',
+                        },
+                      }}
+                    >
                       {extension.name}
-                    </Link>
+                    </TrackedLink>
                     <ArrowUpRight className="size-4" />
                   </h3>
                 </div>
@@ -100,9 +111,20 @@ export default function GearsPage() {
                     </span>
                   </div>
                   <h3 className="text-secondary ml-4 flex items-center gap-1 text-sm">
-                    <Link target="_blank" href={app.href}>
+                    <TrackedLink
+                      target="_blank"
+                      href={app.href}
+                      track={{
+                        name: 'external_link_click',
+                        data: {
+                          url: app.href,
+                          text: app.name,
+                          location: 'gears_software',
+                        },
+                      }}
+                    >
                       {app.name}
-                    </Link>
+                    </TrackedLink>
                     <ArrowUpRight className="size-4" />
                   </h3>
                 </div>

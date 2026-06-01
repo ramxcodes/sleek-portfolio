@@ -2,6 +2,7 @@
 
 import { ctaConfig } from '@/config/CTA';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useUmami } from '@/hooks/use-umami';
 import Cal, { getCalApi } from '@calcom/embed-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -31,6 +32,7 @@ export default function CTA({
   preText = ctaConfig.preText,
 }: CallToActionProps) {
   const { triggerHaptic, isMobile } = useHapticFeedback();
+  const { trackEvent } = useUmami();
   const [showCalPopup, setShowCalPopup] = useState(false);
 
   useEffect(() => {
@@ -56,6 +58,10 @@ export default function CTA({
     if (isMobile()) {
       triggerHaptic('medium');
     }
+    trackEvent({
+      name: 'button_click',
+      data: { buttonId: 'book_meeting', section: 'cta', action: linkText },
+    });
     setShowCalPopup(true);
   };
 

@@ -1,10 +1,10 @@
 import { journeyItems } from '@/config/Journey';
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'next-view-transitions';
 import React from 'react';
 
 import Container from '../common/Container';
 import SectionHeading from '../common/SectionHeading';
+import { TrackedLink } from '../common/TrackedLink';
 import { Card } from '../ui/card';
 
 export default function Journey() {
@@ -13,7 +13,19 @@ export default function Journey() {
       <SectionHeading subHeading="My" heading="Journey" />
       <div className="mt-8 flex flex-col gap-4">
         {journeyItems.map((item) => (
-          <Link className="group" href={item.href} key={item.name}>
+          <TrackedLink
+            className="group"
+            href={item.href}
+            key={item.name}
+            track={{
+              name: 'button_click',
+              data: {
+                buttonId: item.name,
+                section: 'journey',
+                action: item.href,
+              },
+            }}
+          >
             <Card className="flex flex-row items-center justify-between gap-4 px-4 py-2">
               <div className="bg-muted flex items-center justify-center rounded-md p-2">
                 {(() => {
@@ -31,7 +43,7 @@ export default function Journey() {
               </div>
               <ArrowRight className="hidden size-4 transition-all duration-300 group-hover:block" />
             </Card>
-          </Link>
+          </TrackedLink>
         ))}
       </div>
     </Container>

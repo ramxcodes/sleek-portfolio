@@ -1,5 +1,6 @@
 'use client';
 
+import { useUmami } from '@/hooks/use-umami';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -19,7 +20,9 @@ export const useThemeToggle = ({
   blur?: boolean;
   gifUrl?: string;
 } = {}) => {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
+
+  const { trackEvent } = useUmami();
 
   const [isDark, setIsDark] = useState(false);
 
@@ -29,13 +32,10 @@ export const useThemeToggle = ({
 
   const styleId = 'theme-transition-styles';
 
-  const updateStyles = useCallback((css: string, name: string) => {
+  const updateStyles = useCallback((css: string) => {
     if (typeof window === 'undefined') return;
 
     let styleElement = document.getElementById(styleId) as HTMLStyleElement;
-
-    console.log('style ELement', styleElement);
-    console.log('name', name);
 
     if (!styleElement) {
       styleElement = document.createElement('style');
@@ -44,21 +44,28 @@ export const useThemeToggle = ({
     }
 
     styleElement.textContent = css;
-
-    console.log('content updated');
   }, []);
 
   const toggleTheme = useCallback(() => {
     setIsDark(!isDark);
 
+    const from = isDark ? 'dark' : 'light';
+    const to = isDark ? 'light' : 'dark';
+    trackEvent({
+      name: 'theme_toggle',
+      data: { from, to, location: 'navbar' },
+    });
+
     const animation = createAnimation(variant, start, blur, gifUrl);
 
-    updateStyles(animation.css, animation.name);
+    updateStyles(animation.css);
 
     if (typeof window === 'undefined') return;
 
+    // Toggle from the resolved theme (via isDark), not `theme`, so the switch
+    // is correct even when `theme === 'system'` and matches the tracked from/to.
     const switchTheme = () => {
-      setTheme(theme === 'light' ? 'dark' : 'light');
+      setTheme(isDark ? 'light' : 'dark');
     };
 
     if (!document.startViewTransition) {
@@ -68,7 +75,6 @@ export const useThemeToggle = ({
 
     document.startViewTransition(switchTheme);
   }, [
-    theme,
     setTheme,
     variant,
     start,
@@ -77,6 +83,7 @@ export const useThemeToggle = ({
     updateStyles,
     isDark,
     setIsDark,
+    trackEvent,
   ]);
 
   const setCrazyLightTheme = useCallback(() => {
@@ -84,7 +91,7 @@ export const useThemeToggle = ({
 
     const animation = createAnimation(variant, start, blur, gifUrl);
 
-    updateStyles(animation.css, animation.name);
+    updateStyles(animation.css);
 
     if (typeof window === 'undefined') return;
 
@@ -105,7 +112,7 @@ export const useThemeToggle = ({
 
     const animation = createAnimation(variant, start, blur, gifUrl);
 
-    updateStyles(animation.css, animation.name);
+    updateStyles(animation.css);
 
     if (typeof window === 'undefined') return;
 

@@ -27,6 +27,14 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
               variant="outline"
               asChild
               className="group h-auto w-full justify-start p-4 text-left"
+              track={{
+                name: 'button_click',
+                data: {
+                  buttonId: 'project_nav_previous',
+                  section: 'project_detail',
+                  action: previous.slug,
+                },
+              }}
             >
               <Link href={`/projects/${previous.slug}`}>
                 <div className="flex items-center gap-3">
@@ -52,6 +60,14 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
               variant="outline"
               asChild
               className="group h-auto w-full justify-end p-4 text-right"
+              track={{
+                name: 'button_click',
+                data: {
+                  buttonId: 'project_nav_next',
+                  section: 'project_detail',
+                  action: next.slug,
+                },
+              }}
             >
               <Link href={`/projects/${next.slug}`}>
                 <div className="flex items-center gap-3">

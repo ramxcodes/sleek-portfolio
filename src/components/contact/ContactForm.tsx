@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useUmami } from '@/hooks/use-umami';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
@@ -56,6 +57,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { trackEvent } = useUmami();
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -81,16 +83,33 @@ export default function ContactForm() {
 
       const result = await response.json();
 
+      trackEvent({
+        name: 'form_submit',
+        data: { formId: 'contact', success: response.ok },
+      });
+
       if (response.ok) {
         toast.success('Message sent successfully!');
         form.reset();
       } else {
+        trackEvent({
+          name: 'form_error',
+          data: { formId: 'contact', errorType: 'request_failed' },
+        });
         toast.error(
           result.error || 'Failed to send message. Please try again.',
         );
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+      trackEvent({
+        name: 'form_submit',
+        data: { formId: 'contact', success: false },
+      });
+      trackEvent({
+        name: 'form_error',
+        data: { formId: 'contact', errorType: 'network_error' },
+      });
       toast.error('Something went wrong. Please try again later.');
     } finally {
       setIsSubmitting(false);

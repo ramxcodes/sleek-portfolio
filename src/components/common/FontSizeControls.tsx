@@ -1,6 +1,7 @@
 'use client';
 
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useUmami } from '@/hooks/use-umami';
 import { Minus, Plus, Settings } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -16,6 +17,7 @@ import {
 export default function FontSizeControls() {
   const [fontSize, setFontSize] = useState<number>(16);
   const { triggerHaptic, isMobile } = useHapticFeedback();
+  const { trackEvent } = useUmami();
 
   // Load font size from localStorage on mount
   useEffect(() => {
@@ -49,6 +51,10 @@ export default function FontSizeControls() {
     if (isMobile()) {
       triggerHaptic('light');
     }
+    trackEvent({
+      name: 'button_click',
+      data: { buttonId: 'font_size_increase', section: 'font_controls' },
+    });
     updateFontSize(fontSize + 2);
   };
 
@@ -56,6 +62,10 @@ export default function FontSizeControls() {
     if (isMobile()) {
       triggerHaptic('light');
     }
+    trackEvent({
+      name: 'button_click',
+      data: { buttonId: 'font_size_decrease', section: 'font_controls' },
+    });
     updateFontSize(fontSize - 2);
   };
 
@@ -63,6 +73,10 @@ export default function FontSizeControls() {
     if (isMobile()) {
       triggerHaptic('medium');
     }
+    trackEvent({
+      name: 'button_click',
+      data: { buttonId: 'font_size_reset', section: 'font_controls' },
+    });
     updateFontSize(16);
   };
 

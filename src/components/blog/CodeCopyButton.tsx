@@ -1,5 +1,6 @@
 'use client';
 
+import { useUmami } from '@/hooks/use-umami';
 import React, { useState } from 'react';
 
 import Copied from '../svgs/Copied';
@@ -12,10 +13,15 @@ interface CodeCopyButtonProps {
 
 export function CodeCopyButton({ code }: CodeCopyButtonProps) {
   const [isCopied, setIsCopied] = useState(false);
+  const { trackEvent } = useUmami();
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(code);
+      trackEvent({
+        name: 'button_click',
+        data: { buttonId: 'copy_code', section: 'blog' },
+      });
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
     } catch (err) {
